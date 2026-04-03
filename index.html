@@ -1,2364 +1,3266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KoiMoonTrades — Financial Literacy & Trading Education</title>
-  <meta name="description" content="Book 1-on-1 trading sessions, chart analysis, and join the private community with KoiMoonTrades. Master the charts. Ride the current.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KoiMoonTrades — Financial Literacy & Trading Education</title>
+    <meta
+      name="description"
+      content="Book 1-on-1 trading sessions, chart analysis, and join the private community with KoiMoonTrades. Master the charts. Ride the current."
+    />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Skip Link -->
-  <style>
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 1rem;
-      padding: 0.75rem 1.5rem;
-      background: var(--color-accent-1);
-      color: var(--color-base);
-      font-family: var(--font-body);
-      font-weight: 600;
-      text-decoration: none;
-      z-index: var(--z-skip-link);
-      border-radius: var(--radius-sm);
-    }
-    .skip-link:focus {
-      top: 1rem;
-    }
-  </style>
+    <!-- Skip Link -->
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--color-accent-1);
+        color: var(--color-base);
+        font-family: var(--font-body);
+        font-weight: 600;
+        text-decoration: none;
+        z-index: var(--z-skip-link);
+        border-radius: var(--radius-sm);
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
+    </style>
 
-  <style>
-    /* ======================================================
+    <style>
+      /* ======================================================
        DESIGN TOKENS
        ====================================================== */
-    :root {
-      /* --- Koi Moon Palette --- */
-      --color-base: #040810;
-      --color-surface: #0a1020;
-      --color-surface-elevated: #111a30;
-      --color-text: #e8e4df;
-      --color-text-muted: #6a7a8a;
-      --color-accent-1: #d4a04a;
-      --color-accent-2: #e06030;
-      --color-accent-3: #c0d0e0;
-      --color-accent-4: #30d158;
-      --color-border: #1a2a3a;
-      --color-glow-gold: rgba(212, 160, 74, 0.2);
-      --color-glow-orange: rgba(224, 96, 48, 0.15);
-      --color-glow-moon: rgba(192, 208, 224, 0.08);
+      :root {
+        /* --- Koi Moon Palette --- */
+        --color-base: #040810;
+        --color-surface: #0a1020;
+        --color-surface-elevated: #111a30;
+        --color-text: #e8e4df;
+        --color-text-muted: #6a7a8a;
+        --color-accent-1: #d4a04a;
+        --color-accent-2: #e06030;
+        --color-accent-3: #c0d0e0;
+        --color-accent-4: #30d158;
+        --color-border: #1a2a3a;
+        --color-glow-gold: rgba(212, 160, 74, 0.2);
+        --color-glow-orange: rgba(224, 96, 48, 0.15);
+        --color-glow-moon: rgba(192, 208, 224, 0.08);
 
-      /* Semantic */
-      --color-success: #30d158;
-      --color-error: #ff3b5c;
-      --color-warning: #ff9f0a;
-      --color-info: #5e8ce6;
+        /* Semantic */
+        --color-success: #30d158;
+        --color-error: #ff3b5c;
+        --color-warning: #ff9f0a;
+        --color-info: #5e8ce6;
 
-      /* --- Typography --- */
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'DM Sans', sans-serif;
+        /* --- Typography --- */
+        --font-display: "Bebas Neue", sans-serif;
+        --font-body: "DM Sans", sans-serif;
 
-      --text-xs: 0.75rem;
-      --text-sm: 0.875rem;
-      --text-base: 1rem;
-      --text-lg: 1.125rem;
-      --text-xl: 1.25rem;
-      --text-2xl: 1.5rem;
-      --text-3xl: 2rem;
-      --text-4xl: 2.5rem;
-      --text-5xl: clamp(2.5rem, 5vw + 1rem, 3.5rem);
-      --text-6xl: clamp(3rem, 8vw, 5rem);
-      --text-7xl: clamp(4rem, 12vw, 8rem);
+        --text-xs: 0.75rem;
+        --text-sm: 0.875rem;
+        --text-base: 1rem;
+        --text-lg: 1.125rem;
+        --text-xl: 1.25rem;
+        --text-2xl: 1.5rem;
+        --text-3xl: 2rem;
+        --text-4xl: 2.5rem;
+        --text-5xl: clamp(2.5rem, 5vw + 1rem, 3.5rem);
+        --text-6xl: clamp(3rem, 8vw, 5rem);
+        --text-7xl: clamp(4rem, 12vw, 8rem);
 
-      /* --- Spacing --- */
-      --space-1: 0.25rem;
-      --space-2: 0.5rem;
-      --space-3: 0.75rem;
-      --space-4: 1rem;
-      --space-6: 1.5rem;
-      --space-8: 2rem;
-      --space-12: 3rem;
-      --space-16: 4rem;
-      --space-24: 6rem;
-      --space-32: 8rem;
+        /* --- Spacing --- */
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
+        --space-24: 6rem;
+        --space-32: 8rem;
 
-      --section-padding: clamp(4rem, 8vw, 8rem);
-      --container-max: 1200px;
-      --content-max: 680px;
+        --section-padding: clamp(4rem, 8vw, 8rem);
+        --container-max: 1200px;
+        --content-max: 680px;
 
-      /* --- Border Radius --- */
-      --radius-none: 0;
-      --radius-sm: 2px;
-      --radius-md: 4px;
-      --radius-lg: 8px;
-      --radius-xl: 12px;
+        /* --- Border Radius --- */
+        --radius-none: 0;
+        --radius-sm: 2px;
+        --radius-md: 4px;
+        --radius-lg: 8px;
+        --radius-xl: 12px;
 
-      /* --- Shadows --- */
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-      --shadow-glow: 0 0 20px var(--color-glow-gold), 0 0 60px var(--color-glow-orange);
+        /* --- Shadows --- */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+        --shadow-glow:
+          0 0 20px var(--color-glow-gold), 0 0 60px var(--color-glow-orange);
 
-      /* --- Transitions --- */
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --duration-fast: 150ms;
-      --duration-base: 250ms;
-      --duration-slow: 400ms;
-      --duration-reveal: 700ms;
+        /* --- Transitions --- */
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --duration-fast: 150ms;
+        --duration-base: 250ms;
+        --duration-slow: 400ms;
+        --duration-reveal: 700ms;
 
-      /* --- Z-Index --- */
-      --z-below: -1;
-      --z-base: 0;
-      --z-above: 1;
-      --z-sticky: 100;
-      --z-nav: 200;
-      --z-overlay: 500;
-      --z-modal: 1000;
-      --z-toast: 1500;
-      --z-skip-link: 10000;
-    }
+        /* --- Z-Index --- */
+        --z-below: -1;
+        --z-base: 0;
+        --z-above: 1;
+        --z-sticky: 100;
+        --z-nav: 200;
+        --z-overlay: 500;
+        --z-modal: 1000;
+        --z-toast: 1500;
+        --z-skip-link: 10000;
+      }
 
-    /* ======================================================
+      /* ======================================================
        RESET & BASE
        ====================================================== */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    html {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
 
-    body {
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      line-height: 1.6;
-      color: var(--color-text);
-      background: var(--color-base);
-      overflow-x: hidden;
-    }
+      body {
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        line-height: 1.6;
+        color: var(--color-text);
+        background: var(--color-base);
+        overflow-x: hidden;
+      }
 
-    ::selection {
-      background: var(--color-accent-1);
-      color: var(--color-base);
-    }
+      ::selection {
+        background: var(--color-accent-1);
+        color: var(--color-base);
+      }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--color-base);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-accent-1);
-      border-radius: 3px;
-    }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--color-base);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--color-accent-1);
+        border-radius: 3px;
+      }
 
-    a {
-      color: var(--color-accent-1);
-      text-decoration: none;
-    }
+      a {
+        color: var(--color-accent-1);
+        text-decoration: none;
+      }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
+      img {
+        max-width: 100%;
+        display: block;
+      }
 
-    /* Focus styles */
-    :focus-visible {
-      outline: 2px solid var(--color-accent-1);
-      outline-offset: 3px;
-    }
+      /* Focus styles */
+      :focus-visible {
+        outline: 2px solid var(--color-accent-1);
+        outline-offset: 3px;
+      }
 
-    /* ======================================================
+      /* ======================================================
        ATMOSPHERE & TEXTURES
        ====================================================== */
-    .atmosphere {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 15% 30%, var(--color-glow-gold) 0%, transparent 50%),
-        radial-gradient(ellipse at 85% 20%, var(--color-glow-orange) 0%, transparent 45%),
-        radial-gradient(ellipse at 50% 80%, var(--color-glow-moon) 0%, transparent 40%);
-      pointer-events: none;
-      z-index: var(--z-base);
-    }
+      .atmosphere {
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 15% 30%,
+            var(--color-glow-gold) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 85% 20%,
+            var(--color-glow-orange) 0%,
+            transparent 45%
+          ),
+          radial-gradient(
+            ellipse at 50% 80%,
+            var(--color-glow-moon) 0%,
+            transparent 40%
+          );
+        pointer-events: none;
+        z-index: var(--z-base);
+      }
 
-    .grain {
-      position: fixed;
-      inset: 0;
-      opacity: 0.08;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9998;
-    }
+      .grain {
+        position: fixed;
+        inset: 0;
+        opacity: 0.08;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9998;
+      }
 
-    /* Scroll progress */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--color-accent-1), var(--color-accent-2));
-      z-index: 9999;
-    }
+      /* Scroll progress */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--color-accent-1),
+          var(--color-accent-2)
+        );
+        z-index: 9999;
+      }
 
-    /* ======================================================
+      /* ======================================================
        LAYOUT UTILITIES
        ====================================================== */
-    .container {
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding-left: clamp(1.5rem, 4vw, 3rem);
-      padding-right: clamp(1.5rem, 4vw, 3rem);
-    }
+      .container {
+        max-width: var(--container-max);
+        margin: 0 auto;
+        padding-left: clamp(1.5rem, 4vw, 3rem);
+        padding-right: clamp(1.5rem, 4vw, 3rem);
+      }
 
-    .section {
-      padding-top: var(--section-padding);
-      padding-bottom: var(--section-padding);
-      position: relative;
-      z-index: var(--z-above);
-    }
+      .section {
+        padding-top: var(--section-padding);
+        padding-bottom: var(--section-padding);
+        position: relative;
+        z-index: var(--z-above);
+      }
 
-    .section-label {
-      font-family: var(--font-body);
-      font-size: var(--text-xs);
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--color-accent-1);
-      margin-bottom: var(--space-6);
-    }
+      .section-label {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-6);
+      }
 
-    .section-title {
-      font-family: var(--font-display);
-      font-size: var(--text-5xl);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-4);
-    }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: var(--text-5xl);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-4);
+      }
 
-    .section-subtitle {
-      font-size: var(--text-lg);
-      color: var(--color-text-muted);
-      max-width: 55ch;
-      line-height: 1.7;
-    }
+      .section-subtitle {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        max-width: 55ch;
+        line-height: 1.7;
+      }
 
-    /* ======================================================
+      /* ======================================================
        ANIMATIONS
        ====================================================== */
-    @keyframes fade-in-up {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      @keyframes fade-in-up {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
 
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-    @keyframes candlestick-pulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
+      @keyframes candlestick-pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
 
-    @keyframes line-draw {
-      from { stroke-dashoffset: 1000; }
-      to { stroke-dashoffset: 0; }
-    }
+      @keyframes line-draw {
+        from {
+          stroke-dashoffset: 1000;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
 
-    @keyframes moon-glow {
-      0%, 100% { box-shadow: 0 0 40px var(--color-glow-moon), 0 0 80px var(--color-glow-gold); }
-      50% { box-shadow: 0 0 60px var(--color-glow-moon), 0 0 120px var(--color-glow-gold); }
-    }
+      @keyframes moon-glow {
+        0%,
+        100% {
+          box-shadow:
+            0 0 40px var(--color-glow-moon),
+            0 0 80px var(--color-glow-gold);
+        }
+        50% {
+          box-shadow:
+            0 0 60px var(--color-glow-moon),
+            0 0 120px var(--color-glow-gold);
+        }
+      }
 
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
 
-    .stagger-in > * {
-      opacity: 0;
-      animation: fade-in-up 0.7s var(--ease-out) forwards;
-    }
-    .stagger-in > *:nth-child(1) { animation-delay: 0.1s; }
-    .stagger-in > *:nth-child(2) { animation-delay: 0.2s; }
-    .stagger-in > *:nth-child(3) { animation-delay: 0.3s; }
-    .stagger-in > *:nth-child(4) { animation-delay: 0.4s; }
-    .stagger-in > *:nth-child(5) { animation-delay: 0.5s; }
-    .stagger-in > *:nth-child(6) { animation-delay: 0.6s; }
+      .stagger-in > * {
+        opacity: 0;
+        animation: fade-in-up 0.7s var(--ease-out) forwards;
+      }
+      .stagger-in > *:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stagger-in > *:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stagger-in > *:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .stagger-in > *:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .stagger-in > *:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .stagger-in > *:nth-child(6) {
+        animation-delay: 0.6s;
+      }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s var(--ease-out),
+          transform 0.7s var(--ease-out);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    @media (prefers-reduced-motion: reduce) {
-      .stagger-in > *, .reveal { animation: none; opacity: 1; transform: none; transition: none; }
-      .moon-orb { animation: none !important; }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        .stagger-in > *,
+        .reveal {
+          animation: none;
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .moon-orb {
+          animation: none !important;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        NAVIGATION
        ====================================================== */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: var(--z-nav);
-      padding: var(--space-6) 0;
-      transition: padding var(--duration-base), background var(--duration-base), backdrop-filter var(--duration-base);
-    }
-
-    .nav.scrolled {
-      padding: var(--space-3) 0;
-      background: rgba(4, 8, 16, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .nav__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav__brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      text-decoration: none;
-      color: var(--color-text);
-    }
-
-    .nav__logo-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
-      display: grid;
-      place-items: center;
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 800;
-      color: var(--color-base);
-    }
-
-    .nav__brand-text {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .nav__brand-text span {
-      color: var(--color-accent-1);
-    }
-
-    .nav__links {
-      display: flex;
-      align-items: center;
-      gap: var(--space-8);
-      list-style: none;
-    }
-
-    .nav__link {
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--color-text-muted);
-      text-decoration: none;
-      position: relative;
-      transition: color var(--duration-fast);
-      letter-spacing: 0.02em;
-    }
-
-    .nav__link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--color-accent-1);
-      transition: width 0.4s var(--ease-out);
-    }
-
-    .nav__link:hover { color: var(--color-text); }
-    .nav__link:hover::after { width: 100%; }
-
-    .nav__cta {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--color-base);
-      background: var(--color-accent-1);
-      padding: var(--space-2) var(--space-6);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform var(--duration-fast), box-shadow var(--duration-base);
-    }
-
-    .nav__cta:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 20px var(--color-glow-gold);
-    }
-    .nav__cta:active { transform: scale(0.97); }
-
-    /* Mobile nav toggle */
-    .nav__toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 32px;
-      height: 24px;
-      position: relative;
-    }
-    .nav__toggle span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: var(--color-text);
-      position: absolute;
-      left: 0;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .nav__toggle span:nth-child(1) { top: 0; }
-    .nav__toggle span:nth-child(2) { top: 11px; }
-    .nav__toggle span:nth-child(3) { top: 22px; }
-
-    .nav__toggle.active span:nth-child(1) { transform: translateY(11px) rotate(45deg); }
-    .nav__toggle.active span:nth-child(2) { opacity: 0; }
-    .nav__toggle.active span:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
-
-    @media (max-width: 768px) {
-      .nav__links {
-        display: none;
-        position: absolute;
-        top: 100%;
+      .nav {
+        position: fixed;
+        top: 0;
         left: 0;
         right: 0;
-        background: rgba(4, 8, 16, 0.95);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: var(--space-8);
-        gap: var(--space-6);
+        z-index: var(--z-nav);
+        padding: var(--space-6) 0;
+        transition:
+          padding var(--duration-base),
+          background var(--duration-base),
+          backdrop-filter var(--duration-base);
+      }
+
+      .nav.scrolled {
+        padding: var(--space-3) 0;
+        background: rgba(4, 8, 16, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-bottom: 1px solid var(--color-border);
       }
-      .nav__links.open { display: flex; }
-      .nav__toggle { display: block; }
-      .nav__cta { width: 100%; text-align: center; padding: var(--space-4); }
-    }
 
-    /* ======================================================
+      .nav__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav__brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        text-decoration: none;
+        color: var(--color-text);
+      }
+
+      .nav__logo-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--color-accent-1),
+          var(--color-accent-2)
+        );
+        display: grid;
+        place-items: center;
+        font-family: var(--font-display);
+        font-size: var(--text-sm);
+        font-weight: 800;
+        color: var(--color-base);
+      }
+
+      .nav__brand-text {
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .nav__brand-text span {
+        color: var(--color-accent-1);
+      }
+
+      .nav__links {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+        list-style: none;
+      }
+
+      .nav__link {
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text-muted);
+        text-decoration: none;
+        position: relative;
+        transition: color var(--duration-fast);
+        letter-spacing: 0.02em;
+      }
+
+      .nav__link::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--color-accent-1);
+        transition: width 0.4s var(--ease-out);
+      }
+
+      .nav__link:hover {
+        color: var(--color-text);
+      }
+      .nav__link:hover::after {
+        width: 100%;
+      }
+
+      .nav__cta {
+        font-family: var(--font-display);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-base);
+        background: var(--color-accent-1);
+        padding: var(--space-2) var(--space-6);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          transform var(--duration-fast),
+          box-shadow var(--duration-base);
+      }
+
+      .nav__cta:hover {
+        transform: scale(1.04);
+        box-shadow: 0 0 20px var(--color-glow-gold);
+      }
+      .nav__cta:active {
+        transform: scale(0.97);
+      }
+
+      /* Mobile nav toggle */
+      .nav__toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 32px;
+        height: 24px;
+        position: relative;
+      }
+      .nav__toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--color-text);
+        position: absolute;
+        left: 0;
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .nav__toggle span:nth-child(1) {
+        top: 0;
+      }
+      .nav__toggle span:nth-child(2) {
+        top: 11px;
+      }
+      .nav__toggle span:nth-child(3) {
+        top: 22px;
+      }
+
+      .nav__toggle.active span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+      }
+      .nav__toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav__toggle.active span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+      }
+
+      @media (max-width: 768px) {
+        .nav__links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(4, 8, 16, 0.95);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          padding: var(--space-8);
+          gap: var(--space-6);
+          border-bottom: 1px solid var(--color-border);
+        }
+        .nav__links.open {
+          display: flex;
+        }
+        .nav__toggle {
+          display: block;
+        }
+        .nav__cta {
+          width: 100%;
+          text-align: center;
+          padding: var(--space-4);
+        }
+      }
+
+      /* ======================================================
        HERO
        ====================================================== */
-    .hero {
-      min-height: 100vh;
-      min-height: 100svh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      z-index: var(--z-above);
-      overflow: hidden;
-    }
-
-    .hero__content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(6rem, 10vw, 10rem) clamp(2rem, 5vw, 4rem);
-    }
-
-    .hero__tag {
-      font-size: var(--text-xs);
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-accent-1);
-      margin-bottom: var(--space-6);
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .hero__tag::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--color-accent-1);
-    }
-
-    .hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 800;
-      line-height: 0.92;
-      letter-spacing: -0.03em;
-      margin-bottom: var(--space-8);
-    }
-
-    .hero__title .line {
-      display: block;
-    }
-
-    .hero__title .accent {
-      color: var(--color-accent-1);
-    }
-
-    .hero__title .outline {
-      -webkit-text-stroke: 1.5px var(--color-text);
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero__desc {
-      font-size: var(--text-lg);
-      color: var(--color-text-muted);
-      max-width: 40ch;
-      line-height: 1.7;
-      margin-bottom: var(--space-8);
-    }
-
-    .hero__actions {
-      display: flex;
-      gap: var(--space-4);
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: var(--space-4) var(--space-8);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-3);
-      transition: transform var(--duration-fast), box-shadow var(--duration-base);
-    }
-
-    .btn:active { transform: scale(0.97); }
-
-    .btn--primary {
-      background: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
-      color: var(--color-base);
-    }
-
-    .btn--primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px var(--color-glow-gold), 0 0 60px var(--color-glow-orange);
-    }
-
-    .btn--ghost {
-      background: transparent;
-      color: var(--color-text);
-      border: 1px solid var(--color-border);
-    }
-
-    .btn--ghost:hover {
-      border-color: var(--color-accent-1);
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px var(--color-glow-gold);
-    }
-
-    .hero__stats {
-      display: flex;
-      gap: var(--space-12);
-      margin-top: var(--space-12);
-      padding-top: var(--space-8);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .hero__stat-value {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 800;
-      color: var(--color-accent-1);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .hero__stat-label {
-      font-size: var(--text-xs);
-      color: var(--color-text-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-top: var(--space-1);
-    }
-
-    /* --- Hero Visual Side --- */
-    .hero__visual {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    /* Chart grid background */
-    .hero__chart-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(212, 160, 74, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(212, 160, 74, 0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-
-    /* Moon orb */
-    .moon-orb {
-      width: clamp(200px, 20vw, 320px);
-      height: clamp(200px, 20vw, 320px);
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%,
-        rgba(192, 208, 224, 0.2) 0%,
-        rgba(192, 208, 224, 0.08) 40%,
-        rgba(212, 160, 74, 0.04) 70%,
-        transparent 100%
-      );
-      border: 1px solid rgba(192, 208, 224, 0.1);
-      position: relative;
-      animation: moon-glow 6s ease-in-out infinite, float 8s ease-in-out infinite;
-    }
-
-    .moon-orb::before {
-      content: '';
-      position: absolute;
-      top: 15%;
-      left: 20%;
-      width: 30%;
-      height: 30%;
-      border-radius: 50%;
-      background: rgba(192, 208, 224, 0.06);
-    }
-
-    .moon-orb::after {
-      content: '';
-      position: absolute;
-      bottom: 25%;
-      right: 25%;
-      width: 15%;
-      height: 15%;
-      border-radius: 50%;
-      background: rgba(192, 208, 224, 0.04);
-    }
-
-    /* SVG Koi + Chart art */
-    .hero__koi-chart {
-      position: absolute;
-      width: 90%;
-      height: 80%;
-      opacity: 0.9;
-    }
-
-    /* Candlestick decorations */
-    .candlesticks {
-      position: absolute;
-      bottom: 10%;
-      left: 5%;
-      right: 5%;
-      height: 30%;
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-      opacity: 0.3;
-    }
-
-    .candle {
-      width: 8px;
-      background: var(--color-accent-4);
-      position: relative;
-      border-radius: 1px;
-      animation: candlestick-pulse 3s ease-in-out infinite;
-    }
-
-    .candle--red { background: var(--color-accent-2); }
-
-    .candle::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      top: -8px;
-      height: 8px;
-      background: inherit;
-    }
-
-    .candle::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      bottom: -6px;
-      height: 6px;
-      background: inherit;
-    }
-
-    @media (max-width: 768px) {
       .hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+        z-index: var(--z-above);
+        overflow: hidden;
       }
-      .hero__visual {
-        height: 50vh;
-        height: 50svh;
-        order: -1;
-      }
-      .hero__content {
-        padding: var(--space-8) clamp(1.5rem, 4vw, 3rem) var(--space-16);
-      }
-      .hero__title { font-size: clamp(2.5rem, 10vw, 3.5rem); }
-      .hero__stats { gap: var(--space-8); flex-wrap: wrap; }
-      .hero__actions { flex-direction: column; }
-      .btn { width: 100%; justify-content: center; min-height: 48px; }
-    }
 
-    /* ======================================================
+      .hero__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(6rem, 10vw, 10rem) clamp(2rem, 5vw, 4rem);
+      }
+
+      .hero__tag {
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-6);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .hero__tag::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--color-accent-1);
+      }
+
+      .hero__title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-weight: 800;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        margin-bottom: var(--space-8);
+      }
+
+      .hero__title .line {
+        display: block;
+      }
+
+      .hero__title .accent {
+        color: var(--color-accent-1);
+      }
+
+      .hero__title .outline {
+        -webkit-text-stroke: 1.5px var(--color-text);
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero__desc {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        max-width: 40ch;
+        line-height: 1.7;
+        margin-bottom: var(--space-8);
+      }
+
+      .hero__actions {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        font-family: var(--font-display);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: var(--space-4) var(--space-8);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        transition:
+          transform var(--duration-fast),
+          box-shadow var(--duration-base);
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn--primary {
+        background: linear-gradient(
+          135deg,
+          var(--color-accent-1),
+          var(--color-accent-2)
+        );
+        color: var(--color-base);
+      }
+
+      .btn--primary:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 30px var(--color-glow-gold),
+          0 0 60px var(--color-glow-orange);
+      }
+
+      .btn--ghost {
+        background: transparent;
+        color: var(--color-text);
+        border: 1px solid var(--color-border);
+      }
+
+      .btn--ghost:hover {
+        border-color: var(--color-accent-1);
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px var(--color-glow-gold);
+      }
+
+      .hero__stats {
+        display: flex;
+        gap: var(--space-12);
+        margin-top: var(--space-12);
+        padding-top: var(--space-8);
+        border-top: 1px solid var(--color-border);
+      }
+
+      .hero__stat-value {
+        font-family: var(--font-display);
+        font-size: var(--text-3xl);
+        font-weight: 800;
+        color: var(--color-accent-1);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .hero__stat-label {
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: var(--space-1);
+      }
+
+      /* --- Hero Visual Side --- */
+      .hero__visual {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      /* Chart grid background */
+      .hero__chart-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(212, 160, 74, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(212, 160, 74, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      /* Moon orb */
+      .moon-orb {
+        width: clamp(200px, 20vw, 320px);
+        height: clamp(200px, 20vw, 320px);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 35%,
+          rgba(192, 208, 224, 0.2) 0%,
+          rgba(192, 208, 224, 0.08) 40%,
+          rgba(212, 160, 74, 0.04) 70%,
+          transparent 100%
+        );
+        border: 1px solid rgba(192, 208, 224, 0.1);
+        position: relative;
+        animation:
+          moon-glow 6s ease-in-out infinite,
+          float 8s ease-in-out infinite;
+      }
+
+      .moon-orb::before {
+        content: "";
+        position: absolute;
+        top: 15%;
+        left: 20%;
+        width: 30%;
+        height: 30%;
+        border-radius: 50%;
+        background: rgba(192, 208, 224, 0.06);
+      }
+
+      .moon-orb::after {
+        content: "";
+        position: absolute;
+        bottom: 25%;
+        right: 25%;
+        width: 15%;
+        height: 15%;
+        border-radius: 50%;
+        background: rgba(192, 208, 224, 0.04);
+      }
+
+      /* SVG Koi + Chart art */
+      .hero__koi-chart {
+        position: absolute;
+        width: 90%;
+        height: 80%;
+        opacity: 0.9;
+      }
+
+      /* Candlestick decorations */
+      .candlesticks {
+        position: absolute;
+        bottom: 10%;
+        left: 5%;
+        right: 5%;
+        height: 30%;
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        opacity: 0.3;
+      }
+
+      .candle {
+        width: 8px;
+        background: var(--color-accent-4);
+        position: relative;
+        border-radius: 1px;
+        animation: candlestick-pulse 3s ease-in-out infinite;
+      }
+
+      .candle--red {
+        background: var(--color-accent-2);
+      }
+
+      .candle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        top: -8px;
+        height: 8px;
+        background: inherit;
+      }
+
+      .candle::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        bottom: -6px;
+        height: 6px;
+        background: inherit;
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .hero__visual {
+          height: 50vh;
+          height: 50svh;
+          order: -1;
+        }
+        .hero__content {
+          padding: var(--space-8) clamp(1.5rem, 4vw, 3rem) var(--space-16);
+        }
+        .hero__title {
+          font-size: clamp(2.5rem, 10vw, 3.5rem);
+        }
+        .hero__stats {
+          gap: var(--space-8);
+          flex-wrap: wrap;
+        }
+        .hero__actions {
+          flex-direction: column;
+        }
+        .btn {
+          width: 100%;
+          justify-content: center;
+          min-height: 48px;
+        }
+      }
+
+      /* ======================================================
        SOCIAL PROOF BAR
        ====================================================== */
-    .proof-bar {
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-      padding: var(--space-8) 0;
-      position: relative;
-      z-index: var(--z-above);
-    }
+      .proof-bar {
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-8) 0;
+        position: relative;
+        z-index: var(--z-above);
+      }
 
-    .proof-bar__inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(var(--space-8), 5vw, var(--space-16));
-      flex-wrap: wrap;
-    }
+      .proof-bar__inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(var(--space-8), 5vw, var(--space-16));
+        flex-wrap: wrap;
+      }
 
-    .proof-bar__item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      color: var(--color-text-muted);
-      font-size: var(--text-sm);
-      font-weight: 500;
-    }
+      .proof-bar__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        font-weight: 500;
+      }
 
-    .proof-bar__icon {
-      width: 20px;
-      height: 20px;
-      color: var(--color-accent-1);
-    }
+      .proof-bar__icon {
+        width: 20px;
+        height: 20px;
+        color: var(--color-accent-1);
+      }
 
-    /* ======================================================
+      /* ======================================================
        ABOUT SECTION
        ====================================================== */
-    .about {
-      background: var(--color-surface);
-    }
+      .about {
+        background: var(--color-surface);
+      }
 
-    .about__grid {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: clamp(var(--space-8), 5vw, var(--space-16));
-      align-items: center;
-    }
+      .about__grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: clamp(var(--space-8), 5vw, var(--space-16));
+        align-items: center;
+      }
 
-    .about__text p {
-      color: var(--color-text-muted);
-      line-height: 1.8;
-      margin-bottom: var(--space-6);
-      max-width: 55ch;
-    }
+      .about__text p {
+        color: var(--color-text-muted);
+        line-height: 1.8;
+        margin-bottom: var(--space-6);
+        max-width: 55ch;
+      }
 
-    .about__text p strong {
-      color: var(--color-text);
-      font-weight: 600;
-    }
+      .about__text p strong {
+        color: var(--color-text);
+        font-weight: 600;
+      }
 
-    .about__visual {
-      position: relative;
-    }
+      .about__visual {
+        position: relative;
+      }
 
-    /* CSS-only koi illustration */
-    .koi-illustration {
-      width: 100%;
-      aspect-ratio: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      /* CSS-only koi illustration */
+      .koi-illustration {
+        width: 100%;
+        aspect-ratio: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .koi-illustration__circle {
-      width: 80%;
-      height: 80%;
-      border-radius: 50%;
-      border: 1px solid rgba(212, 160, 74, 0.15);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .koi-illustration__circle {
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        border: 1px solid rgba(212, 160, 74, 0.15);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .koi-illustration__circle::before {
-      content: '';
-      position: absolute;
-      inset: 15%;
-      border-radius: 50%;
-      border: 1px solid rgba(212, 160, 74, 0.08);
-    }
+      .koi-illustration__circle::before {
+        content: "";
+        position: absolute;
+        inset: 15%;
+        border-radius: 50%;
+        border: 1px solid rgba(212, 160, 74, 0.08);
+      }
 
-    .koi-illustration__text {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+      .koi-illustration__text {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          var(--color-accent-1),
+          var(--color-accent-2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-    .koi-illustration__line {
-      position: absolute;
-      background: var(--color-accent-1);
-    }
-    .koi-illustration__line--h {
-      width: 40%;
-      height: 1px;
-      top: 50%;
-      right: -10%;
-      opacity: 0.2;
-    }
-    .koi-illustration__line--v {
-      width: 1px;
-      height: 30%;
-      bottom: -5%;
-      left: 50%;
-      opacity: 0.15;
-    }
+      .koi-illustration__line {
+        position: absolute;
+        background: var(--color-accent-1);
+      }
+      .koi-illustration__line--h {
+        width: 40%;
+        height: 1px;
+        top: 50%;
+        right: -10%;
+        opacity: 0.2;
+      }
+      .koi-illustration__line--v {
+        width: 1px;
+        height: 30%;
+        bottom: -5%;
+        left: 50%;
+        opacity: 0.15;
+      }
 
-    @media (max-width: 768px) {
-      .about__grid { grid-template-columns: 1fr; }
-      .koi-illustration { max-width: 300px; margin: 0 auto; }
-    }
+      @media (max-width: 768px) {
+        .about__grid {
+          grid-template-columns: 1fr;
+        }
+        .koi-illustration {
+          max-width: 300px;
+          margin: 0 auto;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        SERVICES / BOOKING SECTION
        ====================================================== */
-    .services {
-      position: relative;
-      overflow: hidden;
-    }
+      .services {
+        position: relative;
+        overflow: hidden;
+      }
 
-    .services::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--color-accent-1), transparent);
-    }
+      .services::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-accent-1),
+          transparent
+        );
+      }
 
-    .services__header {
-      text-align: center;
-      margin-bottom: var(--space-16);
-    }
+      .services__header {
+        text-align: center;
+        margin-bottom: var(--space-16);
+      }
 
-    .services__header .section-subtitle {
-      margin: 0 auto;
-    }
+      .services__header .section-subtitle {
+        margin: 0 auto;
+      }
 
-    .services__grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-4);
-    }
+      .services__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+      }
 
-    .service-card {
-      background: var(--color-surface-elevated);
-      border: 1px solid var(--color-border);
-      padding: clamp(var(--space-8), 3vw, var(--space-12));
-      position: relative;
-      overflow: hidden;
-      transition: border-color var(--duration-base), transform var(--duration-slow) var(--ease-out);
-    }
+      .service-card {
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        padding: clamp(var(--space-8), 3vw, var(--space-12));
+        position: relative;
+        overflow: hidden;
+        transition:
+          border-color var(--duration-base),
+          transform var(--duration-slow) var(--ease-out);
+      }
 
-    .service-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--color-glow-gold) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity var(--duration-slow);
-    }
+      .service-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          var(--color-glow-gold) 0%,
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity var(--duration-slow);
+      }
 
-    .service-card:hover {
-      border-color: var(--color-accent-1);
-      transform: translateY(-4px);
-    }
+      .service-card:hover {
+        border-color: var(--color-accent-1);
+        transform: translateY(-4px);
+      }
 
-    .service-card:hover::before { opacity: 1; }
+      .service-card:hover::before {
+        opacity: 1;
+      }
 
-    .service-card > * { position: relative; z-index: 1; }
+      .service-card > * {
+        position: relative;
+        z-index: 1;
+      }
 
-    .service-card--featured {
-      grid-column: span 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-8);
-      border-color: var(--color-accent-1);
-    }
+      .service-card--featured {
+        grid-column: span 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+        border-color: var(--color-accent-1);
+      }
 
-    .service-card__badge {
-      display: inline-block;
-      font-size: var(--text-xs);
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-accent-1);
-      background: rgba(212, 160, 74, 0.1);
-      padding: var(--space-1) var(--space-3);
-      margin-bottom: var(--space-4);
-    }
+      .service-card__badge {
+        display: inline-block;
+        font-size: var(--text-xs);
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        background: rgba(212, 160, 74, 0.1);
+        padding: var(--space-1) var(--space-3);
+        margin-bottom: var(--space-4);
+      }
 
-    .service-card__icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: var(--space-6);
-      color: var(--color-accent-1);
-    }
+      .service-card__icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: var(--space-6);
+        color: var(--color-accent-1);
+      }
 
-    .service-card__title {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 700;
-      margin-bottom: var(--space-3);
-    }
+      .service-card__title {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-3);
+      }
 
-    .service-card__duration {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-6);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
+      .service-card__duration {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
 
-    .service-card__desc {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      margin-bottom: var(--space-8);
-      max-width: 50ch;
-    }
+      .service-card__desc {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        margin-bottom: var(--space-8);
+        max-width: 50ch;
+      }
 
-    .service-card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: auto;
-    }
+      .service-card__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+      }
 
-    .service-card__price {
-      font-family: var(--font-display);
-      font-size: var(--text-4xl);
-      font-weight: 800;
-      color: var(--color-text);
-    }
+      .service-card__price {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        font-weight: 800;
+        color: var(--color-text);
+      }
 
-    .service-card__price span {
-      font-size: var(--text-sm);
-      font-weight: 400;
-      color: var(--color-text-muted);
-    }
+      .service-card__price span {
+        font-size: var(--text-sm);
+        font-weight: 400;
+        color: var(--color-text-muted);
+      }
 
-    .service-card__cta {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--color-base);
-      background: var(--color-accent-1);
-      padding: var(--space-3) var(--space-6);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform var(--duration-fast), box-shadow var(--duration-base);
-    }
+      .service-card__cta {
+        font-family: var(--font-display);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--color-base);
+        background: var(--color-accent-1);
+        padding: var(--space-3) var(--space-6);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          transform var(--duration-fast),
+          box-shadow var(--duration-base);
+      }
 
-    .service-card__cta:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 20px var(--color-glow-gold);
-    }
-    .service-card__cta:active { transform: scale(0.97); }
+      .service-card__cta:hover {
+        transform: scale(1.04);
+        box-shadow: 0 0 20px var(--color-glow-gold);
+      }
+      .service-card__cta:active {
+        transform: scale(0.97);
+      }
 
-    /* Features list inside featured card */
-    .service-card__features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
+      /* Features list inside featured card */
+      .service-card__features {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
 
-    .service-card__features li {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      font-size: var(--text-sm);
-      color: var(--color-text);
-    }
+      .service-card__features li {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--text-sm);
+        color: var(--color-text);
+      }
 
-    .service-card__features li::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--color-accent-1);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+      .service-card__features li::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--color-accent-1);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
 
-    @media (max-width: 768px) {
-      .services__grid { grid-template-columns: 1fr; }
-      .service-card--featured { grid-column: span 1; grid-template-columns: 1fr; }
-      .service-card__footer { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
-      .service-card__cta { width: 100%; text-align: center; min-height: 48px; display: flex; align-items: center; justify-content: center; }
-    }
+      @media (max-width: 768px) {
+        .services__grid {
+          grid-template-columns: 1fr;
+        }
+        .service-card--featured {
+          grid-column: span 1;
+          grid-template-columns: 1fr;
+        }
+        .service-card__footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: var(--space-4);
+        }
+        .service-card__cta {
+          width: 100%;
+          text-align: center;
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        BLOFIN AFFILIATE SECTION
        ====================================================== */
-    .blofin {
-      background: var(--color-surface);
-      position: relative;
-      overflow: hidden;
-    }
+      .blofin {
+        background: var(--color-surface);
+        position: relative;
+        overflow: hidden;
+      }
 
-    .blofin::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 80% 50%, var(--color-glow-gold) 0%, transparent 60%);
-      pointer-events: none;
-    }
+      .blofin::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 80% 50%,
+          var(--color-glow-gold) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
 
-    .blofin__inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-16);
-      align-items: center;
-    }
+      .blofin__inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-16);
+        align-items: center;
+      }
 
-    .blofin__content {
-      position: relative;
-      z-index: 1;
-    }
+      .blofin__content {
+        position: relative;
+        z-index: 1;
+      }
 
-    .blofin__highlight {
-      font-family: var(--font-display);
-      font-size: var(--text-6xl);
-      font-weight: 800;
-      line-height: 0.95;
-      margin-bottom: var(--space-8);
-    }
+      .blofin__highlight {
+        font-family: var(--font-display);
+        font-size: var(--text-6xl);
+        font-weight: 800;
+        line-height: 0.95;
+        margin-bottom: var(--space-8);
+      }
 
-    .blofin__highlight .accent {
-      background: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+      .blofin__highlight .accent {
+        background: linear-gradient(
+          135deg,
+          var(--color-accent-1),
+          var(--color-accent-2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-    .blofin__desc {
-      color: var(--color-text-muted);
-      line-height: 1.8;
-      margin-bottom: var(--space-6);
-      max-width: 50ch;
-    }
+      .blofin__desc {
+        color: var(--color-text-muted);
+        line-height: 1.8;
+        margin-bottom: var(--space-6);
+        max-width: 50ch;
+      }
 
-    .blofin__note {
-      font-size: var(--text-sm);
-      color: var(--color-accent-1);
-      background: rgba(212, 160, 74, 0.08);
-      border-left: 2px solid var(--color-accent-1);
-      padding: var(--space-4) var(--space-6);
-      margin-bottom: var(--space-8);
-      line-height: 1.6;
-    }
+      .blofin__note {
+        font-size: var(--text-sm);
+        color: var(--color-accent-1);
+        background: rgba(212, 160, 74, 0.08);
+        border-left: 2px solid var(--color-accent-1);
+        padding: var(--space-4) var(--space-6);
+        margin-bottom: var(--space-8);
+        line-height: 1.6;
+      }
 
-    .blofin__visual {
-      position: relative;
-      z-index: 1;
-    }
+      .blofin__visual {
+        position: relative;
+        z-index: 1;
+      }
 
-    .blofin__card {
-      background: var(--color-surface-elevated);
-      border: 1px solid var(--color-border);
-      padding: var(--space-8);
-      position: relative;
-    }
+      .blofin__card {
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        padding: var(--space-8);
+        position: relative;
+      }
 
-    .blofin__card-label {
-      font-size: var(--text-xs);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--color-accent-1);
-      margin-bottom: var(--space-4);
-    }
+      .blofin__card-label {
+        font-size: var(--text-xs);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-4);
+      }
 
-    .blofin__card-title {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 700;
-      margin-bottom: var(--space-4);
-    }
+      .blofin__card-title {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-4);
+      }
 
-    .blofin__card-benefits {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
+      .blofin__card-benefits {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        margin-bottom: var(--space-8);
+      }
 
-    .blofin__card-benefits li {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
+      .blofin__card-benefits li {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
 
-    .blofin__card-benefits li svg {
-      width: 16px;
-      height: 16px;
-      color: var(--color-accent-4);
-      flex-shrink: 0;
-    }
+      .blofin__card-benefits li svg {
+        width: 16px;
+        height: 16px;
+        color: var(--color-accent-4);
+        flex-shrink: 0;
+      }
 
-    @media (max-width: 768px) {
-      .blofin__inner { grid-template-columns: 1fr; }
-    }
+      @media (max-width: 768px) {
+        .blofin__inner {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        FACEBOOK GROUP SECTION (PATTERN BREAK / TURN)
        ====================================================== */
-    .community {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--color-surface-elevated) 0%, var(--color-base) 100%);
-    }
+      .community {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          var(--color-surface-elevated) 0%,
+          var(--color-base) 100%
+        );
+      }
 
-    .community::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(212, 160, 74, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(212, 160, 74, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
+      .community::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(212, 160, 74, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(212, 160, 74, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
 
-    .community__inner {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-    }
+      .community__inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
 
-    .community__price-block {
-      margin: var(--space-12) 0;
-    }
+      .community__price-block {
+        margin: var(--space-12) 0;
+      }
 
-    .community__price {
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 10vw, 7rem);
-      font-weight: 800;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 50%, var(--color-accent-1) 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradient-shift 5s ease infinite;
-    }
+      .community__price {
+        font-family: var(--font-display);
+        font-size: clamp(4rem, 10vw, 7rem);
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          var(--color-accent-1) 0%,
+          var(--color-accent-2) 50%,
+          var(--color-accent-1) 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 5s ease infinite;
+      }
 
-    .community__price-label {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: var(--space-2);
-    }
+      .community__price-label {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: var(--space-2);
+      }
 
-    .community__perks {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-4);
-      margin: var(--space-12) 0;
-      text-align: left;
-    }
+      .community__perks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-4);
+        margin: var(--space-12) 0;
+        text-align: left;
+      }
 
-    .community__perk {
-      background: rgba(10, 16, 32, 0.6);
-      border: 1px solid var(--color-border);
-      padding: var(--space-6);
-      transition: border-color var(--duration-base), transform var(--duration-slow) var(--ease-out);
-    }
+      .community__perk {
+        background: rgba(10, 16, 32, 0.6);
+        border: 1px solid var(--color-border);
+        padding: var(--space-6);
+        transition:
+          border-color var(--duration-base),
+          transform var(--duration-slow) var(--ease-out);
+      }
 
-    .community__perk:hover {
-      border-color: var(--color-accent-1);
-      transform: translateY(-4px);
-    }
+      .community__perk:hover {
+        border-color: var(--color-accent-1);
+        transform: translateY(-4px);
+      }
 
-    .community__perk-title {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 700;
-      margin-bottom: var(--space-2);
-    }
+      .community__perk-title {
+        font-family: var(--font-display);
+        font-size: var(--text-base);
+        font-weight: 700;
+        margin-bottom: var(--space-2);
+      }
 
-    .community__perk-desc {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      line-height: 1.6;
-    }
+      .community__perk-desc {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.6;
+      }
 
-    @media (max-width: 768px) {
-      .community__perks { grid-template-columns: 1fr; }
-    }
+      @media (max-width: 768px) {
+        .community__perks {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        CHART / DATA SECTION
        ====================================================== */
-    .data-section {
-      border-top: 1px solid var(--color-border);
-    }
+      .data-section {
+        border-top: 1px solid var(--color-border);
+      }
 
-    .data__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-4);
-    }
+      .data__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-4);
+      }
 
-    .data-tile {
-      background: var(--color-surface-elevated);
-      border: 1px solid var(--color-border);
-      padding: var(--space-6);
-      position: relative;
-      overflow: hidden;
-      transition: border-color var(--duration-base);
-    }
+      .data-tile {
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        padding: var(--space-6);
+        position: relative;
+        overflow: hidden;
+        transition: border-color var(--duration-base);
+      }
 
-    .data-tile:hover { border-color: var(--color-accent-1); }
+      .data-tile:hover {
+        border-color: var(--color-accent-1);
+      }
 
-    .data-tile--wide { grid-column: span 2; }
-    .data-tile--tall { grid-row: span 2; }
+      .data-tile--wide {
+        grid-column: span 2;
+      }
+      .data-tile--tall {
+        grid-row: span 2;
+      }
 
-    .data-tile__label {
-      font-size: var(--text-xs);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-3);
-    }
+      .data-tile__label {
+        font-size: var(--text-xs);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-3);
+      }
 
-    .data-tile__value {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 800;
-      color: var(--color-accent-1);
-      font-variant-numeric: tabular-nums;
-    }
+      .data-tile__value {
+        font-family: var(--font-display);
+        font-size: var(--text-3xl);
+        font-weight: 800;
+        color: var(--color-accent-1);
+        font-variant-numeric: tabular-nums;
+      }
 
-    .data-tile__chart {
-      margin-top: var(--space-4);
-    }
+      .data-tile__chart {
+        margin-top: var(--space-4);
+      }
 
-    @media (max-width: 768px) {
-      .data__grid { grid-template-columns: repeat(2, 1fr); }
-      .data-tile--wide { grid-column: span 2; }
-    }
+      @media (max-width: 768px) {
+        .data__grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .data-tile--wide {
+          grid-column: span 2;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        BOOKING FORM / CONTACT
        ====================================================== */
-    .booking {
-      background: var(--color-surface);
-    }
+      .booking {
+        background: var(--color-surface);
+      }
 
-    .booking__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-16);
-    }
+      .booking__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-16);
+      }
 
-    .booking__info h3 {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 700;
-      margin-bottom: var(--space-6);
-    }
+      .booking__info h3 {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-6);
+      }
 
-    .booking__info p {
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      margin-bottom: var(--space-8);
-    }
+      .booking__info p {
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        margin-bottom: var(--space-8);
+      }
 
-    .booking__socials {
-      display: flex;
-      gap: var(--space-4);
-    }
+      .booking__socials {
+        display: flex;
+        gap: var(--space-4);
+      }
 
-    .social-link {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--color-border);
-      color: var(--color-text-muted);
-      transition: border-color var(--duration-fast), color var(--duration-fast), transform var(--duration-fast);
-    }
+      .social-link {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+        transition:
+          border-color var(--duration-fast),
+          color var(--duration-fast),
+          transform var(--duration-fast);
+      }
 
-    .social-link:hover {
-      border-color: var(--color-accent-1);
-      color: var(--color-accent-1);
-      transform: translateY(-2px);
-    }
-    .social-link:active { transform: scale(0.97); }
+      .social-link:hover {
+        border-color: var(--color-accent-1);
+        color: var(--color-accent-1);
+        transform: translateY(-2px);
+      }
+      .social-link:active {
+        transform: scale(0.97);
+      }
 
-    .social-link svg {
-      width: 20px;
-      height: 20px;
-    }
+      .social-link svg {
+        width: 20px;
+        height: 20px;
+      }
 
-    /* Form */
-    .booking__form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
+      /* Form */
+      .booking__form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+      }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
 
-    .form-group label {
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--color-text);
-      letter-spacing: 0.02em;
-    }
+      .form-group label {
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text);
+        letter-spacing: 0.02em;
+      }
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      color: var(--color-text);
-      background: var(--color-surface-elevated);
-      border: 1px solid var(--color-border);
-      padding: var(--space-3) var(--space-4);
-      transition: border-color var(--duration-fast);
-    }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        color: var(--color-text);
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        padding: var(--space-3) var(--space-4);
+        transition: border-color var(--duration-fast);
+      }
 
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--color-text-muted);
-      font-style: italic;
-    }
+      .form-group input::placeholder,
+      .form-group textarea::placeholder {
+        color: var(--color-text-muted);
+        font-style: italic;
+      }
 
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--color-accent-1);
-      box-shadow: 0 0 0 3px rgba(212, 160, 74, 0.1);
-    }
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-accent-1);
+        box-shadow: 0 0 0 3px rgba(212, 160, 74, 0.1);
+      }
 
-    .form-group select {
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236a7a8a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 36px;
-    }
+      .form-group select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236a7a8a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 36px;
+      }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-4);
-    }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+      }
 
-    @media (max-width: 768px) {
-      .booking__grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-    }
+      @media (max-width: 768px) {
+        .booking__grid {
+          grid-template-columns: 1fr;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        FOOTER
        ====================================================== */
-    .footer {
-      border-top: 1px solid var(--color-border);
-      padding: var(--space-16) 0 var(--space-8);
-      position: relative;
-      z-index: var(--z-above);
-    }
+      .footer {
+        border-top: 1px solid var(--color-border);
+        padding: var(--space-16) 0 var(--space-8);
+        position: relative;
+        z-index: var(--z-above);
+      }
 
-    .footer__top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: var(--space-16);
-      margin-bottom: var(--space-16);
-    }
+      .footer__top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: var(--space-16);
+        margin-bottom: var(--space-16);
+      }
 
-    .footer__brand-text {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 800;
-      margin-bottom: var(--space-4);
-    }
+      .footer__brand-text {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 800;
+        margin-bottom: var(--space-4);
+      }
 
-    .footer__brand-text span {
-      color: var(--color-accent-1);
-    }
+      .footer__brand-text span {
+        color: var(--color-accent-1);
+      }
 
-    .footer__brand-desc {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      max-width: 35ch;
-    }
+      .footer__brand-desc {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        max-width: 35ch;
+      }
 
-    .footer__col-title {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-text);
-      margin-bottom: var(--space-6);
-    }
+      .footer__col-title {
+        font-family: var(--font-display);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-text);
+        margin-bottom: var(--space-6);
+      }
 
-    .footer__col-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
+      .footer__col-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
 
-    .footer__col-links a {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      text-decoration: none;
-      transition: color var(--duration-fast);
-    }
+      .footer__col-links a {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        text-decoration: none;
+        transition: color var(--duration-fast);
+      }
 
-    .footer__col-links a:hover { color: var(--color-accent-1); }
+      .footer__col-links a:hover {
+        color: var(--color-accent-1);
+      }
 
-    .footer__bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: var(--space-8);
-      border-top: 1px solid var(--color-border);
-      font-size: var(--text-xs);
-      color: var(--color-text-muted);
-    }
+      .footer__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: var(--space-8);
+        border-top: 1px solid var(--color-border);
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+      }
 
-    .footer__bottom-links {
-      display: flex;
-      gap: var(--space-6);
-    }
+      .footer__bottom-links {
+        display: flex;
+        gap: var(--space-6);
+      }
 
-    .footer__bottom-links a {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      transition: color var(--duration-fast);
-    }
-    .footer__bottom-links a:hover { color: var(--color-accent-1); }
+      .footer__bottom-links a {
+        color: var(--color-text-muted);
+        text-decoration: none;
+        transition: color var(--duration-fast);
+      }
+      .footer__bottom-links a:hover {
+        color: var(--color-accent-1);
+      }
 
-    @media (max-width: 768px) {
-      .footer__top { grid-template-columns: 1fr; gap: var(--space-8); }
-      .footer__bottom { flex-direction: column; gap: var(--space-4); text-align: center; }
-    }
+      @media (max-width: 768px) {
+        .footer__top {
+          grid-template-columns: 1fr;
+          gap: var(--space-8);
+        }
+        .footer__bottom {
+          flex-direction: column;
+          gap: var(--space-4);
+          text-align: center;
+        }
+      }
 
-    /* ======================================================
+      /* ======================================================
        PAYMENT NOTICE BANNER
        ====================================================== */
-    .payment-notice {
-      background: rgba(212, 160, 74, 0.06);
-      border: 1px solid rgba(212, 160, 74, 0.15);
-      padding: var(--space-3) var(--space-6);
-      text-align: center;
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-    }
+      .payment-notice {
+        background: rgba(212, 160, 74, 0.06);
+        border: 1px solid rgba(212, 160, 74, 0.15);
+        padding: var(--space-3) var(--space-6);
+        text-align: center;
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+      }
 
-    .payment-notice strong {
-      color: var(--color-accent-1);
-    }
+      .payment-notice strong {
+        color: var(--color-accent-1);
+      }
 
-    /* ======================================================
+      /* ======================================================
        MODAL OVERLAY (Booking)
        ====================================================== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 8, 16, 0.9);
-      backdrop-filter: blur(8px);
-      z-index: var(--z-modal);
-      display: none;
-      place-items: center;
-      padding: var(--space-4);
-    }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 8, 16, 0.9);
+        backdrop-filter: blur(8px);
+        z-index: var(--z-modal);
+        display: none;
+        place-items: center;
+        padding: var(--space-4);
+      }
 
-    .modal-overlay.active { display: grid; }
+      .modal-overlay.active {
+        display: grid;
+      }
 
-    .modal {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      padding: var(--space-8);
-      max-width: 500px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
+      .modal {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        padding: var(--space-8);
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+      }
 
-    .modal__close {
-      position: absolute;
-      top: var(--space-4);
-      right: var(--space-4);
-      background: none;
-      border: none;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      padding: var(--space-2);
-      transition: color var(--duration-fast);
-    }
-    .modal__close:hover { color: var(--color-text); }
+      .modal__close {
+        position: absolute;
+        top: var(--space-4);
+        right: var(--space-4);
+        background: none;
+        border: none;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        padding: var(--space-2);
+        transition: color var(--duration-fast);
+      }
+      .modal__close:hover {
+        color: var(--color-text);
+      }
 
-    .modal__title {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 700;
-      margin-bottom: var(--space-2);
-    }
+      .modal__title {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        margin-bottom: var(--space-2);
+      }
 
-    .modal__subtitle {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-8);
-    }
+      .modal__subtitle {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-8);
+      }
 
-    .modal__price-display {
-      font-family: var(--font-display);
-      font-size: var(--text-4xl);
-      font-weight: 800;
-      color: var(--color-accent-1);
-      margin-bottom: var(--space-8);
-      text-align: center;
-      padding: var(--space-4);
-      border: 1px solid var(--color-border);
-      background: var(--color-surface-elevated);
-    }
+      .modal__price-display {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        font-weight: 800;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-8);
+        text-align: center;
+        padding: var(--space-4);
+        border: 1px solid var(--color-border);
+        background: var(--color-surface-elevated);
+      }
 
-    .modal form { display: flex; flex-direction: column; gap: var(--space-4); }
-  </style>
-</head>
-<body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+      .modal form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- Atmosphere layers -->
-  <div class="atmosphere" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+    <!-- Atmosphere layers -->
+    <div class="atmosphere" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
 
-  <!-- Scroll progress -->
-  <div class="scroll-progress" aria-hidden="true"></div>
+    <!-- Scroll progress -->
+    <div class="scroll-progress" aria-hidden="true"></div>
 
-  <!-- ===========================
+    <!-- ===========================
        NAVIGATION
        =========================== -->
-  <nav class="nav" aria-label="Main navigation">
-    <div class="container nav__inner">
-      <a href="#" class="nav__brand" aria-label="KoiMoonTrades Home">
-        <div class="nav__logo-mark" aria-hidden="true">KM</div>
-        <div class="nav__brand-text">Koi<span>Moon</span>Trades</div>
-      </a>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav__inner">
+        <a href="#" class="nav__brand" aria-label="KoiMoonTrades Home">
+          <div class="nav__logo-mark" aria-hidden="true">KM</div>
+          <div class="nav__brand-text">Koi<span>Moon</span>Trades</div>
+        </a>
 
-      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <button
+          class="nav__toggle"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
 
-      <ul class="nav__links" role="list">
-        <li><a href="#services" class="nav__link">Services</a></li>
-        <li><a href="#blofin" class="nav__link">BloFin</a></li>
-        <li><a href="#community" class="nav__link">Community</a></li>
-        <li><a href="#booking" class="nav__link">Contact</a></li>
-        <li><a href="#services" class="nav__cta">Book Now</a></li>
-      </ul>
-    </div>
-  </nav>
+        <ul class="nav__links" role="list">
+          <li><a href="#services" class="nav__link">Services</a></li>
+          <li><a href="#blofin" class="nav__link">BloFin</a></li>
+          <li><a href="#community" class="nav__link">Community</a></li>
+          <li><a href="#booking" class="nav__link">Contact</a></li>
+          <li><a href="#services" class="nav__cta">Book Now</a></li>
+        </ul>
+      </div>
+    </nav>
 
-  <main id="main-content">
-    <!-- ===========================
+    <main id="main-content">
+      <!-- ===========================
          HERO
          =========================== -->
-    <section class="hero" aria-label="Welcome to KoiMoonTrades">
-      <div class="hero__content stagger-in">
-        <div class="hero__tag">Financial Literacy & Trading</div>
+      <section class="hero" aria-label="Welcome to KoiMoonTrades">
+        <div class="hero__content stagger-in">
+          <div class="hero__tag">Financial Literacy & Trading</div>
 
-        <h1 class="hero__title">
-          <span class="line">Master</span>
-          <span class="line accent">The Charts.</span>
-          <span class="line outline">Ride The Current.</span>
-        </h1>
+          <h1 class="hero__title">
+            <span class="line">Master</span>
+            <span class="line accent">The Charts.</span>
+            <span class="line outline">Ride The Current.</span>
+          </h1>
 
-        <p class="hero__desc">
-          1-on-1 trading sessions, real-time chart analysis, and a private community of traders. Learn to read the market like water.
-        </p>
+          <p class="hero__desc">
+            1-on-1 trading sessions, real-time chart analysis, and a private
+            community of traders. Learn to read the market like water.
+          </p>
 
-        <div class="hero__actions">
-          <a href="#services" class="btn btn--primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Book A Session
-          </a>
-          <a href="#blofin" class="btn btn--ghost">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            Start Trading
-          </a>
+          <div class="hero__actions">
+            <a href="#services" class="btn btn--primary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Book A Session
+            </a>
+            <a href="#blofin" class="btn btn--ghost">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              Start Trading
+            </a>
+          </div>
+
+          <div class="hero__stats">
+            <div>
+              <div class="hero__stat-value">
+                <span class="counter" data-target="500">0</span>+
+              </div>
+              <div class="hero__stat-label">Sessions Booked</div>
+            </div>
+            <div>
+              <div class="hero__stat-value">
+                <span class="counter" data-target="97">0</span>%
+              </div>
+              <div class="hero__stat-label">Client Satisfaction</div>
+            </div>
+            <div>
+              <div class="hero__stat-value">
+                <span class="counter" data-target="3">0</span>+
+              </div>
+              <div class="hero__stat-label">Years Trading</div>
+            </div>
+          </div>
         </div>
 
-        <div class="hero__stats">
-          <div>
-            <div class="hero__stat-value"><span class="counter" data-target="500">0</span>+</div>
-            <div class="hero__stat-label">Sessions Booked</div>
-          </div>
-          <div>
-            <div class="hero__stat-value"><span class="counter" data-target="97">0</span>%</div>
-            <div class="hero__stat-label">Client Satisfaction</div>
-          </div>
-          <div>
-            <div class="hero__stat-value"><span class="counter" data-target="3">0</span>+</div>
-            <div class="hero__stat-label">Years Trading</div>
-          </div>
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__chart-grid"></div>
+          <div class="moon-orb"></div>
+
+          <!-- SVG Koi + Chart overlay -->
+          <svg
+            class="hero__koi-chart"
+            viewBox="0 0 500 500"
+            fill="none"
+            aria-hidden="true"
+          >
+            <!-- Price line flowing like water / koi path -->
+            <path
+              d="M 50 350 Q 100 320 130 280 Q 160 240 200 260 Q 240 280 270 230 Q 300 180 340 200 Q 380 220 400 170 Q 420 120 460 140"
+              stroke="url(#goldGrad)"
+              stroke-width="2"
+              fill="none"
+              stroke-dasharray="1000"
+              stroke-dashoffset="1000"
+              style="animation: line-draw 3s ease-out 0.5s forwards"
+            ></path>
+
+            <!-- Area fill under the line -->
+            <path
+              d="M 50 350 Q 100 320 130 280 Q 160 240 200 260 Q 240 280 270 230 Q 300 180 340 200 Q 380 220 400 170 Q 420 120 460 140 L 460 450 L 50 450 Z"
+              fill="url(#goldFill)"
+              opacity="0.15"
+            />
+
+            <!-- Candlestick elements (koi scales representation) -->
+            <rect
+              x="100"
+              y="260"
+              width="6"
+              height="40"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="130"
+              y="240"
+              width="6"
+              height="30"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="160"
+              y="250"
+              width="6"
+              height="35"
+              fill="#e06030"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="200"
+              y="230"
+              width="6"
+              height="25"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="240"
+              y="220"
+              width="6"
+              height="45"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="270"
+              y="200"
+              width="6"
+              height="30"
+              fill="#e06030"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="300"
+              y="180"
+              width="6"
+              height="35"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="340"
+              y="165"
+              width="6"
+              height="28"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="380"
+              y="150"
+              width="6"
+              height="40"
+              fill="#e06030"
+              rx="1"
+              opacity="0.5"
+            />
+            <rect
+              x="420"
+              y="120"
+              width="6"
+              height="30"
+              fill="#30d158"
+              rx="1"
+              opacity="0.5"
+            />
+
+            <!-- Koi fish silhouette composed of chart-like strokes -->
+            <g transform="translate(280, 100) rotate(-15)" opacity="0.6">
+              <!-- Body -->
+              <ellipse
+                cx="0"
+                cy="0"
+                rx="60"
+                ry="22"
+                fill="none"
+                stroke="url(#goldGrad)"
+                stroke-width="1.5"
+              />
+              <!-- Tail fin (fork shape like chart divergence) -->
+              <path
+                d="M -55 -5 Q -75 -25 -90 -15"
+                stroke="#d4a04a"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M -55 5 Q -75 25 -90 15"
+                stroke="#d4a04a"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <!-- Top fin (like a spike/peak on a chart) -->
+              <path
+                d="M -10 -20 Q 0 -40 15 -22"
+                stroke="#e06030"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <!-- Eye -->
+              <circle cx="40" cy="-3" r="4" fill="#d4a04a" opacity="0.8" />
+              <!-- Scale pattern (candlestick-like marks) -->
+              <line
+                x1="-20"
+                y1="-10"
+                x2="-20"
+                y2="10"
+                stroke="#d4a04a"
+                stroke-width="0.5"
+                opacity="0.3"
+              />
+              <line
+                x1="-5"
+                y1="-15"
+                x2="-5"
+                y2="15"
+                stroke="#d4a04a"
+                stroke-width="0.5"
+                opacity="0.3"
+              />
+              <line
+                x1="10"
+                y1="-18"
+                x2="10"
+                y2="18"
+                stroke="#d4a04a"
+                stroke-width="0.5"
+                opacity="0.3"
+              />
+              <line
+                x1="25"
+                y1="-15"
+                x2="25"
+                y2="15"
+                stroke="#d4a04a"
+                stroke-width="0.5"
+                opacity="0.3"
+              />
+            </g>
+
+            <!-- Second koi (smaller, below) -->
+            <g
+              transform="translate(180, 340) rotate(20) scale(0.6)"
+              opacity="0.35"
+            >
+              <ellipse
+                cx="0"
+                cy="0"
+                rx="60"
+                ry="22"
+                fill="none"
+                stroke="#e06030"
+                stroke-width="1.5"
+              />
+              <path
+                d="M -55 -5 Q -75 -25 -90 -15"
+                stroke="#e06030"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M -55 5 Q -75 25 -90 15"
+                stroke="#e06030"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M -10 -20 Q 0 -40 15 -22"
+                stroke="#d4a04a"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <circle cx="40" cy="-3" r="4" fill="#e06030" opacity="0.8" />
+            </g>
+
+            <!-- Gradients -->
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#d4a04a" />
+                <stop offset="100%" stop-color="#e06030" />
+              </linearGradient>
+              <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#d4a04a" stop-opacity="0.3" />
+                <stop offset="100%" stop-color="#d4a04a" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
-      </div>
+      </section>
 
-      <div class="hero__visual" aria-hidden="true">
-        <div class="hero__chart-grid"></div>
-        <div class="moon-orb"></div>
-
-        <!-- SVG Koi + Chart overlay -->
-        <svg class="hero__koi-chart" viewBox="0 0 500 500" fill="none" aria-hidden="true">
-          <!-- Price line flowing like water / koi path -->
-          <path d="M 50 350 Q 100 320 130 280 Q 160 240 200 260 Q 240 280 270 230 Q 300 180 340 200 Q 380 220 400 170 Q 420 120 460 140"
-            stroke="url(#goldGrad)" stroke-width="2" fill="none"
-            stroke-dasharray="1000" stroke-dashoffset="1000"
-            style="animation: line-draw 3s ease-out 0.5s forwards;">
-          </path>
-
-          <!-- Area fill under the line -->
-          <path d="M 50 350 Q 100 320 130 280 Q 160 240 200 260 Q 240 280 270 230 Q 300 180 340 200 Q 380 220 400 170 Q 420 120 460 140 L 460 450 L 50 450 Z"
-            fill="url(#goldFill)" opacity="0.15" />
-
-          <!-- Candlestick elements (koi scales representation) -->
-          <rect x="100" y="260" width="6" height="40" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="130" y="240" width="6" height="30" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="160" y="250" width="6" height="35" fill="#e06030" rx="1" opacity="0.5"/>
-          <rect x="200" y="230" width="6" height="25" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="240" y="220" width="6" height="45" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="270" y="200" width="6" height="30" fill="#e06030" rx="1" opacity="0.5"/>
-          <rect x="300" y="180" width="6" height="35" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="340" y="165" width="6" height="28" fill="#30d158" rx="1" opacity="0.5"/>
-          <rect x="380" y="150" width="6" height="40" fill="#e06030" rx="1" opacity="0.5"/>
-          <rect x="420" y="120" width="6" height="30" fill="#30d158" rx="1" opacity="0.5"/>
-
-          <!-- Koi fish silhouette composed of chart-like strokes -->
-          <g transform="translate(280, 100) rotate(-15)" opacity="0.6">
-            <!-- Body -->
-            <ellipse cx="0" cy="0" rx="60" ry="22" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
-            <!-- Tail fin (fork shape like chart divergence) -->
-            <path d="M -55 -5 Q -75 -25 -90 -15" stroke="#d4a04a" stroke-width="1.5" fill="none"/>
-            <path d="M -55 5 Q -75 25 -90 15" stroke="#d4a04a" stroke-width="1.5" fill="none"/>
-            <!-- Top fin (like a spike/peak on a chart) -->
-            <path d="M -10 -20 Q 0 -40 15 -22" stroke="#e06030" stroke-width="1.5" fill="none"/>
-            <!-- Eye -->
-            <circle cx="40" cy="-3" r="4" fill="#d4a04a" opacity="0.8"/>
-            <!-- Scale pattern (candlestick-like marks) -->
-            <line x1="-20" y1="-10" x2="-20" y2="10" stroke="#d4a04a" stroke-width="0.5" opacity="0.3"/>
-            <line x1="-5" y1="-15" x2="-5" y2="15" stroke="#d4a04a" stroke-width="0.5" opacity="0.3"/>
-            <line x1="10" y1="-18" x2="10" y2="18" stroke="#d4a04a" stroke-width="0.5" opacity="0.3"/>
-            <line x1="25" y1="-15" x2="25" y2="15" stroke="#d4a04a" stroke-width="0.5" opacity="0.3"/>
-          </g>
-
-          <!-- Second koi (smaller, below) -->
-          <g transform="translate(180, 340) rotate(20) scale(0.6)" opacity="0.35">
-            <ellipse cx="0" cy="0" rx="60" ry="22" fill="none" stroke="#e06030" stroke-width="1.5"/>
-            <path d="M -55 -5 Q -75 -25 -90 -15" stroke="#e06030" stroke-width="1.5" fill="none"/>
-            <path d="M -55 5 Q -75 25 -90 15" stroke="#e06030" stroke-width="1.5" fill="none"/>
-            <path d="M -10 -20 Q 0 -40 15 -22" stroke="#d4a04a" stroke-width="1.5" fill="none"/>
-            <circle cx="40" cy="-3" r="4" fill="#e06030" opacity="0.8"/>
-          </g>
-
-          <!-- Gradients -->
-          <defs>
-            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#d4a04a"/>
-              <stop offset="100%" stop-color="#e06030"/>
-            </linearGradient>
-            <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#d4a04a" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#d4a04a" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </section>
-
-    <!-- ===========================
+      <!-- ===========================
          SOCIAL PROOF BAR
          =========================== -->
-    <div class="proof-bar reveal">
-      <div class="container proof-bar__inner">
-        <div class="proof-bar__item">
-          <svg class="proof-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          Live Chart Analysis
-        </div>
-        <div class="proof-bar__item">
-          <svg class="proof-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Flexible Scheduling
-        </div>
-        <div class="proof-bar__item">
-          <svg class="proof-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Trusted by Traders
-        </div>
-        <div class="proof-bar__item">
-          <svg class="proof-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Private Community
+      <div class="proof-bar reveal">
+        <div class="container proof-bar__inner">
+          <div class="proof-bar__item">
+            <svg
+              class="proof-bar__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+              <polyline points="17 6 23 6 23 12" />
+            </svg>
+            Live Chart Analysis
+          </div>
+          <div class="proof-bar__item">
+            <svg
+              class="proof-bar__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Flexible Scheduling
+          </div>
+          <div class="proof-bar__item">
+            <svg
+              class="proof-bar__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Trusted by Traders
+          </div>
+          <div class="proof-bar__item">
+            <svg
+              class="proof-bar__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            Private Community
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ===========================
+      <!-- ===========================
          ABOUT
          =========================== -->
-    <section class="section about" id="about">
-      <div class="container about__grid">
-        <div class="about__text reveal">
-          <div class="section-label">About Koi Moon</div>
-          <h2 class="section-title">Where Charts<br>Meet Current.</h2>
-          <p>
-            <strong>KoiMoonTrades</strong> is built on a simple philosophy: the market moves like water, and the best traders learn to swim with the current, not against it.
-          </p>
-          <p>
-            Through personalized 1-on-1 sessions, live chart breakdowns, and a tight-knit private community, you'll learn to identify patterns, manage risk, and build the confidence to trade on your own terms.
-          </p>
-          <p>
-            Whether you're just starting out or looking to sharpen your edge, every session is tailored to where you are in your trading journey.
-          </p>
-        </div>
+      <section class="section about" id="about">
+        <div class="container about__grid">
+          <div class="about__text reveal">
+            <div class="section-label">About Koi Moon</div>
+            <h2 class="section-title">Where Charts<br />Meet Current.</h2>
+            <p>
+              <strong>KoiMoonTrades</strong> is built on a simple philosophy:
+              the market moves like water, and the best traders learn to swim
+              with the current, not against it.
+            </p>
+            <p>
+              Through personalized 1-on-1 sessions, live chart breakdowns, and a
+              tight-knit private community, you'll learn to identify patterns,
+              manage risk, and build the confidence to trade on your own terms.
+            </p>
+            <p>
+              Whether you're just starting out or looking to sharpen your edge,
+              every session is tailored to where you are in your trading
+              journey.
+            </p>
+          </div>
 
-        <div class="about__visual reveal">
-          <div class="koi-illustration">
-            <div class="koi-illustration__circle">
-              <div class="koi-illustration__text">鯉</div>
+          <div class="about__visual reveal">
+            <div class="koi-illustration">
+              <div class="koi-illustration__circle">
+                <div class="koi-illustration__text">鯉</div>
+              </div>
+              <div
+                class="koi-illustration__line koi-illustration__line--h"
+              ></div>
+              <div
+                class="koi-illustration__line koi-illustration__line--v"
+              ></div>
             </div>
-            <div class="koi-illustration__line koi-illustration__line--h"></div>
-            <div class="koi-illustration__line koi-illustration__line--v"></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===========================
+      <!-- ===========================
          SERVICES / BOOKING
          =========================== -->
-    <section class="section services" id="services">
-      <div class="container">
-        <div class="services__header reveal">
-          <div class="section-label">Book With Me</div>
-          <h2 class="section-title">Choose Your Session.</h2>
-          <p class="section-subtitle">Every session is a deep dive into the charts — tailored to your level, your goals, your trades.</p>
-        </div>
-
-        <div class="services__grid">
-          <!-- Card 1: Quick Session -->
-          <div class="service-card reveal">
-            <div class="service-card__badge">Starter</div>
-            <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-            <h3 class="service-card__title">Quick Chart Review</h3>
-            <div class="service-card__duration">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              30 minutes
-            </div>
-            <p class="service-card__desc">
-              Rapid-fire chart analysis. Bring your current positions or watchlist and get real-time feedback on entries, exits, and risk management.
+      <section class="section services" id="services">
+        <div class="container">
+          <div class="services__header reveal">
+            <div class="section-label">Book With Me</div>
+            <h2 class="section-title">Choose Your Session.</h2>
+            <p class="section-subtitle">
+              Every session is a deep dive into the charts — tailored to your
+              level, your goals, your trades.
             </p>
-            <div class="service-card__footer">
-              <div class="service-card__price">$75</div>
-              <button class="service-card__cta" data-book="quick" data-price="75" data-session="Quick Chart Review (30 min)">Book Now</button>
-            </div>
           </div>
 
-          <!-- Card 2: Deep Dive -->
-          <div class="service-card reveal">
-            <div class="service-card__badge">Popular</div>
-            <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-            <h3 class="service-card__title">Deep Dive Session</h3>
-            <div class="service-card__duration">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              60 minutes
-            </div>
-            <p class="service-card__desc">
-              Full session covering market structure, trend analysis, indicator setups, and building a personalized trading strategy. The signature experience.
-            </p>
-            <div class="service-card__footer">
-              <div class="service-card__price">$150</div>
-              <button class="service-card__cta" data-book="deep" data-price="150" data-session="Deep Dive Session (60 min)">Book Now</button>
-            </div>
-          </div>
-
-          <!-- Card 3: Portfolio Review -->
-          <div class="service-card reveal">
-            <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-            <h3 class="service-card__title">Portfolio Review</h3>
-            <div class="service-card__duration">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              45 minutes
-            </div>
-            <p class="service-card__desc">
-              A thorough review of your current portfolio, positions, and allocation strategy. Walk away with an actionable plan.
-            </p>
-            <div class="service-card__footer">
-              <div class="service-card__price">$100</div>
-              <button class="service-card__cta" data-book="portfolio" data-price="100" data-session="Portfolio Review (45 min)">Book Now</button>
-            </div>
-          </div>
-
-          <!-- Card 4: Mentorship Package -->
-          <div class="service-card reveal">
-            <div class="service-card__badge">Best Value</div>
-            <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-            </svg>
-            <h3 class="service-card__title">Monthly Mentorship</h3>
-            <div class="service-card__duration">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              4 sessions / month
-            </div>
-            <p class="service-card__desc">
-              Four weekly 1-on-1 sessions plus ongoing chart reviews and priority messaging. The fastest path to trading independence.
-            </p>
-            <div class="service-card__footer">
-              <div class="service-card__price">$500 <span>/ mo</span></div>
-              <button class="service-card__cta" data-book="mentorship" data-price="500" data-session="Monthly Mentorship (4 sessions)">Book Now</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="payment-notice reveal" style="margin-top: var(--space-8);">
-          Secure payments processed via Stripe. All sessions are conducted via video call. <strong>Cancellation policy:</strong> 24-hour notice required.
-        </div>
-      </div>
-    </section>
-
-    <!-- ===========================
-         DATA / STATS BENTO
-         =========================== -->
-    <section class="section data-section" id="data">
-      <div class="container">
-        <div class="data__grid">
-          <div class="data-tile data-tile--wide reveal">
-            <div class="data-tile__label">Trading Volume Tracked</div>
-            <div class="data-tile__value">$<span class="counter" data-target="2400000">0</span>+</div>
-            <div class="data-tile__chart">
-              <svg viewBox="0 0 300 60" aria-label="Upward trend sparkline" role="img" style="width:100%;height:60px;">
-                <title>Trading volume trend showing consistent growth</title>
-                <defs>
-                  <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#d4a04a" stop-opacity="0.2"/>
-                    <stop offset="100%" stop-color="#d4a04a" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <polygon fill="url(#sparkGrad)" points="0,50 30,45 60,48 90,40 120,35 150,38 180,28 210,25 240,20 270,15 300,8 300,60 0,60"/>
-                <polyline fill="none" stroke="#d4a04a" stroke-width="2" points="0,50 30,45 60,48 90,40 120,35 150,38 180,28 210,25 240,20 270,15 300,8"/>
+          <div class="services__grid">
+            <!-- Card 1: Quick Session -->
+            <div class="service-card reveal">
+              <div class="service-card__badge">Starter</div>
+              <svg
+                class="service-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
               </svg>
+              <h3 class="service-card__title">Quick Chart Review</h3>
+              <div class="service-card__duration">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                30 minutes
+              </div>
+              <p class="service-card__desc">
+                Rapid-fire chart analysis. Bring your current positions or
+                watchlist and get real-time feedback on entries, exits, and risk
+                management.
+              </p>
+              <div class="service-card__footer">
+                <div class="service-card__price">$75</div>
+                <button
+                  class="service-card__cta"
+                  data-book="quick"
+                  data-price="75"
+                  data-session="Quick Chart Review (30 min)"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: Deep Dive -->
+            <div class="service-card reveal">
+              <div class="service-card__badge">Popular</div>
+              <svg
+                class="service-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              <h3 class="service-card__title">Deep Dive Session</h3>
+              <div class="service-card__duration">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                60 minutes
+              </div>
+              <p class="service-card__desc">
+                Full session covering market structure, trend analysis,
+                indicator setups, and building a personalized trading strategy.
+                The signature experience.
+              </p>
+              <div class="service-card__footer">
+                <div class="service-card__price">$150</div>
+                <button
+                  class="service-card__cta"
+                  data-book="deep"
+                  data-price="150"
+                  data-session="Deep Dive Session (60 min)"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: Portfolio Review -->
+            <div class="service-card reveal">
+              <svg
+                class="service-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <h3 class="service-card__title">Portfolio Review</h3>
+              <div class="service-card__duration">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                45 minutes
+              </div>
+              <p class="service-card__desc">
+                A thorough review of your current portfolio, positions, and
+                allocation strategy. Walk away with an actionable plan.
+              </p>
+              <div class="service-card__footer">
+                <div class="service-card__price">$100</div>
+                <button
+                  class="service-card__cta"
+                  data-book="portfolio"
+                  data-price="100"
+                  data-session="Portfolio Review (45 min)"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 4: Mentorship Package -->
+            <div class="service-card reveal">
+              <div class="service-card__badge">Best Value</div>
+              <svg
+                class="service-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+              <h3 class="service-card__title">Monthly Mentorship</h3>
+              <div class="service-card__duration">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                4 sessions / month
+              </div>
+              <p class="service-card__desc">
+                Four weekly 1-on-1 sessions plus ongoing chart reviews and
+                priority messaging. The fastest path to trading independence.
+              </p>
+              <div class="service-card__footer">
+                <div class="service-card__price">$500 <span>/ mo</span></div>
+                <button
+                  class="service-card__cta"
+                  data-book="mentorship"
+                  data-price="500"
+                  data-session="Monthly Mentorship (4 sessions)"
+                >
+                  Book Now
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="data-tile reveal">
-            <div class="data-tile__label">Win Rate</div>
-            <div class="data-tile__value"><span class="counter" data-target="78">0</span>%</div>
-          </div>
-
-          <div class="data-tile reveal">
-            <div class="data-tile__label">Avg Session Rating</div>
-            <div class="data-tile__value"><span class="counter" data-target="49">0</span>/5</div>
+          <div class="payment-notice reveal" style="margin-top: var(--space-8)">
+            Secure payments processed via Stripe. All sessions are conducted via
+            video call. <strong>Cancellation policy:</strong> 24-hour notice
+            required.
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===========================
+      <!-- ===========================
          BLOFIN AFFILIATE
          =========================== -->
-    <section class="section blofin" id="blofin">
-      <div class="container blofin__inner">
-        <div class="blofin__content reveal">
-          <div class="section-label">Start Trading</div>
-          <h2 class="blofin__highlight">
-            Trade With<br><span class="accent">Koi Moon</span><br>On BloFin.
-          </h2>
-          <p class="blofin__desc">
-            Sign up on BloFin through the Koi Moon affiliate link and start trading crypto with up to $5,000 in welcome bonuses. This is the platform where it all happens.
-          </p>
-          <div class="blofin__note">
-            <strong>Transparency note:</strong> When you sign up through this link, BloFin provides a referral fee to KoiMoonTrades. This helps support free content and community resources. The fee comes from BloFin — it costs you nothing extra.
+      <section class="section blofin" id="blofin">
+        <div class="container blofin__inner">
+          <div class="blofin__content reveal">
+            <div class="section-label">Start Trading</div>
+            <h2 class="blofin__highlight">
+              Trade With<br /><span class="accent">Koi Moon</span><br />On
+              BloFin.
+            </h2>
+            <p class="blofin__desc">
+              Sign up on BloFin through the Koi Moon affiliate link and start
+              trading crypto with up to $5,000 in welcome bonuses. This is the
+              platform where it all happens.
+            </p>
+            <div class="blofin__note">
+              <strong>Transparency note:</strong> When you sign up through this
+              link, BloFin provides a referral fee to KoiMoonTrades. This helps
+              support free content and community resources. The fee comes from
+              BloFin — it costs you nothing extra.
+            </div>
+            <a
+              href="https://partner.blofin.com/d/Koimoontrades"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--primary"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Join BloFin Now
+            </a>
           </div>
-          <a href="https://partner.blofin.com/d/Koimoontrades" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Join BloFin Now
-          </a>
-        </div>
 
-        <div class="blofin__visual reveal">
-          <div class="blofin__card">
-            <div class="blofin__card-label">BloFin Account Benefits</div>
-            <h3 class="blofin__card-title">Welcome Bonus Up to $5,000</h3>
-            <ul class="blofin__card-benefits">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Spot & Futures trading
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Low trading fees
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Copy trading available
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Advanced charting tools
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Mobile & desktop platforms
-              </li>
-            </ul>
-            <a href="https://partner.blofin.com/d/Koimoontrades" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="width:100%; justify-content:center;">Sign Up Free</a>
+          <div class="blofin__visual reveal">
+            <div class="blofin__card">
+              <div class="blofin__card-label">BloFin Account Benefits</div>
+              <h3 class="blofin__card-title">Welcome Bonus Up to $5,000</h3>
+              <ul class="blofin__card-benefits">
+                <li>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Spot & Futures trading
+                </li>
+                <li>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Low trading fees
+                </li>
+                <li>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Copy trading available
+                </li>
+                <li>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Advanced charting tools
+                </li>
+                <li>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Mobile & desktop platforms
+                </li>
+              </ul>
+              <a
+                href="https://partner.blofin.com/d/Koimoontrades"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn--primary"
+                style="width: 100%; justify-content: center"
+                >Sign Up Free</a
+              >
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===========================
+      <!-- ===========================
          FACEBOOK GROUP / COMMUNITY
          =========================== -->
-    <section class="section community" id="community">
-      <div class="container community__inner">
-        <div class="section-label" style="text-align:center;">Private Community</div>
-        <h2 class="section-title" style="text-align:center;">Join The School.</h2>
-        <p class="section-subtitle" style="text-align:center;margin:0 auto;">
-          The private Facebook group is where the real learning happens. Daily chart breakdowns, live callouts, and a community of serious traders.
-        </p>
-
-        <div class="community__price-block reveal">
-          <div class="community__price">$150</div>
-          <div class="community__price-label">One-Time Lifetime Access</div>
-        </div>
-
-        <div class="community__perks">
-          <div class="community__perk reveal">
-            <h3 class="community__perk-title">Daily Charts</h3>
-            <p class="community__perk-desc">Fresh chart analysis posted daily with entries, stops, and targets. Learn by watching live trades unfold.</p>
+      <section class="section community" id="community">
+        <div class="container community__inner">
+          <div class="section-label" style="text-align: center">
+            Private Community
           </div>
-          <div class="community__perk reveal">
-            <h3 class="community__perk-title">Live Callouts</h3>
-            <p class="community__perk-desc">Real-time trade ideas shared as they develop. Be the first to see setups before they play out.</p>
-          </div>
-          <div class="community__perk reveal">
-            <h3 class="community__perk-title">Trader Network</h3>
-            <p class="community__perk-desc">Connect with other traders at every level. Share ideas, ask questions, grow together.</p>
-          </div>
-        </div>
-
-        <div class="reveal" style="text-align:center;">
-          <a href="https://www.facebook.com/profile.php?id=100001665007610" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Join The Community — $150
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===========================
-         BOOKING FORM / CONTACT
-         =========================== -->
-    <section class="section booking" id="booking">
-      <div class="container booking__grid">
-        <div class="booking__info reveal">
-          <div class="section-label">Get In Touch</div>
-          <h2 class="section-title">Ready To<br>Level Up?</h2>
-          <p>
-            Drop a message below or connect on socials. Whether you have questions about sessions, the community, or just want to talk charts — the inbox is open.
+          <h2 class="section-title" style="text-align: center">
+            Join The School.
+          </h2>
+          <p
+            class="section-subtitle"
+            style="text-align: center; margin: 0 auto"
+          >
+            The private Facebook group is where the real learning happens. Daily
+            chart breakdowns, live callouts, and a community of serious traders.
           </p>
 
-          <h3 style="margin-top:var(--space-8);">Find Koi Moon</h3>
-          <div class="booking__socials" style="margin-top: var(--space-4);">
-            <!-- Facebook -->
-            <a href="https://www.facebook.com/profile.php?id=100001665007610" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/koimoontrades/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            </a>
-            <!-- BloFin -->
-            <a href="https://partner.blofin.com/d/Koimoontrades" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="BloFin">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <div class="community__price-block reveal">
+            <div class="community__price">$150</div>
+            <div class="community__price-label">One-Time Lifetime Access</div>
+          </div>
+
+          <div class="community__perks">
+            <div class="community__perk reveal">
+              <h3 class="community__perk-title">Daily Charts</h3>
+              <p class="community__perk-desc">
+                Fresh chart analysis posted daily with entries, stops, and
+                targets. Learn by watching live trades unfold.
+              </p>
+            </div>
+            <div class="community__perk reveal">
+              <h3 class="community__perk-title">Live Callouts</h3>
+              <p class="community__perk-desc">
+                Real-time trade ideas shared as they develop. Be the first to
+                see setups before they play out.
+              </p>
+            </div>
+            <div class="community__perk reveal">
+              <h3 class="community__perk-title">Trader Network</h3>
+              <p class="community__perk-desc">
+                Connect with other traders at every level. Share ideas, ask
+                questions, grow together.
+              </p>
+            </div>
+          </div>
+
+          <div class="reveal" style="text-align: center">
+            <a
+              href="https://www.facebook.com/share/1AtBbmYDNF/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--primary"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              Join The Community — $150
             </a>
           </div>
         </div>
+      </section>
 
-        <form class="booking__form reveal" id="contact-form" action="#" method="POST">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your name" required>
+      <!-- ===========================
+         BOOKING FORM / CONTACT
+         =========================== -->
+      <section class="section booking" id="booking">
+        <div class="container booking__grid">
+          <div class="booking__info reveal">
+            <div class="section-label">Get In Touch</div>
+            <h2 class="section-title">Ready To<br />Level Up?</h2>
+            <p>
+              Drop a message below or connect on socials. Whether you have
+              questions about sessions, the community, or just want to talk
+              charts — the inbox is open.
+            </p>
+
+            <h3 style="margin-top: var(--space-8)">Find Koi Moon</h3>
+            <div class="booking__socials" style="margin-top: var(--space-4)">
+              <!-- Facebook -->
+              <a
+                href="https://www.facebook.com/share/1AtBbmYDNF/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label="Facebook"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a
+                href="https://www.instagram.com/assyrian_swag?igsh=MWQ0cjFxdWJnbXNybg%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label="Instagram"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <!-- BloFin -->
+              <a
+                href="https://partner.blofin.com/d/Koimoontrades"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                aria-label="BloFin"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+              </a>
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="you@email.com" required>
+          </div>
+
+          <form
+            class="booking__form reveal"
+            id="contact-form"
+            action="#"
+            method="POST"
+          >
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@email.com"
+                  required
+                />
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="service">Interested In</label>
-            <select id="service" name="service">
-              <option value="">Select a service...</option>
-              <option value="quick">Quick Chart Review — $75</option>
-              <option value="deep">Deep Dive Session — $150</option>
-              <option value="portfolio">Portfolio Review — $100</option>
-              <option value="mentorship">Monthly Mentorship — $500/mo</option>
-              <option value="community">Facebook Community — $150</option>
-              <option value="other">Other / Question</option>
-            </select>
-          </div>
+            <div class="form-group">
+              <label for="service">Interested In</label>
+              <select id="service" name="service">
+                <option value="">Select a service...</option>
+                <option value="quick">Quick Chart Review — $75</option>
+                <option value="deep">Deep Dive Session — $150</option>
+                <option value="portfolio">Portfolio Review — $100</option>
+                <option value="mentorship">Monthly Mentorship — $500/mo</option>
+                <option value="community">Facebook Community — $150</option>
+                <option value="other">Other / Question</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me about your trading experience and what you're looking for..."></textarea>
-          </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Tell me about your trading experience and what you're looking for..."
+              ></textarea>
+            </div>
 
-          <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center; min-height:48px;">
-            Send Message
-          </button>
-        </form>
-      </div>
-    </section>
-  </main>
+            <button
+              type="submit"
+              class="btn btn--primary"
+              style="width: 100%; justify-content: center; min-height: 48px"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
 
-  <!-- ===========================
+    <!-- ===========================
        FOOTER
        =========================== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__top">
-        <div>
-          <div class="footer__brand-text">Koi<span>Moon</span>Trades</div>
-          <p class="footer__brand-desc">Master the charts. Ride the current. Financial literacy through personalized trading education.</p>
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div>
+            <div class="footer__brand-text">Koi<span>Moon</span>Trades</div>
+            <p class="footer__brand-desc">
+              Master the charts. Ride the current. Financial literacy through
+              personalized trading education.
+            </p>
+          </div>
+
+          <div>
+            <div class="footer__col-title">Quick Links</div>
+            <ul class="footer__col-links" role="list">
+              <li><a href="#services">Services</a></li>
+              <li><a href="#blofin">BloFin</a></li>
+              <li><a href="#community">Community</a></li>
+              <li><a href="#booking">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="footer__col-title">Connect</div>
+            <ul class="footer__col-links" role="list">
+              <li>
+                <a
+                  href="https://www.facebook.com/share/1AtBbmYDNF/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Facebook</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/assyrian_swag?igsh=MWQ0cjFxdWJnbXNybg%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Instagram</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://partner.blofin.com/d/Koimoontrades"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >BloFin</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <div class="footer__col-title">Quick Links</div>
-          <ul class="footer__col-links" role="list">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#blofin">BloFin</a></li>
-            <li><a href="#community">Community</a></li>
-            <li><a href="#booking">Contact</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="footer__col-title">Connect</div>
-          <ul class="footer__col-links" role="list">
-            <li><a href="https://www.facebook.com/profile.php?id=100001665007610" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-            <li><a href="https://www.instagram.com/koimoontrades/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-            <li><a href="https://partner.blofin.com/d/Koimoontrades" target="_blank" rel="noopener noreferrer">BloFin</a></li>
-          </ul>
+        <div class="footer__bottom">
+          <span>&copy; 2026 KoiMoonTrades. All rights reserved.</span>
+          <div class="footer__bottom-links">
+            <span
+              style="font-size: var(--text-xs); color: var(--color-text-muted)"
+            >
+              Trading involves risk. Past performance does not guarantee future
+              results. This is not financial advice.
+            </span>
+          </div>
         </div>
       </div>
+    </footer>
 
-      <div class="footer__bottom">
-        <span>&copy; 2026 KoiMoonTrades. All rights reserved.</span>
-        <div class="footer__bottom-links">
-          <span style="font-size:var(--text-xs); color:var(--color-text-muted);">
-            Trading involves risk. Past performance does not guarantee future results. This is not financial advice.
-          </span>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ===========================
+    <!-- ===========================
        BOOKING MODAL
        =========================== -->
-  <div class="modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal">
-      <button class="modal__close" aria-label="Close booking modal">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <h3 class="modal__title" id="modal-title">Book Session</h3>
-      <p class="modal__subtitle" id="modal-session-name">Session details</p>
-      <div class="modal__price-display" id="modal-price">$0</div>
-
-      <form id="booking-form" action="#" method="POST">
-        <div class="form-group">
-          <label for="book-name">Full Name</label>
-          <input type="text" id="book-name" name="name" placeholder="Your name" required>
-        </div>
-        <div class="form-group">
-          <label for="book-email">Email</label>
-          <input type="email" id="book-email" name="email" placeholder="you@email.com" required>
-        </div>
-        <div class="form-group">
-          <label for="book-date">Preferred Date</label>
-          <input type="date" id="book-date" name="date" required>
-        </div>
-        <div class="form-group">
-          <label for="book-time">Preferred Time</label>
-          <select id="book-time" name="time" required>
-            <option value="">Select a time...</option>
-            <option value="9:00 AM">9:00 AM EST</option>
-            <option value="10:00 AM">10:00 AM EST</option>
-            <option value="11:00 AM">11:00 AM EST</option>
-            <option value="12:00 PM">12:00 PM EST</option>
-            <option value="1:00 PM">1:00 PM EST</option>
-            <option value="2:00 PM">2:00 PM EST</option>
-            <option value="3:00 PM">3:00 PM EST</option>
-            <option value="4:00 PM">4:00 PM EST</option>
-            <option value="5:00 PM">5:00 PM EST</option>
-            <option value="6:00 PM">6:00 PM EST</option>
-            <option value="7:00 PM">7:00 PM EST</option>
-            <option value="8:00 PM">8:00 PM EST</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="book-notes">Notes (optional)</label>
-          <textarea id="book-notes" name="notes" placeholder="Any trading goals or topics you want to cover..."></textarea>
-        </div>
-        <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center; min-height:48px;">
-          Confirm & Pay
+    <div
+      class="modal-overlay"
+      id="booking-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal">
+        <button class="modal__close" aria-label="Close booking modal">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
-        <p style="font-size:var(--text-xs); color:var(--color-text-muted); text-align:center; margin-top:var(--space-2);">
-          You'll be redirected to a secure payment page after confirming.
-        </p>
-      </form>
-    </div>
-  </div>
+        <h3 class="modal__title" id="modal-title">Book Session</h3>
+        <p class="modal__subtitle" id="modal-session-name">Session details</p>
+        <div class="modal__price-display" id="modal-price">$0</div>
 
-  <!-- ===========================
+        <form id="booking-form" action="#" method="POST">
+          <div class="form-group">
+            <label for="book-name">Full Name</label>
+            <input
+              type="text"
+              id="book-name"
+              name="name"
+              placeholder="Your name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="book-email">Email</label>
+            <input
+              type="email"
+              id="book-email"
+              name="email"
+              placeholder="you@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="book-date">Preferred Date</label>
+            <input type="date" id="book-date" name="date" required />
+          </div>
+          <div class="form-group">
+            <label for="book-time">Preferred Time</label>
+            <select id="book-time" name="time" required>
+              <option value="">Select a time...</option>
+              <option value="9:00 AM">9:00 AM EST</option>
+              <option value="10:00 AM">10:00 AM EST</option>
+              <option value="11:00 AM">11:00 AM EST</option>
+              <option value="12:00 PM">12:00 PM EST</option>
+              <option value="1:00 PM">1:00 PM EST</option>
+              <option value="2:00 PM">2:00 PM EST</option>
+              <option value="3:00 PM">3:00 PM EST</option>
+              <option value="4:00 PM">4:00 PM EST</option>
+              <option value="5:00 PM">5:00 PM EST</option>
+              <option value="6:00 PM">6:00 PM EST</option>
+              <option value="7:00 PM">7:00 PM EST</option>
+              <option value="8:00 PM">8:00 PM EST</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="book-notes">Notes (optional)</label>
+            <textarea
+              id="book-notes"
+              name="notes"
+              placeholder="Any trading goals or topics you want to cover..."
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="btn btn--primary"
+            style="width: 100%; justify-content: center; min-height: 48px"
+          >
+            Confirm & Pay
+          </button>
+          <p
+            style="
+              font-size: var(--text-xs);
+              color: var(--color-text-muted);
+              text-align: center;
+              margin-top: var(--space-2);
+            "
+          >
+            You'll be redirected to a secure payment page after confirming.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===========================
        JAVASCRIPT
        =========================== -->
-  <script>
-    // --- Scroll progress bar ---
-    const progressBar = document.querySelector('.scroll-progress');
-    window.addEventListener('scroll', () => {
-      const scrollTop = document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollHeight > 0) {
-        progressBar.style.width = (scrollTop / scrollHeight) * 100 + '%';
-      }
-    }, { passive: true });
+    <script>
+      // --- Scroll progress bar ---
+      const progressBar = document.querySelector(".scroll-progress");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const scrollTop = document.documentElement.scrollTop;
+          const scrollHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          if (scrollHeight > 0) {
+            progressBar.style.width = (scrollTop / scrollHeight) * 100 + "%";
+          }
+        },
+        { passive: true },
+      );
 
-    // --- Nav shrink on scroll ---
-    const nav = document.querySelector('.nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 80);
-    }, { passive: true });
+      // --- Nav shrink on scroll ---
+      const nav = document.querySelector(".nav");
+      window.addEventListener(
+        "scroll",
+        () => {
+          nav.classList.toggle("scrolled", window.scrollY > 80);
+        },
+        { passive: true },
+      );
 
-    // --- Mobile nav toggle ---
-    const navToggle = document.querySelector('.nav__toggle');
-    const navLinks = document.querySelector('.nav__links');
-    navToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      navToggle.classList.toggle('active');
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    // Close mobile nav on link click
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
+      // --- Mobile nav toggle ---
+      const navToggle = document.querySelector(".nav__toggle");
+      const navLinks = document.querySelector(".nav__links");
+      navToggle.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        navToggle.classList.toggle("active");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
       });
-    });
 
-    // --- Scroll reveal (IntersectionObserver) ---
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+      // Close mobile nav on link click
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          navToggle.classList.remove("active");
+          navToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // --- Scroll reveal (IntersectionObserver) ---
+      const reveals = document.querySelectorAll(".reveal");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+      );
+      reveals.forEach((el) => revealObserver.observe(el));
+
+      // --- Counter animation ---
+      function animateCounter(el) {
+        const target = parseInt(el.dataset.target);
+        const duration = 2000;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased).toLocaleString();
+          if (progress < 1) requestAnimationFrame(update);
         }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => revealObserver.observe(el));
-
-    // --- Counter animation ---
-    function animateCounter(el) {
-      const target = parseInt(el.dataset.target);
-      const duration = 2000;
-      const start = performance.now();
-
-      function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased).toLocaleString();
-        if (progress < 1) requestAnimationFrame(update);
+        requestAnimationFrame(update);
       }
-      requestAnimationFrame(update);
-    }
 
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          counterObserver.unobserve(entry.target);
-        }
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              counterObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+      document
+        .querySelectorAll(".counter")
+        .forEach((el) => counterObserver.observe(el));
+
+      // --- Booking modal ---
+      const modal = document.getElementById("booking-modal");
+      const modalTitle = document.getElementById("modal-title");
+      const modalSession = document.getElementById("modal-session-name");
+      const modalPrice = document.getElementById("modal-price");
+      const modalClose = modal.querySelector(".modal__close");
+
+      document.querySelectorAll("[data-book]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          modalTitle.textContent = "Book Session";
+          modalSession.textContent = btn.dataset.session;
+          modalPrice.textContent = "$" + btn.dataset.price;
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+
+          // Set min date to today
+          const dateInput = document.getElementById("book-date");
+          const today = new Date().toISOString().split("T")[0];
+          dateInput.setAttribute("min", today);
+        });
       });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-    // --- Booking modal ---
-    const modal = document.getElementById('booking-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalSession = document.getElementById('modal-session-name');
-    const modalPrice = document.getElementById('modal-price');
-    const modalClose = modal.querySelector('.modal__close');
+      function closeModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
 
-    document.querySelectorAll('[data-book]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        modalTitle.textContent = 'Book Session';
-        modalSession.textContent = btn.dataset.session;
-        modalPrice.textContent = '$' + btn.dataset.price;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        // Set min date to today
-        const dateInput = document.getElementById('book-date');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
+      modalClose.addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
       });
-    });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("active"))
+          closeModal();
+      });
 
-    function closeModal() {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
-
-    // --- Form submission (placeholder) ---
-    document.getElementById('contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      btn.textContent = 'Message Sent!';
-      btn.style.background = 'var(--color-accent-4)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        e.target.reset();
-      }, 2500);
-    });
-
-    document.getElementById('booking-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      btn.textContent = 'Booking Confirmed!';
-      btn.style.background = 'var(--color-accent-4)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        e.target.reset();
-        closeModal();
-      }, 2500);
-    });
-
-    // --- Smooth scroll for anchor links ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        const target = document.querySelector(anchor.getAttribute('href'));
-        if (target) {
+      // --- Form submission (placeholder) ---
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", (e) => {
           e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+          const btn = e.target.querySelector('button[type="submit"]');
+          const originalText = btn.textContent;
+          btn.textContent = "Message Sent!";
+          btn.style.background = "var(--color-accent-4)";
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = "";
+            e.target.reset();
+          }, 2500);
+        });
+
+      document
+        .getElementById("booking-form")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const btn = e.target.querySelector('button[type="submit"]');
+          const originalText = btn.textContent;
+          btn.textContent = "Booking Confirmed!";
+          btn.style.background = "var(--color-accent-4)";
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = "";
+            e.target.reset();
+            closeModal();
+          }, 2500);
+        });
+
+      // --- Smooth scroll for anchor links ---
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const target = document.querySelector(anchor.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
