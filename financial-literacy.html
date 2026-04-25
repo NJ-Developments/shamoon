@@ -1290,6 +1290,9 @@
             Trading involves risk. Past performance does not guarantee future
             results. This is not financial advice.
           </span>
+          <span style="font-size: var(--text-xs); color: var(--color-text-muted);">
+            Developed by <a href="https://njdevelopmentsllc.com" target="_blank" rel="noopener noreferrer" style="color: var(--color-text-muted); text-decoration: underline;">NJ Developments</a>
+          </span>
           <a
             href="admin.html"
             style="font-size: var(--text-xs); color: var(--color-text-muted); opacity: 0.6;"
@@ -1671,7 +1674,9 @@
         grid.innerHTML = "";
         items.forEach((it) => {
           const card = document.createElement("div");
-          card.className = "fund-card reveal";
+          // No reveal class: hydrated cards must be visible immediately,
+          // since the user may have already scrolled past this section.
+          card.className = "fund-card";
           card.innerHTML = `
             <div class="fund-card__num"></div>
             <h3 class="fund-card__title"></h3>
@@ -1696,7 +1701,9 @@
         items.forEach((it) => {
           articleMap[it.id] = { meta: it.meta || "", title: it.title || "", body: it.body || "" };
           const card = document.createElement("article");
-          card.className = "article-card reveal";
+          // No reveal class: hydrated cards must be visible immediately,
+          // since the user may have already scrolled past this section.
+          card.className = "article-card";
           card.dataset.article = it.id;
 
           const cover = document.createElement("div");
