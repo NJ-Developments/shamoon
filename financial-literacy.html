@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Literacy — KoiMoonTrades</title>
+    <meta
+      name="description"
+      content="The Koi Moon library: free financial literacy guides, trading fundamentals, and a downloadable Trader's Field Guide. Learn the way the market moves before you risk a dollar."
+    />
+    <link rel="icon" type="image/png" href="/koimoonlogo.png" />
+    <link rel="shortcut icon" type="image/png" href="/koimoonlogo.png" />
+    <link rel="apple-touch-icon" href="/koimoonlogo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ======================================================
+         DESIGN TOKENS (mirrored from index.html)
+         ====================================================== */
+      :root {
+        --color-base: #040810;
+        --color-surface: #0a1020;
+        --color-surface-elevated: #111a30;
+        --color-text: #e8e4df;
+        --color-text-muted: #6a7a8a;
+        --color-accent-1: #d4a04a;
+        --color-accent-2: #e06030;
+        --color-accent-3: #c0d0e0;
+        --color-accent-4: #30d158;
+        --color-border: #1a2a3a;
+        --color-glow-gold: rgba(212, 160, 74, 0.2);
+        --color-glow-orange: rgba(224, 96, 48, 0.15);
+        --color-glow-moon: rgba(192, 208, 224, 0.08);
+
+        --font-display: "Bebas Neue", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+
+        --text-xs: 0.75rem;
+        --text-sm: 0.875rem;
+        --text-base: 1rem;
+        --text-lg: 1.125rem;
+        --text-xl: 1.25rem;
+        --text-2xl: 1.5rem;
+        --text-3xl: 2rem;
+        --text-4xl: 2.5rem;
+        --text-5xl: clamp(2.5rem, 5vw + 1rem, 3.5rem);
+        --text-6xl: clamp(3rem, 8vw, 5rem);
+        --text-7xl: clamp(4rem, 12vw, 8rem);
+
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
+        --space-24: 6rem;
+        --space-32: 8rem;
+
+        --section-padding: clamp(4rem, 8vw, 8rem);
+        --container-max: 1200px;
+        --content-max: 720px;
+
+        --radius-sm: 2px;
+        --radius-md: 4px;
+        --radius-lg: 8px;
+        --radius-xl: 12px;
+
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+        --shadow-glow:
+          0 0 20px var(--color-glow-gold), 0 0 60px var(--color-glow-orange);
+
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --duration-fast: 150ms;
+        --duration-base: 250ms;
+        --duration-slow: 400ms;
+        --duration-reveal: 700ms;
+
+        --z-base: 0;
+        --z-above: 1;
+        --z-nav: 200;
+        --z-skip-link: 10000;
+      }
+
+      /* Reset + base */
+      *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        line-height: 1.6;
+        color: var(--color-text);
+        background: var(--color-base);
+        overflow-x: hidden;
+      }
+      ::selection {
+        background: var(--color-accent-1);
+        color: var(--color-base);
+      }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--color-base); }
+      ::-webkit-scrollbar-thumb {
+        background: var(--color-accent-1);
+        border-radius: 3px;
+      }
+      a {
+        color: var(--color-accent-1);
+        text-decoration: none;
+      }
+      img { max-width: 100%; display: block; }
+      :focus-visible {
+        outline: 2px solid var(--color-accent-1);
+        outline-offset: 3px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--color-accent-1);
+        color: var(--color-base);
+        font-family: var(--font-body);
+        font-weight: 600;
+        text-decoration: none;
+        z-index: var(--z-skip-link);
+        border-radius: var(--radius-sm);
+      }
+      .skip-link:focus { top: 1rem; }
+
+      /* Atmosphere + grain */
+      .atmosphere {
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 15% 30%, var(--color-glow-gold) 0%, transparent 50%),
+          radial-gradient(ellipse at 85% 20%, var(--color-glow-orange) 0%, transparent 45%),
+          radial-gradient(ellipse at 50% 80%, var(--color-glow-moon) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: var(--z-base);
+      }
+      .grain {
+        position: fixed;
+        inset: 0;
+        opacity: 0.08;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9998;
+      }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--color-accent-1), var(--color-accent-2));
+        z-index: 9999;
+      }
+
+      /* Layout */
+      .container {
+        max-width: var(--container-max);
+        margin: 0 auto;
+        padding-left: clamp(1.5rem, 4vw, 3rem);
+        padding-right: clamp(1.5rem, 4vw, 3rem);
+      }
+      .section {
+        padding-top: var(--section-padding);
+        padding-bottom: var(--section-padding);
+        position: relative;
+        z-index: var(--z-above);
+      }
+      .section-label {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-6);
+      }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: var(--text-5xl);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-4);
+      }
+      .section-subtitle {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        max-width: 60ch;
+        line-height: 1.7;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-6);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition:
+          transform var(--duration-base) var(--ease-out),
+          background var(--duration-base) var(--ease-out),
+          color var(--duration-base) var(--ease-out),
+          border-color var(--duration-base) var(--ease-out);
+        min-height: 44px;
+      }
+      .btn--primary {
+        background: var(--color-accent-1);
+        color: var(--color-base);
+      }
+      .btn--primary:hover {
+        background: var(--color-accent-2);
+        color: var(--color-text);
+        transform: translateY(-2px);
+      }
+      .btn--ghost {
+        background: transparent;
+        color: var(--color-text);
+        border-color: var(--color-border);
+      }
+      .btn--ghost:hover {
+        border-color: var(--color-accent-1);
+        color: var(--color-accent-1);
+        transform: translateY(-2px);
+      }
+
+      /* Nav */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: var(--z-nav);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background: rgba(4, 8, 16, 0.7);
+        border-bottom: 1px solid transparent;
+        transition: all var(--duration-base) var(--ease-out);
+      }
+      .nav.scrolled {
+        background: rgba(4, 8, 16, 0.92);
+        border-bottom-color: var(--color-border);
+      }
+      .nav__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: var(--space-4);
+        padding-bottom: var(--space-4);
+      }
+      .nav__brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        color: var(--color-text);
+      }
+      .nav__logo-mark {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+      }
+      .nav__logo-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .nav__brand-text {
+        font-family: var(--font-display);
+        font-size: var(--text-xl);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .nav__brand-text span {
+        color: var(--color-accent-1);
+      }
+      .nav__links {
+        display: flex;
+        align-items: center;
+        gap: var(--space-6);
+        list-style: none;
+      }
+      .nav__link {
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        transition: color var(--duration-fast);
+      }
+      .nav__link:hover, .nav__link.active {
+        color: var(--color-text);
+      }
+      .nav__link.active {
+        color: var(--color-accent-1);
+      }
+      .nav__cta {
+        background: var(--color-accent-1);
+        color: var(--color-base);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-sm);
+        font-size: var(--text-sm);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        transition: all var(--duration-base);
+      }
+      .nav__cta:hover {
+        background: var(--color-accent-2);
+        color: var(--color-text);
+        transform: translateY(-1px);
+      }
+      .nav__toggle {
+        display: none;
+        background: none;
+        border: none;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        padding: var(--space-2);
+      }
+      .nav__toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--color-text);
+        transition: all var(--duration-base);
+      }
+      .nav__toggle.active span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+      .nav__toggle.active span:nth-child(2) { opacity: 0; }
+      .nav__toggle.active span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
+      @media (max-width: 768px) {
+        .nav__toggle { display: flex; }
+        .nav__links {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          background: var(--color-surface);
+          border-top: 1px solid var(--color-border);
+          padding: var(--space-4);
+          transform: translateY(-12px);
+          opacity: 0;
+          pointer-events: none;
+          transition: all var(--duration-base);
+        }
+        .nav__links.open {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: all;
+        }
+        .nav__links li { padding: var(--space-3) 0; }
+        .nav__cta { text-align: center; }
+      }
+
+      /* Reveal animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity var(--duration-reveal) var(--ease-out),
+          transform var(--duration-reveal) var(--ease-out);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ======================================================
+         PAGE-SPECIFIC
+         ====================================================== */
+
+      /* Hero */
+      .lit-hero {
+        padding-top: clamp(8rem, 15vw, 12rem);
+        padding-bottom: var(--section-padding);
+        position: relative;
+        z-index: var(--z-above);
+      }
+      .lit-hero__inner {
+        max-width: 880px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .lit-hero__tag {
+        display: inline-block;
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        padding: var(--space-2) var(--space-4);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        margin-bottom: var(--space-6);
+      }
+      .lit-hero__title {
+        font-family: var(--font-display);
+        font-size: var(--text-7xl);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-6);
+      }
+      .lit-hero__title .accent {
+        color: var(--color-accent-1);
+      }
+      .lit-hero__desc {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        max-width: 60ch;
+        margin: 0 auto var(--space-8);
+        line-height: 1.7;
+      }
+
+      /* Lead magnet */
+      .magnet {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: clamp(2rem, 5vw, 4rem);
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: var(--space-12);
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .magnet::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 100% 0%,
+          var(--color-glow-gold) 0%,
+          transparent 50%
+        );
+        pointer-events: none;
+      }
+      .magnet__body { position: relative; z-index: 1; }
+      .magnet__eyebrow {
+        font-size: var(--text-xs);
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-4);
+      }
+      .magnet__title {
+        font-family: var(--font-display);
+        font-size: var(--text-5xl);
+        font-weight: 800;
+        line-height: 1.05;
+        margin-bottom: var(--space-4);
+      }
+      .magnet__desc {
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+        max-width: 50ch;
+      }
+      .magnet__list {
+        list-style: none;
+        margin-bottom: var(--space-8);
+      }
+      .magnet__list li {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        padding: var(--space-2) 0;
+        color: var(--color-text);
+      }
+      .magnet__list svg {
+        width: 18px;
+        height: 18px;
+        color: var(--color-accent-4);
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .magnet__form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+      .magnet__form-row {
+        display: flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+      }
+      .magnet__form input[type="email"],
+      .magnet__form input[type="text"] {
+        flex: 1;
+        min-width: 220px;
+        padding: var(--space-3) var(--space-4);
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        border-radius: var(--radius-sm);
+        transition: border-color var(--duration-base);
+      }
+      .magnet__form input:focus {
+        outline: none;
+        border-color: var(--color-accent-1);
+      }
+      .magnet__form button {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+      }
+      .magnet__fineprint {
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+        margin-top: var(--space-2);
+      }
+      .magnet__visual {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+      }
+      .magnet__cover {
+        width: 100%;
+        max-width: 320px;
+        aspect-ratio: 3 / 4;
+        background: linear-gradient(
+          155deg,
+          var(--color-surface-elevated) 0%,
+          var(--color-base) 100%
+        );
+        border: 1px solid var(--color-accent-1);
+        border-radius: var(--radius-md);
+        padding: var(--space-8);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          0 0 80px var(--color-glow-gold);
+        position: relative;
+        overflow: hidden;
+      }
+      .magnet__cover::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 30% 20%,
+          var(--color-glow-gold) 0%,
+          transparent 60%
+        );
+      }
+      .magnet__cover-tag {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        position: relative;
+      }
+      .magnet__cover-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.25rem, 4vw, 2.75rem);
+        line-height: 0.95;
+        letter-spacing: -0.01em;
+        color: var(--color-text);
+        position: relative;
+      }
+      .magnet__cover-title em {
+        color: var(--color-accent-1);
+        font-style: normal;
+      }
+      .magnet__cover-foot {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        position: relative;
+      }
+
+      @media (max-width: 880px) {
+        .magnet {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .magnet__list li {
+          justify-content: center;
+          text-align: left;
+        }
+        .magnet__desc { margin-left: auto; margin-right: auto; }
+      }
+
+      /* Fundamentals grid */
+      .fundamentals__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-6);
+        margin-top: var(--space-12);
+      }
+      .fund-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        padding: var(--space-8);
+        border-radius: var(--radius-md);
+        position: relative;
+        transition:
+          border-color var(--duration-base),
+          transform var(--duration-base);
+      }
+      .fund-card:hover {
+        border-color: var(--color-accent-1);
+        transform: translateY(-4px);
+      }
+      .fund-card__num {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        color: var(--color-accent-1);
+        letter-spacing: 0.05em;
+        margin-bottom: var(--space-4);
+      }
+      .fund-card__title {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: var(--space-3);
+      }
+      .fund-card__desc {
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        line-height: 1.6;
+      }
+
+      /* Articles / blog */
+      .articles__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--space-6);
+        margin-top: var(--space-12);
+      }
+      .article-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition:
+          border-color var(--duration-base),
+          transform var(--duration-base);
+      }
+      .article-card:hover {
+        border-color: var(--color-accent-1);
+        transform: translateY(-4px);
+      }
+      .article-card__cover {
+        aspect-ratio: 16 / 9;
+        background:
+          linear-gradient(135deg, var(--color-surface-elevated), var(--color-base)),
+          radial-gradient(circle at 70% 30%, var(--color-glow-gold), transparent);
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+      }
+      .article-card__cover svg {
+        width: 56px;
+        height: 56px;
+        color: var(--color-accent-1);
+        opacity: 0.7;
+      }
+      .article-card__body {
+        padding: var(--space-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        flex: 1;
+      }
+      .article-card__meta {
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+      }
+      .article-card__title {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        line-height: 1.15;
+        color: var(--color-text);
+      }
+      .article-card__excerpt {
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        line-height: 1.6;
+        flex: 1;
+      }
+      .article-card__cta {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-top: var(--space-2);
+      }
+
+      /* Article body modal/inline panel */
+      .article-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 8, 16, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 1000;
+        display: none;
+        place-items: center;
+        padding: var(--space-4);
+      }
+      .article-modal.active { display: grid; }
+      .article-modal__inner {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: clamp(2rem, 5vw, 3.5rem);
+        max-width: 760px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+      }
+      .article-modal__close {
+        position: absolute;
+        top: var(--space-4);
+        right: var(--space-4);
+        background: none;
+        border: none;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        padding: var(--space-2);
+      }
+      .article-modal__close:hover { color: var(--color-text); }
+      .article-modal__meta {
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-3);
+      }
+      .article-modal__title {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        line-height: 1.05;
+        margin-bottom: var(--space-6);
+      }
+      .article-modal__body p {
+        color: var(--color-text);
+        font-size: var(--text-base);
+        line-height: 1.75;
+        margin-bottom: var(--space-4);
+      }
+      .article-modal__body h3 {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        margin-top: var(--space-6);
+        margin-bottom: var(--space-3);
+      }
+      .article-modal__body ul {
+        margin: 0 0 var(--space-4) var(--space-6);
+        color: var(--color-text-muted);
+      }
+      .article-modal__body ul li {
+        margin-bottom: var(--space-2);
+        line-height: 1.7;
+      }
+
+      /* CTA banner */
+      .cta-banner {
+        text-align: center;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: clamp(2.5rem, 6vw, 5rem) var(--space-6);
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 30%, var(--color-glow-gold), transparent 50%),
+          radial-gradient(circle at 80% 70%, var(--color-glow-orange), transparent 50%);
+        pointer-events: none;
+      }
+      .cta-banner > * { position: relative; z-index: 1; }
+      .cta-banner h2 {
+        font-family: var(--font-display);
+        font-size: var(--text-5xl);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-4);
+      }
+      .cta-banner p {
+        color: var(--color-text-muted);
+        max-width: 55ch;
+        margin: 0 auto var(--space-8);
+      }
+      .cta-banner__actions {
+        display: inline-flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--color-surface);
+        border-top: 1px solid var(--color-border);
+        padding: var(--space-16) 0 var(--space-8);
+      }
+      .footer__top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: var(--space-12);
+        padding-bottom: var(--space-12);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .footer__brand-text {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: var(--space-3);
+      }
+      .footer__brand-text span { color: var(--color-accent-1); }
+      .footer__brand-desc {
+        color: var(--color-text-muted);
+        max-width: 38ch;
+        font-size: var(--text-sm);
+      }
+      .footer__col-title {
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-accent-1);
+        margin-bottom: var(--space-4);
+      }
+      .footer__col-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+      .footer__col-links a {
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        transition: color var(--duration-fast);
+      }
+      .footer__col-links a:hover { color: var(--color-text); }
+      .footer__bottom {
+        padding-top: var(--space-6);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+      }
+      @media (max-width: 768px) {
+        .footer__top { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="atmosphere" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <!-- ===========================
+         NAV
+         =========================== -->
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav__inner">
+        <a href="index.html" class="nav__brand" aria-label="KoiMoonTrades Home">
+          <div class="nav__logo-mark" aria-hidden="true">
+            <img src="koimoonlogo.png" alt="" />
+          </div>
+          <div class="nav__brand-text">Koi<span>Moon</span>Trades</div>
+        </a>
+
+        <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav__links" role="list">
+          <li><a href="index.html#services" class="nav__link">Services</a></li>
+          <li><a href="financial-literacy.html" class="nav__link active">Financial Literacy</a></li>
+          <li><a href="index.html#blofin" class="nav__link">BloFin</a></li>
+          <li><a href="index.html#community" class="nav__link">Community</a></li>
+          <li><a href="index.html#booking" class="nav__link">Contact</a></li>
+          <li><a href="index.html#services" class="nav__cta">Book Now</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main id="main-content">
+      <!-- ===========================
+           HERO
+           =========================== -->
+      <section class="lit-hero">
+        <div class="container lit-hero__inner">
+          <div class="lit-hero__tag" id="hero-tag">The Koi Moon Library</div>
+          <h1 class="lit-hero__title">
+            <span class="hero-title-part1">Read The Market</span>
+            <span class="accent" id="hero-title-accent">Before You Trade It.</span>
+          </h1>
+          <p class="lit-hero__desc" id="hero-desc">
+            Free financial literacy guides, trading fundamentals, and a downloadable
+            field guide for new and intermediate traders. Learn the patterns,
+            language, and risk management every trader is expected to know — taught
+            in plain English, not jargon.
+          </p>
+          <div style="display:inline-flex;gap:var(--space-3);flex-wrap:wrap;justify-content:center;">
+            <a href="#magnet" id="hero-primary" class="btn btn--primary">Get The Free Field Guide</a>
+            <a href="#fundamentals" id="hero-ghost" class="btn btn--ghost">Browse The Fundamentals</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===========================
+           LEAD MAGNET
+           =========================== -->
+      <section class="section" id="magnet">
+        <div class="container">
+          <div class="magnet reveal">
+            <div class="magnet__body">
+              <div class="magnet__eyebrow">Free Download</div>
+              <h2 class="magnet__title">The Trader's Field Guide.</h2>
+              <p class="magnet__desc">
+                A 30-page primer covering the exact concepts every trader is
+                expected to understand before risking real capital. No upsell, no
+                fluff — just the foundation.
+              </p>
+              <ul class="magnet__list">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  Risk management rules that keep you in the game
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  How to read candlesticks and market structure
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  Position sizing math (with worked examples)
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  A trading journal template you can copy today
+                </li>
+              </ul>
+
+              <form class="magnet__form" id="magnet-form" action="#" method="POST">
+                <div class="magnet__form-row">
+                  <input type="text" name="name" placeholder="First name" required />
+                  <input type="email" name="email" placeholder="you@email.com" required />
+                </div>
+                <button type="submit" class="btn btn--primary">
+                  Send Me The Guide
+                </button>
+                <p class="magnet__fineprint">
+                  One email with the PDF. No spam, unsubscribe anytime.
+                </p>
+              </form>
+            </div>
+
+            <div class="magnet__visual" aria-hidden="true">
+              <div class="magnet__cover">
+                <span class="magnet__cover-tag">Koi Moon</span>
+                <span class="magnet__cover-title">
+                  The Trader's<br/><em>Field Guide.</em>
+                </span>
+                <span class="magnet__cover-foot">30 pages · PDF</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===========================
+           FUNDAMENTALS
+           =========================== -->
+      <section class="section" id="fundamentals">
+        <div class="container">
+          <div class="reveal">
+            <div class="section-label">The Fundamentals</div>
+            <h2 class="section-title">Six Concepts.<br/>Every Trader Should Know.</h2>
+            <p class="section-subtitle">
+              The non-negotiables. Skip these and the rest of trading is just
+              gambling with extra steps.
+            </p>
+          </div>
+
+          <div class="fundamentals__grid">
+            <div class="fund-card reveal">
+              <div class="fund-card__num">01</div>
+              <h3 class="fund-card__title">Risk Per Trade</h3>
+              <p class="fund-card__desc">
+                Why professionals risk 1–2% per position and what happens to your
+                account if you don't. Includes the math behind "blow-up risk."
+              </p>
+            </div>
+            <div class="fund-card reveal">
+              <div class="fund-card__num">02</div>
+              <h3 class="fund-card__title">Market Structure</h3>
+              <p class="fund-card__desc">
+                Higher highs, lower lows, and the simple framework that tells you
+                whether the market is trending, ranging, or reversing.
+              </p>
+            </div>
+            <div class="fund-card reveal">
+              <div class="fund-card__num">03</div>
+              <h3 class="fund-card__title">Reading Candles</h3>
+              <p class="fund-card__desc">
+                Open, high, low, close — and the handful of candle patterns that
+                actually carry signal vs. the dozens that don't.
+              </p>
+            </div>
+            <div class="fund-card reveal">
+              <div class="fund-card__num">04</div>
+              <h3 class="fund-card__title">Support &amp; Resistance</h3>
+              <p class="fund-card__desc">
+                How to draw levels that hold up under scrutiny, and how to tell a
+                clean level from a line you wanted to see.
+              </p>
+            </div>
+            <div class="fund-card reveal">
+              <div class="fund-card__num">05</div>
+              <h3 class="fund-card__title">Position Sizing</h3>
+              <p class="fund-card__desc">
+                The formula that turns a stop-loss distance and an account size
+                into the exact number of contracts or shares to trade.
+              </p>
+            </div>
+            <div class="fund-card reveal">
+              <div class="fund-card__num">06</div>
+              <h3 class="fund-card__title">Trade Journaling</h3>
+              <p class="fund-card__desc">
+                Why every trader who survives keeps a journal — and the four
+                fields that matter more than all the rest combined.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===========================
+           ARTICLES / BLOG
+           =========================== -->
+      <section class="section" id="blog">
+        <div class="container">
+          <div class="reveal">
+            <div class="section-label">Articles &amp; Breakdowns</div>
+            <h2 class="section-title">Field Notes.<br/>From The Charts.</h2>
+            <p class="section-subtitle">
+              Honest, opinionated essays on trading psychology, market structure,
+              and the parts of trading nobody puts on the highlight reel.
+            </p>
+          </div>
+
+          <div class="articles__grid">
+            <article class="article-card reveal" data-article="why-traders-fail">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><polyline points="7 14 12 9 16 13 21 8"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Psychology · 6 min read</div>
+                <h3 class="article-card__title">Why 90% Of Traders Quit In Year One</h3>
+                <p class="article-card__excerpt">
+                  It isn't bad strategy. It's position sizing, undefined risk,
+                  and revenge-trading after the first drawdown. Here's the cycle
+                  and how to break it.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+
+            <article class="article-card reveal" data-article="reading-candles">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="3" height="12"/><rect x="15" y="3" width="3" height="18"/><line x1="7.5" y1="3" x2="7.5" y2="6"/><line x1="7.5" y1="18" x2="7.5" y2="21"/><line x1="16.5" y1="0" x2="16.5" y2="3"/><line x1="16.5" y1="21" x2="16.5" y2="24"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Technicals · 8 min read</div>
+                <h3 class="article-card__title">How To Actually Read A Candlestick</h3>
+                <p class="article-card__excerpt">
+                  Forget the 47-pattern flashcards. Three candle structures carry
+                  almost all the signal you'll ever need — and here's exactly
+                  what each one is telling you.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+
+            <article class="article-card reveal" data-article="risk-rule">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Risk · 5 min read</div>
+                <h3 class="article-card__title">The 1% Rule Isn't Conservative — It's Math</h3>
+                <p class="article-card__excerpt">
+                  Why risking more than 2% per trade statistically dooms most
+                  retail accounts, and the simple expected-value calculation
+                  every trader should run before pressing buy.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+
+            <article class="article-card reveal" data-article="leverage">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Crypto · 7 min read</div>
+                <h3 class="article-card__title">Leverage: A User Manual</h3>
+                <p class="article-card__excerpt">
+                  10x doesn't mean 10x profits — it means a 10% move liquidates
+                  you. Here's how to think about leverage as a tool instead of
+                  a weapon pointed at your own account.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+
+            <article class="article-card reveal" data-article="journaling">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Process · 4 min read</div>
+                <h3 class="article-card__title">The Four Fields That Make A Journal Work</h3>
+                <p class="article-card__excerpt">
+                  Most trade journals are pretty and useless. The ones that
+                  actually change behavior track four specific things — and
+                  none of them is your P/L.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+
+            <article class="article-card reveal" data-article="market-structure">
+              <div class="article-card__cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
+              </div>
+              <div class="article-card__body">
+                <div class="article-card__meta">Technicals · 9 min read</div>
+                <h3 class="article-card__title">Market Structure In Plain English</h3>
+                <p class="article-card__excerpt">
+                  Higher highs, lower lows, and the one diagram that explains
+                  trends, ranges, and reversals without a single fancy
+                  indicator.
+                </p>
+                <span class="article-card__cta">Read the breakdown →</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===========================
+           CTA BANNER
+           =========================== -->
+      <section class="section">
+        <div class="container">
+          <div class="cta-banner reveal">
+            <div class="section-label" id="cta-eyebrow" style="margin-bottom:var(--space-4);">Ready For The Next Step?</div>
+            <h2 id="cta-title">From Reading To Trading.</h2>
+            <p id="cta-body">
+              The library is the foundation. The 1-on-1 sessions are where the
+              concepts turn into your trading playbook — built around your
+              account, your risk tolerance, and your goals.
+            </p>
+            <div class="cta-banner__actions">
+              <a href="index.html#services" id="cta-primary" class="btn btn--primary">Book A Session</a>
+              <a href="index.html#community" id="cta-ghost" class="btn btn--ghost">Join The Community</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===========================
+         ARTICLE MODAL
+         =========================== -->
+    <div class="article-modal" id="article-modal" role="dialog" aria-modal="true" aria-labelledby="article-modal-title">
+      <div class="article-modal__inner">
+        <button class="article-modal__close" aria-label="Close article">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <div class="article-modal__meta" id="article-modal-meta"></div>
+        <h2 class="article-modal__title" id="article-modal-title"></h2>
+        <div class="article-modal__body" id="article-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- ===========================
+         FOOTER
+         =========================== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div>
+            <div class="footer__brand-text">Koi<span>Moon</span>Trades</div>
+            <p class="footer__brand-desc">
+              No gurus. No guesswork. Personalized trading education for traders
+              who'd rather own the tide than chase it.
+            </p>
+          </div>
+          <div>
+            <div class="footer__col-title">Quick Links</div>
+            <ul class="footer__col-links" role="list">
+              <li><a href="index.html#services">Services</a></li>
+              <li><a href="financial-literacy.html">Financial Literacy</a></li>
+              <li><a href="index.html#blofin">BloFin</a></li>
+              <li><a href="index.html#community">Community</a></li>
+              <li><a href="index.html#booking">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="footer__col-title">Connect</div>
+            <ul class="footer__col-links" role="list">
+              <li><a href="tel:+18607970703">860&#8209;797&#8209;0703</a></li>
+              <li><a href="mailto:shamooc662@gmail.com">shamooc662@gmail.com</a></li>
+              <li><a href="https://www.facebook.com/share/1AtBbmYDNF/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+              <li><a href="https://www.instagram.com/assyrian_swag?igsh=MWQ0cjFxdWJnbXNybg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              <li><a href="https://partner.blofin.com/d/Koimoontrades" target="_blank" rel="noopener noreferrer">BloFin</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span>&copy; 2026 KoiMoonTrades. All rights reserved.</span>
+          <span style="font-size: var(--text-xs);">
+            Trading involves risk. Past performance does not guarantee future
+            results. This is not financial advice.
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===========================
+         JS
+         =========================== -->
+    <script type="module">
+      // ============================================================
+      //   Static behavior — runs immediately, no Firebase needed.
+      // ============================================================
+      const progressBar = document.querySelector(".scroll-progress");
+      window.addEventListener("scroll", () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollHeight > 0) {
+          progressBar.style.width = (scrollTop / scrollHeight) * 100 + "%";
+        }
+      }, { passive: true });
+
+      const nav = document.querySelector(".nav");
+      window.addEventListener("scroll", () => {
+        nav.classList.toggle("scrolled", window.scrollY > 80);
+      }, { passive: true });
+
+      const navToggle = document.querySelector(".nav__toggle");
+      const navLinks = document.querySelector(".nav__links");
+      navToggle.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        navToggle.classList.toggle("active");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          navToggle.classList.remove("active");
+          navToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+      function observeReveals() {
+        document.querySelectorAll(".reveal:not(.visible)").forEach((el) => revealObserver.observe(el));
+      }
+      observeReveals();
+
+      // ============================================================
+      //   Article modal — works for both static and dynamic articles.
+      //   articleMap is populated either from Firestore or from the
+      //   static defaults below as a fallback.
+      // ============================================================
+      const articleModal = document.getElementById("article-modal");
+      const articleModalMeta = document.getElementById("article-modal-meta");
+      const articleModalTitle = document.getElementById("article-modal-title");
+      const articleModalBody = document.getElementById("article-modal-body");
+      const articleModalClose = articleModal.querySelector(".article-modal__close");
+
+      const STATIC_ARTICLES = {
+        "why-traders-fail": {
+          meta: "Psychology · 6 min read",
+          title: "Why 90% Of Traders Quit In Year One",
+          body: `<p>The often-cited statistic is that around 80–90% of retail traders lose money in their first year. The honest truth is most of them don't lose because their strategy is bad. They lose because of three repeating mistakes — and any one of them is enough to end an account.</p>
+<h3>1. Position sizing built on hope</h3><p>The first sign of trouble is a trader who can't tell you, in dollars, how much they're risking on a given trade. They sized the position based on what they wanted the trade to make, not what they could afford to lose.</p>
+<h3>2. Undefined risk</h3><p>No stop-loss. No max daily loss. No rule for when to walk away. Trading without these is like driving without brakes — you can do it for a while, but the first surprise ends the journey.</p>
+<h3>3. Revenge trading</h3><p>Every trader has a worst loss. The ones who survive treat it as data. The ones who don't try to win it back in the next hour, with double the size and half the analysis.</p>
+<p><strong>The fix isn't motivation. It's process:</strong> a written plan, a journaled review, and a hard cap on daily loss. Boring, repeatable, and the only thing that actually compounds.</p>`,
+        },
+        "reading-candles": {
+          meta: "Technicals · 8 min read",
+          title: "How To Actually Read A Candlestick",
+          body: `<p>You can spend a year memorizing candlestick patterns and still misread a chart. Here's the shortcut: most candle "patterns" are just three structures wearing different costumes.</p>
+<h3>1. Strong-body candles</h3><p>A long body with small wicks tells you one side won the time period decisively. The bigger the body relative to recent candles, the more meaningful the move.</p>
+<h3>2. Rejection candles</h3><p>A long wick with a small body means price went somewhere and got rejected. At a key level, this is one of the highest-quality signals in technical analysis. In the middle of nowhere, it's noise.</p>
+<h3>3. Indecision candles</h3><p>Doji and small-bodied candles say neither side committed. After a strong trend, this often precedes a pause or reversal. The candle alone doesn't tell you which — context does.</p>
+<p><strong>The rule:</strong> a candle is information about a battle. The size of the body and the length of the wicks tell you who won and how decisively. Everything else is pattern decoration.</p>`,
+        },
+        "risk-rule": {
+          meta: "Risk · 5 min read",
+          title: "The 1% Rule Isn't Conservative — It's Math",
+          body: `<p>Risk 1% per trade and you can lose ten in a row and still have 90% of your account. Risk 10% per trade and ten losses leaves you under 35%. The math is brutal and asymmetric.</p>
+<h3>The drawdown problem</h3><p>A 50% drawdown requires a 100% gain to recover. A 75% drawdown requires a 300% gain. The deeper the hole, the harder the climb — and the easier it is to give up before you get back to even.</p>
+<h3>The expected-value framing</h3><p>Every trade has a win rate, an average win, and an average loss. If you don't know those three numbers for your strategy, you're not running a strategy — you're flipping a coin and hoping.</p>
+<h3>What 1% looks like in practice</h3><ul><li>$10,000 account → max $100 risk per trade</li><li>Stop-loss 50¢ from entry → max 200 shares</li><li>Doesn't matter how confident you feel — the size is the size</li></ul>
+<p>Conservative isn't slow. Conservative is staying in the chair long enough for skill to compound.</p>`,
+        },
+        "leverage": {
+          meta: "Crypto · 7 min read",
+          title: "Leverage: A User Manual",
+          body: `<p>Leverage doesn't multiply profits. It multiplies position size — and the loss-per-pip that comes with it. Used badly, it's the fastest way to liquidate an account. Used well, it's a tool for capital efficiency.</p>
+<h3>What 10x actually means</h3><p>10x leverage on a $1,000 position controls $10,000 of exposure. A 10% move against you wipes the position. You didn't get 10x the returns — you compressed your time-to-liquidation by 10x.</p>
+<h3>The professional approach</h3><p>Most professional traders use leverage as a margin-efficiency tool, not a profit-multiplier. They size based on risk, not on the maximum the platform allows.</p>
+<h3>A simple framework</h3><ul><li>Decide dollar risk first (1–2% of account)</li><li>Calculate position size from your stop-loss distance</li><li>Use the minimum leverage required to take that position</li><li>Treat the rest of available leverage as if it doesn't exist</li></ul>
+<p>The traders who survive crypto don't avoid leverage — they refuse to be controlled by it.</p>`,
+        },
+        "journaling": {
+          meta: "Process · 4 min read",
+          title: "The Four Fields That Make A Journal Work",
+          body: `<p>Pretty journals don't change behavior. Functional journals do. Strip out the screenshots and the gradients and you'll find the same four fields in every working trader's log.</p>
+<h3>1. The setup</h3><p>What pattern, structure, or condition triggered the entry? Be specific enough that you could explain it to another trader in one sentence.</p>
+<h3>2. The plan</h3><p>Entry, stop, target, position size, and dollar risk. Written before the trade, not after. If you can't write it down clearly, you can't take the trade cleanly.</p>
+<h3>3. The execution</h3><p>Did you follow the plan? Yes / no / partially. This is where most traders learn that their problem isn't strategy — it's discipline.</p>
+<h3>4. The lesson</h3><p>One sentence. What did this trade teach you about the market, your strategy, or yourself? Reviewing 50 of these is more valuable than 50 hours of YouTube.</p>
+<p>Notice what's missing: P/L. Outcome is the byproduct. Process is the asset you're actually building.</p>`,
+        },
+        "market-structure": {
+          meta: "Technicals · 9 min read",
+          title: "Market Structure In Plain English",
+          body: `<p>Strip away every indicator, every pattern, every Fibonacci tool — and you're left with one question: is the market making higher highs and higher lows, or lower highs and lower lows? That's market structure. Everything else is decoration.</p>
+<h3>Trend</h3><p>An uptrend is a sequence of higher highs and higher lows. A downtrend is the inverse. While the structure holds, the trend is intact. When it breaks, the trend is in question — not necessarily over, but worth watching.</p>
+<h3>Range</h3><p>When highs and lows stop progressing in either direction, you're in a range. Buying the bottom and selling the top is the obvious play — and obvious plays in ranges fail when the range eventually breaks.</p>
+<h3>Reversal</h3><p>A real reversal isn't a single candle — it's a structural shift. A higher low gives way to a lower low. A new low fails to make a new lower high. Structure changes character before price confirms it.</p>
+<h3>Why this beats indicators</h3><ul><li>It works on every timeframe and every market</li><li>It doesn't require any tool besides your eyes</li><li>It's the framework most institutional traders actually use</li></ul>
+<p>If you can read structure, you don't need much else. If you can't, no indicator will save you.</p>`,
+        },
+      };
+
+      // Live map: id -> { meta, title, body }
+      const articleMap = { ...STATIC_ARTICLES };
+
+      function bindArticleCardClicks() {
+        document.querySelectorAll("[data-article]").forEach((card) => {
+          // Avoid double-binding when re-rendering.
+          if (card._bound) return;
+          card._bound = true;
+          card.addEventListener("click", () => {
+            const data = articleMap[card.dataset.article];
+            if (!data) return;
+            articleModalMeta.textContent = data.meta || "";
+            articleModalTitle.textContent = data.title || "";
+            articleModalBody.innerHTML = data.body || "";
+            articleModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+          });
+        });
+      }
+      bindArticleCardClicks();
+
+      function closeArticleModal() {
+        articleModal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+      articleModalClose.addEventListener("click", closeArticleModal);
+      articleModal.addEventListener("click", (e) => {
+        if (e.target === articleModal) closeArticleModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && articleModal.classList.contains("active")) {
+          closeArticleModal();
+        }
+      });
+
+      // Smooth scroll for in-page anchors
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const href = anchor.getAttribute("href");
+          if (href.length <= 1) return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      // ============================================================
+      //   Firebase — dynamic content + form submission
+      // ============================================================
+      let submitForm = null;
+      let firebaseReady = false;
+
+      try {
+        const cfgRes = await fetch("/__/firebase/init.json");
+        if (cfgRes.ok) {
+          const firebaseConfig = await cfgRes.json();
+          const { initializeApp } = await import(
+            "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"
+          );
+          const { getFirestore, doc, getDoc, collection, getDocs, query, orderBy } = await import(
+            "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+          );
+          const { getFunctions, httpsCallable } = await import(
+            "https://www.gstatic.com/firebasejs/10.13.0/firebase-functions.js"
+          );
+
+          const app = initializeApp(firebaseConfig);
+          const db = getFirestore(app);
+          const functions = getFunctions(app, "us-central1");
+          submitForm = httpsCallable(functions, "submitForm");
+          firebaseReady = true;
+
+          // Hydrate from Firestore. Failures are silent — static fallback stays.
+          try {
+            const [heroSnap, magnetSnap, ctaSnap, fundSnap, artSnap] = await Promise.all([
+              getDoc(doc(db, "content/hero")),
+              getDoc(doc(db, "content/leadMagnet")),
+              getDoc(doc(db, "content/cta")),
+              getDocs(query(collection(db, "content/fundamentals/items"), orderBy("order", "asc"))),
+              getDocs(query(collection(db, "content/articles/items"), orderBy("order", "asc"))),
+            ]);
+            if (heroSnap.exists()) hydrateHero(heroSnap.data());
+            if (magnetSnap.exists()) hydrateMagnet(magnetSnap.data());
+            if (ctaSnap.exists()) hydrateCta(ctaSnap.data());
+            if (!fundSnap.empty) hydrateFundamentals(fundSnap.docs.map((d) => d.data()));
+            if (!artSnap.empty) {
+              hydrateArticles(artSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
+            }
+            observeReveals();
+          } catch (err) {
+            console.warn("Content hydration failed; using static defaults.", err);
+          }
+        }
+      } catch (e) {
+        console.warn("Firebase init skipped:", e);
+      }
+
+      // ---------- Hydration helpers ----------
+      function txt(sel, val) {
+        const el = typeof sel === "string" ? document.querySelector(sel) : sel;
+        if (el && val != null) el.textContent = val;
+      }
+      function html(sel, val) {
+        const el = typeof sel === "string" ? document.querySelector(sel) : sel;
+        if (el && val != null) el.innerHTML = val;
+      }
+      function attr(sel, attr, val) {
+        const el = typeof sel === "string" ? document.querySelector(sel) : sel;
+        if (el && val != null && val !== "") el.setAttribute(attr, val);
+      }
+
+      function hydrateHero(d) {
+        txt("#hero-tag", d.tag);
+        const part1 = document.querySelector(".hero-title-part1");
+        if (part1 && d.titlePart1 != null) part1.textContent = d.titlePart1;
+        txt("#hero-title-accent", d.titleAccent);
+        txt("#hero-desc", d.desc);
+        txt("#hero-primary", d.primaryLabel);
+        attr("#hero-primary", "href", d.primaryHref);
+        txt("#hero-ghost", d.ghostLabel);
+        attr("#hero-ghost", "href", d.ghostHref);
+      }
+
+      function hydrateMagnet(d) {
+        txt(".magnet__eyebrow", d.eyebrow);
+        txt(".magnet__title", d.title);
+        txt(".magnet__desc", d.desc);
+        // Bullets
+        if (Array.isArray(d.bullets) && d.bullets.length) {
+          const ul = document.querySelector(".magnet__list");
+          if (ul) {
+            ul.innerHTML = "";
+            d.bullets.forEach((b) => {
+              const li = document.createElement("li");
+              li.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span></span>
+              `;
+              li.querySelector("span").textContent = b;
+              ul.appendChild(li);
+            });
+          }
+        }
+        // Cover
+        txt(".magnet__cover-tag", d.coverTag);
+        html(".magnet__cover-title", d.coverTitleHTML);
+        txt(".magnet__cover-foot", d.coverFoot);
+        // Submit label
+        if (d.formButtonLabel) {
+          const btn = document.querySelector("#magnet-form button[type=submit]");
+          if (btn) btn.textContent = d.formButtonLabel;
+        }
+      }
+
+      function hydrateCta(d) {
+        txt("#cta-eyebrow", d.eyebrow);
+        txt("#cta-title", d.title);
+        txt("#cta-body", d.body);
+        txt("#cta-primary", d.primaryLabel);
+        attr("#cta-primary", "href", d.primaryHref);
+        txt("#cta-ghost", d.ghostLabel);
+        attr("#cta-ghost", "href", d.ghostHref);
+      }
+
+      function hydrateFundamentals(items) {
+        const grid = document.querySelector(".fundamentals__grid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        items.forEach((it) => {
+          const card = document.createElement("div");
+          card.className = "fund-card reveal";
+          card.innerHTML = `
+            <div class="fund-card__num"></div>
+            <h3 class="fund-card__title"></h3>
+            <p class="fund-card__desc"></p>
+          `;
+          card.querySelector(".fund-card__num").textContent = it.num || "";
+          card.querySelector(".fund-card__title").textContent = it.title || "";
+          card.querySelector(".fund-card__desc").textContent = it.desc || "";
+          grid.appendChild(card);
+        });
+      }
+
+      // Default cover SVG icons used when an article has no cover image.
+      const DEFAULT_COVER_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><polyline points="7 14 12 9 16 13 21 8"/></svg>';
+
+      function hydrateArticles(items) {
+        const grid = document.querySelector(".articles__grid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        // Replace the in-memory article body lookup with the live data.
+        for (const k of Object.keys(articleMap)) delete articleMap[k];
+        items.forEach((it) => {
+          articleMap[it.id] = { meta: it.meta || "", title: it.title || "", body: it.body || "" };
+          const card = document.createElement("article");
+          card.className = "article-card reveal";
+          card.dataset.article = it.id;
+
+          const cover = document.createElement("div");
+          cover.className = "article-card__cover";
+          if (it.coverImageUrl) {
+            cover.style.backgroundImage = `url("${it.coverImageUrl}")`;
+            cover.style.backgroundSize = "cover";
+            cover.style.backgroundPosition = "center";
+          } else {
+            cover.innerHTML = DEFAULT_COVER_SVG;
+          }
+          card.appendChild(cover);
+
+          const body = document.createElement("div");
+          body.className = "article-card__body";
+          body.innerHTML = `
+            <div class="article-card__meta"></div>
+            <h3 class="article-card__title"></h3>
+            <p class="article-card__excerpt"></p>
+            <span class="article-card__cta">Read the breakdown →</span>
+          `;
+          body.querySelector(".article-card__meta").textContent = it.meta || "";
+          body.querySelector(".article-card__title").textContent = it.title || "";
+          body.querySelector(".article-card__excerpt").textContent = it.excerpt || "";
+          card.appendChild(body);
+
+          grid.appendChild(card);
+        });
+        bindArticleCardClicks();
+      }
+
+      // ============================================================
+      //   Lead magnet form — submit through Cloud Function
+      // ============================================================
+      document.getElementById("magnet-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = form.querySelector('button[type="submit"]');
+        const originalLabel = btn.textContent;
+        const fd = new FormData(form);
+        const name = String(fd.get("name") || "").trim();
+        const email = String(fd.get("email") || "").trim();
+
+        if (!email) return;
+
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+
+        if (!firebaseReady || !submitForm) {
+          // Graceful offline behavior: show the user something happened.
+          btn.textContent = "Couldn't send — try again later";
+          btn.style.background = "var(--color-error)";
+          setTimeout(() => {
+            btn.textContent = originalLabel;
+            btn.style.background = "";
+            btn.disabled = false;
+          }, 3000);
+          return;
+        }
+
+        try {
+          await submitForm({ source: "lead_magnet", name, email });
+          btn.textContent = "Check Your Inbox!";
+          btn.style.background = "var(--color-accent-4)";
+          setTimeout(() => {
+            btn.textContent = originalLabel;
+            btn.style.background = "";
+            btn.disabled = false;
+            form.reset();
+          }, 3200);
+        } catch (err) {
+          console.error(err);
+          btn.textContent = "Send Failed — Retry";
+          btn.style.background = "var(--color-error)";
+          setTimeout(() => {
+            btn.textContent = originalLabel;
+            btn.style.background = "";
+            btn.disabled = false;
+          }, 3000);
+        }
+      });
+    </script>
+  </body>
+</html>

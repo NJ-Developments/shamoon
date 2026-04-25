@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.admin == true;
+    }
+
+    // Public, read-only content rendered on financial-literacy.html.
+    // Anyone can read; only the admin can write.
+    match /content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /content/{docId}/items/{itemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Settings (recipient email, site config). Admin-only.
+    // The Cloud Function reads with admin privileges (bypasses rules).
+    match /settings/{docId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Form submissions. Written by the Cloud Function (admin SDK,
+    // bypasses rules). Only admin can read; nobody can write from clients.
+    match /leads/{leadId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Default deny.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

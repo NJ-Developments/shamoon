@@ -1,0 +1,1882 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin · KoiMoonTrades</title>
+    <link rel="icon" type="image/png" href="/koimoonlogo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Quill WYSIWYG -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --color-base: #040810;
+        --color-surface: #0a1020;
+        --color-surface-elevated: #111a30;
+        --color-text: #e8e4df;
+        --color-text-muted: #6a7a8a;
+        --color-accent-1: #d4a04a;
+        --color-accent-2: #e06030;
+        --color-accent-3: #c0d0e0;
+        --color-accent-4: #30d158;
+        --color-error: #ff3b5c;
+        --color-border: #1a2a3a;
+        --color-border-hover: #2a3a4a;
+
+        --font-display: "Bebas Neue", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-12: 48px;
+
+        --radius: 4px;
+        --radius-lg: 8px;
+        --duration: 200ms;
+      }
+
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      html { -webkit-font-smoothing: antialiased; }
+      body {
+        font-family: var(--font-body);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--color-text);
+        background: var(--color-base);
+        min-height: 100vh;
+      }
+      a { color: var(--color-accent-1); text-decoration: none; }
+      input, textarea, select, button { font: inherit; color: inherit; }
+
+      /* === Login screen === */
+      .login-shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: var(--space-6);
+        background:
+          radial-gradient(ellipse at 50% 30%, rgba(212,160,74,0.12), transparent 60%),
+          var(--color-base);
+      }
+      .login-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+      }
+      .login-brand {
+        font-family: var(--font-display);
+        font-size: 28px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        margin-bottom: var(--space-2);
+      }
+      .login-brand span { color: var(--color-accent-1); }
+      .login-sub {
+        text-align: center;
+        color: var(--color-text-muted);
+        font-size: 13px;
+        margin-bottom: var(--space-8);
+      }
+      .login-error {
+        display: none;
+        background: rgba(255,59,92,0.1);
+        border: 1px solid rgba(255,59,92,0.4);
+        color: #ff8da0;
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius);
+        font-size: 13px;
+        margin-bottom: var(--space-4);
+      }
+      .login-error.show { display: block; }
+
+      /* === Form controls === */
+      .field { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
+      .field label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+      }
+      .field-help {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+      .input,
+      .textarea,
+      .select {
+        width: 100%;
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
+        padding: 10px 14px;
+        border-radius: var(--radius);
+        font-family: var(--font-body);
+        font-size: 14px;
+        transition: border-color var(--duration);
+      }
+      .input:focus, .textarea:focus, .select:focus {
+        outline: none;
+        border-color: var(--color-accent-1);
+      }
+      .textarea { resize: vertical; min-height: 80px; }
+
+      /* === Buttons === */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: 10px 20px;
+        border-radius: var(--radius);
+        border: 1px solid transparent;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all var(--duration);
+        min-height: 38px;
+      }
+      .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .btn-primary {
+        background: var(--color-accent-1);
+        color: var(--color-base);
+      }
+      .btn-primary:hover:not(:disabled) { background: var(--color-accent-2); color: var(--color-text); }
+      .btn-ghost {
+        background: transparent;
+        color: var(--color-text);
+        border-color: var(--color-border);
+      }
+      .btn-ghost:hover:not(:disabled) { border-color: var(--color-accent-1); color: var(--color-accent-1); }
+      .btn-danger {
+        background: transparent;
+        color: var(--color-error);
+        border-color: rgba(255,59,92,0.4);
+      }
+      .btn-danger:hover:not(:disabled) { background: rgba(255,59,92,0.1); }
+      .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 30px; }
+      .btn-block { width: 100%; }
+
+      /* === Dashboard layout === */
+      .app {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        min-height: 100vh;
+      }
+      .sidebar {
+        background: var(--color-surface);
+        border-right: 1px solid var(--color-border);
+        padding: var(--space-6) var(--space-4);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: 0 var(--space-2) var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-4);
+      }
+      .sidebar-brand img { width: 32px; height: 32px; object-fit: contain; }
+      .sidebar-brand-text {
+        font-family: var(--font-display);
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        line-height: 1;
+      }
+      .sidebar-brand-text span { color: var(--color-accent-1); }
+      .sidebar-brand-sub {
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: 10px var(--space-3);
+        border-radius: var(--radius);
+        color: var(--color-text-muted);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--duration);
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+      }
+      .nav-item:hover { background: var(--color-surface-elevated); color: var(--color-text); }
+      .nav-item.active { background: var(--color-surface-elevated); color: var(--color-accent-1); }
+      .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+      .sidebar-foot {
+        margin-top: auto;
+        padding-top: var(--space-4);
+        border-top: 1px solid var(--color-border);
+        font-size: 12px;
+      }
+      .sidebar-user { color: var(--color-text-muted); padding: var(--space-2) var(--space-3); word-break: break-all; }
+
+      .main {
+        padding: var(--space-8) var(--space-12);
+        max-width: 1080px;
+      }
+
+      .page-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--space-6);
+        margin-bottom: var(--space-8);
+        flex-wrap: wrap;
+      }
+      .page-head h1 {
+        font-family: var(--font-display);
+        font-size: 36px;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+      }
+      .page-head p {
+        color: var(--color-text-muted);
+        max-width: 60ch;
+        margin-top: var(--space-2);
+      }
+
+      .page-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+      .card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+      }
+      .card-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        letter-spacing: 0.01em;
+      }
+      .card-sub {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+      @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+
+      /* === Item list (fundamentals + articles) === */
+      .item-list { display: flex; flex-direction: column; gap: var(--space-3); }
+      .item-row {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: var(--space-3);
+        align-items: center;
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--space-3) var(--space-4);
+        transition: border-color var(--duration);
+      }
+      .item-row:hover { border-color: var(--color-border-hover); }
+      .item-row.ghost {
+        opacity: 0.4;
+        border-style: dashed;
+      }
+      .drag-handle {
+        cursor: grab;
+        color: var(--color-text-muted);
+        display: grid;
+        place-items: center;
+        user-select: none;
+      }
+      .drag-handle:active { cursor: grabbing; }
+      .item-row__title {
+        font-weight: 600;
+        color: var(--color-text);
+      }
+      .item-row__meta {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+      .item-row__actions { display: flex; gap: var(--space-2); }
+
+      /* === Bullets editor (lead magnet) === */
+      .bullet-row {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: var(--space-2);
+        align-items: center;
+      }
+
+      /* === Modal / drawer === */
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 8, 16, 0.85);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 1000;
+        display: none;
+      }
+      .modal-bg.show { display: grid; place-items: center; padding: var(--space-6); }
+      .modal {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+        width: 100%;
+        max-width: 760px;
+        max-height: 92vh;
+        overflow-y: auto;
+        position: relative;
+      }
+      .modal-close {
+        position: absolute;
+        top: var(--space-4);
+        right: var(--space-4);
+        background: none;
+        border: none;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        padding: 4px;
+      }
+      .modal-close:hover { color: var(--color-text); }
+      .modal-title {
+        font-family: var(--font-display);
+        font-size: 28px;
+        margin-bottom: var(--space-2);
+      }
+      .modal-sub {
+        color: var(--color-text-muted);
+        font-size: 13px;
+        margin-bottom: var(--space-6);
+      }
+
+      /* === Toast === */
+      .toast {
+        position: fixed;
+        bottom: var(--space-6);
+        right: var(--space-6);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--space-3) var(--space-4);
+        font-size: 13px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all var(--duration);
+        max-width: 380px;
+      }
+      .toast.show { opacity: 1; transform: translateY(0); }
+      .toast.success { border-color: var(--color-accent-4); color: var(--color-accent-4); }
+      .toast.error { border-color: var(--color-error); color: #ff8da0; }
+
+      /* === Quill overrides === */
+      .ql-toolbar.ql-snow {
+        border: 1px solid var(--color-border);
+        background: var(--color-surface-elevated);
+        border-radius: var(--radius) var(--radius) 0 0;
+      }
+      .ql-container.ql-snow {
+        border: 1px solid var(--color-border);
+        border-top: none;
+        background: var(--color-surface-elevated);
+        border-radius: 0 0 var(--radius) var(--radius);
+        font-family: var(--font-body);
+        font-size: 14px;
+      }
+      .ql-editor { color: var(--color-text); min-height: 200px; }
+      .ql-editor.ql-blank::before { color: var(--color-text-muted); font-style: normal; }
+      .ql-snow .ql-stroke { stroke: var(--color-text-muted); }
+      .ql-snow .ql-fill { fill: var(--color-text-muted); }
+      .ql-snow .ql-picker { color: var(--color-text-muted); }
+      .ql-snow .ql-active .ql-stroke,
+      .ql-snow .ql-toolbar button:hover .ql-stroke { stroke: var(--color-accent-1); }
+      .ql-snow .ql-active .ql-fill,
+      .ql-snow .ql-toolbar button:hover .ql-fill { fill: var(--color-accent-1); }
+      .ql-snow .ql-picker-options {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+      }
+
+      /* === File input === */
+      .upload-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+      }
+      .upload-row input[type="file"] { display: none; }
+      .upload-status {
+        font-size: 12px;
+        color: var(--color-text-muted);
+      }
+      .upload-status.success { color: var(--color-accent-4); }
+      .upload-status.error { color: var(--color-error); }
+      .pdf-link {
+        color: var(--color-accent-1);
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      /* === Article cover preview === */
+      .cover-preview {
+        width: 100%;
+        max-width: 280px;
+        aspect-ratio: 16 / 9;
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: grid;
+        place-items: center;
+        color: var(--color-text-muted);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* === Leads table === */
+      .leads-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .leads-table th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--color-border);
+      }
+      .leads-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--color-border);
+        vertical-align: top;
+      }
+      .leads-table tr:hover td { background: var(--color-surface-elevated); }
+      .source-tag {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 2px;
+        border: 1px solid var(--color-border);
+      }
+      .source-tag.lead_magnet { color: var(--color-accent-1); border-color: rgba(212,160,74,0.4); }
+      .source-tag.contact { color: var(--color-accent-3); border-color: rgba(192,208,224,0.3); }
+
+      .empty {
+        text-align: center;
+        padding: var(--space-12) var(--space-6);
+        color: var(--color-text-muted);
+      }
+
+      /* === Spinner === */
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .hidden { display: none !important; }
+      .muted { color: var(--color-text-muted); }
+      .small { font-size: 12px; }
+
+      /* Mobile sidebar */
+      @media (max-width: 880px) {
+        .app { grid-template-columns: 1fr; }
+        .sidebar {
+          position: static;
+          height: auto;
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: var(--space-3);
+        }
+        .sidebar-brand { width: 100%; padding-bottom: var(--space-3); margin-bottom: var(--space-3); }
+        .sidebar-foot { width: 100%; }
+        .nav-item { width: auto; padding: 8px 12px; }
+        .main { padding: var(--space-4); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===========================
+         LOGIN SCREEN
+         =========================== -->
+    <div id="login-screen" class="login-shell hidden">
+      <div class="login-card">
+        <div class="login-brand">Koi<span>Moon</span> Admin</div>
+        <p class="login-sub">Sign in with your owner account.</p>
+        <div id="login-error" class="login-error"></div>
+        <form id="login-form">
+          <div class="field">
+            <label for="login-email">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              class="input"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input
+              type="password"
+              id="login-password"
+              class="input"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="login-submit">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===========================
+         BOOT SPLASH
+         =========================== -->
+    <div id="boot-screen" class="login-shell">
+      <div style="text-align:center;">
+        <div class="spinner" style="color: var(--color-accent-1); width: 24px; height: 24px;"></div>
+        <p class="muted small" style="margin-top: var(--space-3);">Loading…</p>
+      </div>
+    </div>
+
+    <!-- ===========================
+         DASHBOARD
+         =========================== -->
+    <div id="app" class="app hidden">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <img src="koimoonlogo.png" alt="" />
+          <div>
+            <div class="sidebar-brand-text">Koi<span>Moon</span></div>
+            <div class="sidebar-brand-sub">Admin Panel</div>
+          </div>
+        </div>
+
+        <nav id="sidebar-nav" style="display:flex;flex-direction:column;gap:2px;">
+          <button class="nav-item active" data-page="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </button>
+          <button class="nav-item" data-page="hero">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hero
+          </button>
+          <button class="nav-item" data-page="lead-magnet">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Lead Magnet
+          </button>
+          <button class="nav-item" data-page="fundamentals">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Fundamentals
+          </button>
+          <button class="nav-item" data-page="articles">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Articles
+          </button>
+          <button class="nav-item" data-page="cta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            CTA Banner
+          </button>
+          <button class="nav-item" data-page="leads">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Leads
+          </button>
+        </nav>
+
+        <div class="sidebar-foot">
+          <div class="sidebar-user" id="sidebar-user">—</div>
+          <a href="financial-literacy.html" target="_blank" class="nav-item" style="padding: 6px 12px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            View Live Page
+          </a>
+          <button class="nav-item" id="logout-btn" style="padding: 6px 12px; color: var(--color-error);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <!-- ============== SETTINGS ============== -->
+        <section class="page" id="page-settings">
+          <div class="page-head">
+            <div>
+              <h1>Settings</h1>
+              <p>Where form submissions get sent and how Koi Moon's emails sign off.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Email Forwarding</div>
+                <div class="card-sub">Both the contact form and the lead magnet form deliver here.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="set-recipient">Recipient Email</label>
+              <input type="email" id="set-recipient" class="input" placeholder="you@example.com" />
+              <div class="field-help">All form submissions are emailed to this address.</div>
+            </div>
+            <div class="field">
+              <label for="set-from">"From" Address</label>
+              <input type="text" id="set-from" class="input" placeholder='Koi Moon Trades &lt;onboarding@resend.dev&gt;' />
+              <div class="field-help">
+                Default sends from <code>onboarding@resend.dev</code>. To send from your own domain
+                (e.g. <code>hello@koimoontrades.com</code>), verify the domain inside Resend, then paste the
+                full address here as <code>Name &lt;email@domain&gt;</code>.
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--space-2);">
+              <button class="btn btn-primary" id="settings-save">Save Settings</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== HERO ============== -->
+        <section class="page hidden" id="page-hero">
+          <div class="page-head">
+            <div>
+              <h1>Hero Section</h1>
+              <p>The top of the financial literacy page — tagline, headline, and the two buttons.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="grid-2">
+              <div class="field">
+                <label for="hero-tag">Eyebrow Tag</label>
+                <input type="text" id="hero-tag" class="input" />
+              </div>
+              <div class="field">
+                <label for="hero-primary-href">Primary Button Link</label>
+                <input type="text" id="hero-primary-href" class="input" placeholder="#magnet" />
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="hero-title-1">Title (first part)</label>
+                <input type="text" id="hero-title-1" class="input" placeholder="Read The Market" />
+              </div>
+              <div class="field">
+                <label for="hero-title-2">Title (accent part)</label>
+                <input type="text" id="hero-title-2" class="input" placeholder="Before You Trade It." />
+                <div class="field-help">This part renders in gold.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="hero-desc">Description</label>
+              <textarea id="hero-desc" class="textarea" rows="4"></textarea>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="hero-primary-label">Primary Button Label</label>
+                <input type="text" id="hero-primary-label" class="input" />
+              </div>
+              <div class="field">
+                <label for="hero-ghost-label">Secondary Button Label</label>
+                <input type="text" id="hero-ghost-label" class="input" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="hero-ghost-href">Secondary Button Link</label>
+              <input type="text" id="hero-ghost-href" class="input" placeholder="#fundamentals" />
+            </div>
+            <button class="btn btn-primary" id="hero-save">Save Hero</button>
+          </div>
+        </section>
+
+        <!-- ============== LEAD MAGNET ============== -->
+        <section class="page hidden" id="page-lead-magnet">
+          <div class="page-head">
+            <div>
+              <h1>Lead Magnet</h1>
+              <p>The free guide opt-in. Upload the PDF here — visitors who submit the form get a download link auto-emailed.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">PDF File</div>
+                <div class="card-sub">Up to 25 MB. PDF only.</div>
+              </div>
+            </div>
+            <div class="upload-row">
+              <input type="file" id="pdf-input" accept="application/pdf" />
+              <button class="btn btn-ghost" id="pdf-pick">Choose PDF</button>
+              <button class="btn btn-primary" id="pdf-upload" disabled>Upload</button>
+              <span id="pdf-status" class="upload-status"></span>
+            </div>
+            <div id="pdf-current" style="margin-top: var(--space-3);"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Copy</div>
+                <div class="card-sub">The headline, description, and bullet points.</div>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="mag-eyebrow">Eyebrow Tag</label>
+                <input type="text" id="mag-eyebrow" class="input" placeholder="Free Download" />
+              </div>
+              <div class="field">
+                <label for="mag-button">Form Button Label</label>
+                <input type="text" id="mag-button" class="input" placeholder="Send Me The Guide" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="mag-title">Title</label>
+              <input type="text" id="mag-title" class="input" />
+            </div>
+            <div class="field">
+              <label for="mag-desc">Description</label>
+              <textarea id="mag-desc" class="textarea" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Bullet List</label>
+              <div id="bullets" class="item-list"></div>
+              <button class="btn btn-ghost btn-sm" id="bullet-add" style="margin-top: var(--space-2);">+ Add Bullet</button>
+            </div>
+
+            <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4);">
+              <div class="card-title" style="font-size: 16px; margin-bottom: var(--space-3);">PDF Cover Card</div>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="mag-cover-tag">Cover Tag</label>
+                  <input type="text" id="mag-cover-tag" class="input" placeholder="Koi Moon" />
+                </div>
+                <div class="field">
+                  <label for="mag-cover-foot">Cover Foot</label>
+                  <input type="text" id="mag-cover-foot" class="input" placeholder="30 pages · PDF" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="mag-cover-title">Cover Title (HTML allowed)</label>
+                <textarea id="mag-cover-title" class="textarea" rows="2" placeholder="The Trader's&lt;br/&gt;&lt;em&gt;Field Guide.&lt;/em&gt;"></textarea>
+                <div class="field-help">Use <code>&lt;em&gt;</code> for accent words and <code>&lt;br/&gt;</code> for line breaks.</div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="magnet-save">Save Lead Magnet</button>
+          </div>
+        </section>
+
+        <!-- ============== FUNDAMENTALS ============== -->
+        <section class="page hidden" id="page-fundamentals">
+          <div class="page-head">
+            <div>
+              <h1>Fundamentals</h1>
+              <p>The numbered concept cards. Drag to reorder.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-primary" id="fund-add">+ Add Fundamental</button>
+            </div>
+          </div>
+          <div class="card">
+            <div id="fundamentals-list" class="item-list"></div>
+            <div id="fundamentals-empty" class="empty hidden">
+              No fundamentals yet. Click "Add Fundamental" to start.
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: var(--space-4);">
+              <button class="btn btn-primary" id="fund-save">Save Order</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== ARTICLES ============== -->
+        <section class="page hidden" id="page-articles">
+          <div class="page-head">
+            <div>
+              <h1>Articles</h1>
+              <p>Field notes that show up on the financial literacy page. Drag to reorder.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-primary" id="article-add">+ New Article</button>
+            </div>
+          </div>
+          <div class="card">
+            <div id="articles-list" class="item-list"></div>
+            <div id="articles-empty" class="empty hidden">
+              No articles yet. Click "New Article" to start.
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: var(--space-4);">
+              <button class="btn btn-primary" id="articles-save-order">Save Order</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============== CTA ============== -->
+        <section class="page hidden" id="page-cta">
+          <div class="page-head">
+            <div>
+              <h1>CTA Banner</h1>
+              <p>The call-to-action panel at the bottom of the financial literacy page.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="field">
+              <label for="cta-eyebrow">Eyebrow Tag</label>
+              <input type="text" id="cta-eyebrow" class="input" placeholder="Ready For The Next Step?" />
+            </div>
+            <div class="field">
+              <label for="cta-title">Title</label>
+              <input type="text" id="cta-title" class="input" />
+            </div>
+            <div class="field">
+              <label for="cta-body">Body</label>
+              <textarea id="cta-body" class="textarea" rows="3"></textarea>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="cta-primary-label">Primary Button Label</label>
+                <input type="text" id="cta-primary-label" class="input" />
+              </div>
+              <div class="field">
+                <label for="cta-primary-href">Primary Button Link</label>
+                <input type="text" id="cta-primary-href" class="input" placeholder="index.html#services" />
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="cta-ghost-label">Secondary Button Label</label>
+                <input type="text" id="cta-ghost-label" class="input" />
+              </div>
+              <div class="field">
+                <label for="cta-ghost-href">Secondary Button Link</label>
+                <input type="text" id="cta-ghost-href" class="input" placeholder="index.html#community" />
+              </div>
+            </div>
+            <button class="btn btn-primary" id="cta-save">Save CTA</button>
+          </div>
+        </section>
+
+        <!-- ============== LEADS ============== -->
+        <section class="page hidden" id="page-leads">
+          <div class="page-head">
+            <div>
+              <h1>Leads</h1>
+              <p>Everyone who's submitted a form. Newest first.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-ghost" id="leads-refresh">Refresh</button>
+            </div>
+          </div>
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th style="padding-left: var(--space-6);">Source</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Message</th>
+                  <th>When</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leads-tbody"></tbody>
+            </table>
+            <div id="leads-empty" class="empty hidden">No leads yet.</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ===========================
+         ARTICLE EDITOR MODAL
+         =========================== -->
+    <div class="modal-bg" id="article-modal">
+      <div class="modal">
+        <button class="modal-close" id="article-modal-close" aria-label="Close">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="modal-title" id="article-modal-title">New Article</div>
+        <div class="modal-sub">Fill in the details, then save.</div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="article-meta">Meta (e.g. "Psychology · 6 min read")</label>
+            <input type="text" id="article-meta" class="input" />
+          </div>
+          <div class="field">
+            <label for="article-title">Title</label>
+            <input type="text" id="article-title" class="input" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="article-excerpt">Excerpt (shown on the card)</label>
+          <textarea id="article-excerpt" class="textarea" rows="3"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Body (full article shown when card is opened)</label>
+          <div id="article-body-editor" style="background: var(--color-surface-elevated); border-radius: var(--radius);"></div>
+          <div class="field-help">Use the toolbar for headings, bold, links, lists, etc.</div>
+        </div>
+
+        <div class="card" style="background: var(--color-surface-elevated); margin-bottom: 0;">
+          <div class="card-title" style="font-size: 16px; margin-bottom: var(--space-3);">Cover Image (optional)</div>
+          <div class="upload-row">
+            <input type="file" id="article-cover-input" accept="image/*" />
+            <button class="btn btn-ghost btn-sm" id="article-cover-pick">Choose Image</button>
+            <button class="btn btn-ghost btn-sm" id="article-cover-clear">Clear</button>
+            <span id="article-cover-status" class="upload-status"></span>
+          </div>
+          <div id="article-cover-preview" class="cover-preview" style="margin-top: var(--space-3);">No cover · default icon will show</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-6); gap: var(--space-3); flex-wrap: wrap;">
+          <button class="btn btn-danger" id="article-delete">Delete</button>
+          <div style="display:flex;gap:var(--space-2);">
+            <button class="btn btn-ghost" id="article-cancel">Cancel</button>
+            <button class="btn btn-primary" id="article-save">Save Article</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- ===========================
+         SCRIPTS
+         =========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+    <script type="module">
+      // ============================================================
+      //   FIREBASE INIT
+      // ============================================================
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+      import {
+        getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+      import {
+        getFirestore, doc, getDoc, setDoc, collection, getDocs,
+        addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, writeBatch,
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+      import {
+        getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject,
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+      import {
+        getFunctions, httpsCallable,
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-functions.js";
+
+      // Hosting auto-init: use the reserved /__/firebase/init.json so the
+      // config follows whatever project the site is deployed to.
+      let firebaseConfig;
+      try {
+        const r = await fetch("/__/firebase/init.json");
+        if (!r.ok) throw new Error("init.json not available");
+        firebaseConfig = await r.json();
+      } catch (e) {
+        // Local fallback / non-Hosting environment.
+        firebaseConfig = window.firebaseConfig || null;
+        if (!firebaseConfig) {
+          alert(
+            "Firebase config not found. Either deploy to Firebase Hosting " +
+            "or set window.firebaseConfig before this script runs."
+          );
+          throw e;
+        }
+      }
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const storage = getStorage(app);
+      const functions = getFunctions(app, "us-central1");
+
+      const claimAdminIfMatch = httpsCallable(functions, "claimAdminIfMatch");
+
+      // ============================================================
+      //   UI HELPERS
+      // ============================================================
+      const $ = (id) => document.getElementById(id);
+      const toastEl = $("toast");
+      let toastTimer = null;
+      function toast(msg, kind = "") {
+        toastEl.textContent = msg;
+        toastEl.className = "toast show " + kind;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => (toastEl.className = "toast"), 2800);
+      }
+
+      function show(id) { $(id).classList.remove("hidden"); }
+      function hide(id) { $(id).classList.add("hidden"); }
+
+      function escapeHtml(s) {
+        return String(s == null ? "" : s).replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]
+        );
+      }
+
+      // ============================================================
+      //   AUTH FLOW
+      // ============================================================
+      const loginForm = $("login-form");
+      const loginError = $("login-error");
+      const loginSubmit = $("login-submit");
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loginError.classList.remove("show");
+        loginSubmit.disabled = true;
+        loginSubmit.innerHTML = '<span class="spinner"></span> Signing in…';
+        try {
+          const email = $("login-email").value.trim();
+          const password = $("login-password").value;
+          await signInWithEmailAndPassword(auth, email, password);
+          // onAuthStateChanged handles the rest.
+        } catch (err) {
+          loginError.textContent = friendlyAuthError(err.code || err.message);
+          loginError.classList.add("show");
+        } finally {
+          loginSubmit.disabled = false;
+          loginSubmit.textContent = "Sign In";
+        }
+      });
+
+      $("logout-btn").addEventListener("click", async () => {
+        await signOut(auth);
+      });
+
+      function friendlyAuthError(code) {
+        if (code?.includes("invalid-credential")) return "Wrong email or password.";
+        if (code?.includes("user-not-found")) return "No account with that email.";
+        if (code?.includes("wrong-password")) return "Wrong password.";
+        if (code?.includes("too-many-requests")) return "Too many attempts. Try again in a few minutes.";
+        if (code?.includes("network-request-failed")) return "Network error. Check your connection.";
+        return "Sign-in failed. " + (code || "");
+      }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          hide("app");
+          hide("boot-screen");
+          show("login-screen");
+          return;
+        }
+
+        // Logged in. Make sure the admin claim is set.
+        try {
+          const tokenResult = await user.getIdTokenResult();
+          let isAdmin = !!tokenResult.claims.admin;
+
+          if (!isAdmin) {
+            // Try to claim admin (only succeeds if email matches secret).
+            try {
+              await claimAdminIfMatch();
+              // Refresh the token to pick up the new claim.
+              await user.getIdToken(true);
+              const refreshed = await user.getIdTokenResult();
+              isAdmin = !!refreshed.claims.admin;
+            } catch (err) {
+              console.warn("claimAdminIfMatch:", err);
+            }
+          }
+
+          if (!isAdmin) {
+            hide("boot-screen");
+            hide("app");
+            show("login-screen");
+            loginError.textContent =
+              "This account isn't the configured admin. Sign out and use the owner account.";
+            loginError.classList.add("show");
+            await signOut(auth);
+            return;
+          }
+
+          $("sidebar-user").textContent = user.email || "Signed in";
+          hide("login-screen");
+          hide("boot-screen");
+          show("app");
+          await loadAll();
+        } catch (err) {
+          console.error(err);
+          toast("Couldn't verify admin access.", "error");
+        }
+      });
+
+      // ============================================================
+      //   SIDEBAR NAV
+      // ============================================================
+      $("sidebar-nav").addEventListener("click", (e) => {
+        const btn = e.target.closest(".nav-item");
+        if (!btn || !btn.dataset.page) return;
+        document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".page").forEach((p) => p.classList.add("hidden"));
+        $("page-" + btn.dataset.page).classList.remove("hidden");
+        if (btn.dataset.page === "leads") loadLeads();
+      });
+
+      // ============================================================
+      //   STATE
+      // ============================================================
+      const state = {
+        settings: {},
+        hero: {},
+        magnet: { bullets: [] },
+        fundamentals: [],
+        articles: [],
+        cta: {},
+      };
+
+      // ============================================================
+      //   LOAD ALL CONTENT
+      // ============================================================
+      async function loadAll() {
+        await Promise.all([
+          loadSettings(),
+          loadHero(),
+          loadMagnet(),
+          loadFundamentals(),
+          loadArticles(),
+          loadCta(),
+        ]);
+      }
+
+      // ---------- SETTINGS ----------
+      async function loadSettings() {
+        const snap = await getDoc(doc(db, "settings/site"));
+        state.settings = snap.exists() ? snap.data() : {};
+        $("set-recipient").value = state.settings.recipientEmail || "";
+        $("set-from").value = state.settings.fromAddress || "";
+      }
+      $("settings-save").addEventListener("click", async () => {
+        const recipientEmail = $("set-recipient").value.trim();
+        const fromAddress = $("set-from").value.trim();
+        if (!recipientEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
+          toast("Enter a valid recipient email.", "error");
+          return;
+        }
+        try {
+          await setDoc(
+            doc(db, "settings/site"),
+            { recipientEmail, fromAddress: fromAddress || null },
+            { merge: true }
+          );
+          state.settings.recipientEmail = recipientEmail;
+          state.settings.fromAddress = fromAddress || null;
+          toast("Settings saved.", "success");
+        } catch (err) {
+          console.error(err);
+          toast("Save failed. " + (err.message || ""), "error");
+        }
+      });
+
+      // ---------- HERO ----------
+      async function loadHero() {
+        const snap = await getDoc(doc(db, "content/hero"));
+        const d = snap.exists() ? snap.data() : DEFAULTS.hero;
+        state.hero = d;
+        $("hero-tag").value = d.tag || "";
+        $("hero-title-1").value = d.titlePart1 || "";
+        $("hero-title-2").value = d.titleAccent || "";
+        $("hero-desc").value = d.desc || "";
+        $("hero-primary-label").value = d.primaryLabel || "";
+        $("hero-primary-href").value = d.primaryHref || "";
+        $("hero-ghost-label").value = d.ghostLabel || "";
+        $("hero-ghost-href").value = d.ghostHref || "";
+      }
+      $("hero-save").addEventListener("click", async () => {
+        const data = {
+          tag: $("hero-tag").value.trim(),
+          titlePart1: $("hero-title-1").value.trim(),
+          titleAccent: $("hero-title-2").value.trim(),
+          desc: $("hero-desc").value.trim(),
+          primaryLabel: $("hero-primary-label").value.trim(),
+          primaryHref: $("hero-primary-href").value.trim(),
+          ghostLabel: $("hero-ghost-label").value.trim(),
+          ghostHref: $("hero-ghost-href").value.trim(),
+        };
+        try {
+          await setDoc(doc(db, "content/hero"), data, { merge: true });
+          state.hero = data;
+          toast("Hero saved.", "success");
+        } catch (err) {
+          toast("Save failed. " + (err.message || ""), "error");
+        }
+      });
+
+      // ---------- LEAD MAGNET ----------
+      async function loadMagnet() {
+        const snap = await getDoc(doc(db, "content/leadMagnet"));
+        const d = snap.exists() ? snap.data() : DEFAULTS.magnet;
+        state.magnet = { ...d, bullets: Array.isArray(d.bullets) ? d.bullets : [] };
+        $("mag-eyebrow").value = d.eyebrow || "";
+        $("mag-title").value = d.title || "";
+        $("mag-desc").value = d.desc || "";
+        $("mag-button").value = d.formButtonLabel || "";
+        $("mag-cover-tag").value = d.coverTag || "";
+        $("mag-cover-title").value = d.coverTitleHTML || "";
+        $("mag-cover-foot").value = d.coverFoot || "";
+        renderBullets();
+        renderPdfCurrent();
+      }
+      function renderBullets() {
+        const wrap = $("bullets");
+        wrap.innerHTML = "";
+        state.magnet.bullets.forEach((text, idx) => {
+          const row = document.createElement("div");
+          row.className = "bullet-row";
+          row.innerHTML = `
+            <div class="drag-handle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <input type="text" class="input" data-idx="${idx}" />
+            <button class="btn btn-danger btn-sm" data-remove="${idx}">Remove</button>
+          `;
+          row.querySelector("input").value = text;
+          wrap.appendChild(row);
+        });
+        wrap.querySelectorAll("input").forEach((inp) => {
+          inp.addEventListener("input", (e) => {
+            const i = +e.target.dataset.idx;
+            state.magnet.bullets[i] = e.target.value;
+          });
+        });
+        wrap.querySelectorAll("button[data-remove]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const i = +btn.dataset.remove;
+            state.magnet.bullets.splice(i, 1);
+            renderBullets();
+          });
+        });
+        // Drag-reorder bullets
+        if (window._bulletsSortable) window._bulletsSortable.destroy();
+        window._bulletsSortable = Sortable.create(wrap, {
+          handle: ".drag-handle",
+          animation: 150,
+          ghostClass: "ghost",
+          onEnd: (evt) => {
+            const moved = state.magnet.bullets.splice(evt.oldIndex, 1)[0];
+            state.magnet.bullets.splice(evt.newIndex, 0, moved);
+            renderBullets();
+          },
+        });
+      }
+      $("bullet-add").addEventListener("click", () => {
+        state.magnet.bullets.push("New bullet point");
+        renderBullets();
+      });
+
+      $("magnet-save").addEventListener("click", async () => {
+        const data = {
+          eyebrow: $("mag-eyebrow").value.trim(),
+          title: $("mag-title").value.trim(),
+          desc: $("mag-desc").value.trim(),
+          formButtonLabel: $("mag-button").value.trim(),
+          bullets: state.magnet.bullets.map((b) => String(b).trim()).filter(Boolean),
+          coverTag: $("mag-cover-tag").value.trim(),
+          coverTitleHTML: $("mag-cover-title").value.trim(),
+          coverFoot: $("mag-cover-foot").value.trim(),
+        };
+        try {
+          await setDoc(doc(db, "content/leadMagnet"), data, { merge: true });
+          state.magnet = { ...state.magnet, ...data };
+          toast("Lead magnet saved.", "success");
+        } catch (err) {
+          toast("Save failed. " + (err.message || ""), "error");
+        }
+      });
+
+      // ---------- LEAD MAGNET — PDF UPLOAD ----------
+      let pickedPdf = null;
+      $("pdf-pick").addEventListener("click", () => $("pdf-input").click());
+      $("pdf-input").addEventListener("change", (e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        if (f.type !== "application/pdf") {
+          toast("File must be a PDF.", "error");
+          return;
+        }
+        if (f.size > 25 * 1024 * 1024) {
+          toast("PDF must be under 25 MB.", "error");
+          return;
+        }
+        pickedPdf = f;
+        $("pdf-status").textContent = `Ready: ${f.name} (${(f.size / 1024 / 1024).toFixed(2)} MB)`;
+        $("pdf-status").className = "upload-status";
+        $("pdf-upload").disabled = false;
+      });
+      $("pdf-upload").addEventListener("click", async () => {
+        if (!pickedPdf) return;
+        const btn = $("pdf-upload");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Uploading…';
+        $("pdf-status").textContent = "Uploading…";
+        $("pdf-status").className = "upload-status";
+        try {
+          const path = "lead-magnet/field-guide.pdf";
+          const ref = storageRef(storage, path);
+          await uploadBytes(ref, pickedPdf, { contentType: "application/pdf" });
+          const url = await getDownloadURL(ref);
+          await setDoc(doc(db, "settings/site"), { pdfUrl: url, pdfFilename: pickedPdf.name }, { merge: true });
+          state.settings.pdfUrl = url;
+          state.settings.pdfFilename = pickedPdf.name;
+          $("pdf-status").textContent = "Uploaded ✓";
+          $("pdf-status").className = "upload-status success";
+          renderPdfCurrent();
+          toast("PDF uploaded.", "success");
+          pickedPdf = null;
+        } catch (err) {
+          console.error(err);
+          $("pdf-status").textContent = "Upload failed: " + (err.message || "");
+          $("pdf-status").className = "upload-status error";
+          toast("Upload failed.", "error");
+        } finally {
+          btn.disabled = !pickedPdf;
+          btn.textContent = "Upload";
+        }
+      });
+      function renderPdfCurrent() {
+        const wrap = $("pdf-current");
+        if (state.settings.pdfUrl) {
+          wrap.innerHTML = `
+            <div class="small muted">Current PDF: <span style="color: var(--color-text);">${escapeHtml(state.settings.pdfFilename || "field-guide.pdf")}</span></div>
+            <a class="pdf-link" href="${escapeHtml(state.settings.pdfUrl)}" target="_blank" rel="noopener">${escapeHtml(state.settings.pdfUrl)}</a>
+          `;
+        } else {
+          wrap.innerHTML = `<div class="small muted">No PDF uploaded yet. Form submissions will still be saved, but the auto-reply email won't include a download link until you upload one.</div>`;
+        }
+      }
+
+      // ---------- FUNDAMENTALS ----------
+      async function loadFundamentals() {
+        const q = query(collection(db, "content/fundamentals/items"), orderBy("order", "asc"));
+        const snap = await getDocs(q);
+        state.fundamentals = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderFundamentals();
+      }
+      function renderFundamentals() {
+        const wrap = $("fundamentals-list");
+        wrap.innerHTML = "";
+        if (state.fundamentals.length === 0) {
+          $("fundamentals-empty").classList.remove("hidden");
+          return;
+        }
+        $("fundamentals-empty").classList.add("hidden");
+        state.fundamentals.forEach((f, idx) => {
+          const row = document.createElement("div");
+          row.className = "item-row";
+          row.dataset.id = f.id;
+          row.innerHTML = `
+            <div class="drag-handle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <div>
+              <div class="item-row__title">${escapeHtml(f.num || String(idx + 1).padStart(2, "0"))} — ${escapeHtml(f.title || "(untitled)")}</div>
+              <div class="item-row__meta">${escapeHtml(f.desc || "")}</div>
+            </div>
+            <div class="item-row__actions">
+              <button class="btn btn-ghost btn-sm" data-edit="${f.id}">Edit</button>
+              <button class="btn btn-danger btn-sm" data-delete="${f.id}">Delete</button>
+            </div>
+          `;
+          wrap.appendChild(row);
+        });
+        wrap.querySelectorAll("[data-edit]").forEach((b) =>
+          b.addEventListener("click", () => editFundamental(b.dataset.edit))
+        );
+        wrap.querySelectorAll("[data-delete]").forEach((b) =>
+          b.addEventListener("click", () => deleteFundamental(b.dataset.delete))
+        );
+        if (window._fundSortable) window._fundSortable.destroy();
+        window._fundSortable = Sortable.create(wrap, {
+          handle: ".drag-handle",
+          animation: 150,
+          ghostClass: "ghost",
+          onEnd: (evt) => {
+            const moved = state.fundamentals.splice(evt.oldIndex, 1)[0];
+            state.fundamentals.splice(evt.newIndex, 0, moved);
+            renderFundamentals();
+          },
+        });
+      }
+      $("fund-add").addEventListener("click", async () => {
+        const num = String(state.fundamentals.length + 1).padStart(2, "0");
+        const title = prompt("Title for this fundamental?");
+        if (!title) return;
+        const description = prompt("Short description?") || "";
+        try {
+          const d = await addDoc(collection(db, "content/fundamentals/items"), {
+            num, title, desc: description,
+            order: state.fundamentals.length,
+            createdAt: serverTimestamp(),
+          });
+          state.fundamentals.push({ id: d.id, num, title, desc: description, order: state.fundamentals.length });
+          renderFundamentals();
+          toast("Fundamental added.", "success");
+        } catch (err) {
+          toast("Add failed.", "error");
+        }
+      });
+      async function editFundamental(id) {
+        const f = state.fundamentals.find((x) => x.id === id);
+        if (!f) return;
+        const num = prompt("Number label (e.g. 01):", f.num) ?? f.num;
+        const title = prompt("Title:", f.title) ?? f.title;
+        const description = prompt("Description:", f.desc) ?? f.desc;
+        try {
+          await updateDoc(doc(db, `content/fundamentals/items/${id}`), {
+            num, title, desc: description,
+          });
+          Object.assign(f, { num, title, desc: description });
+          renderFundamentals();
+          toast("Updated.", "success");
+        } catch (err) {
+          toast("Update failed.", "error");
+        }
+      }
+      async function deleteFundamental(id) {
+        if (!confirm("Delete this fundamental?")) return;
+        try {
+          await deleteDoc(doc(db, `content/fundamentals/items/${id}`));
+          state.fundamentals = state.fundamentals.filter((x) => x.id !== id);
+          renderFundamentals();
+          toast("Deleted.", "success");
+        } catch (err) {
+          toast("Delete failed.", "error");
+        }
+      }
+      $("fund-save").addEventListener("click", async () => {
+        try {
+          const batch = writeBatch(db);
+          state.fundamentals.forEach((f, i) => {
+            batch.update(doc(db, `content/fundamentals/items/${f.id}`), { order: i });
+            f.order = i;
+          });
+          await batch.commit();
+          toast("Order saved.", "success");
+        } catch (err) {
+          toast("Save failed.", "error");
+        }
+      });
+
+      // ---------- ARTICLES ----------
+      async function loadArticles() {
+        const q = query(collection(db, "content/articles/items"), orderBy("order", "asc"));
+        const snap = await getDocs(q);
+        state.articles = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderArticles();
+      }
+      function renderArticles() {
+        const wrap = $("articles-list");
+        wrap.innerHTML = "";
+        if (state.articles.length === 0) {
+          $("articles-empty").classList.remove("hidden");
+          return;
+        }
+        $("articles-empty").classList.add("hidden");
+        state.articles.forEach((a) => {
+          const row = document.createElement("div");
+          row.className = "item-row";
+          row.dataset.id = a.id;
+          row.innerHTML = `
+            <div class="drag-handle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            </div>
+            <div>
+              <div class="item-row__title">${escapeHtml(a.title || "(untitled)")}</div>
+              <div class="item-row__meta">${escapeHtml(a.meta || "")} · ${a.coverImageUrl ? "🖼 cover" : "default icon"}</div>
+            </div>
+            <div class="item-row__actions">
+              <button class="btn btn-ghost btn-sm" data-edit="${a.id}">Edit</button>
+            </div>
+          `;
+          wrap.appendChild(row);
+        });
+        wrap.querySelectorAll("[data-edit]").forEach((b) =>
+          b.addEventListener("click", () => openArticleEditor(b.dataset.edit))
+        );
+        if (window._articleSortable) window._articleSortable.destroy();
+        window._articleSortable = Sortable.create(wrap, {
+          handle: ".drag-handle",
+          animation: 150,
+          ghostClass: "ghost",
+          onEnd: (evt) => {
+            const moved = state.articles.splice(evt.oldIndex, 1)[0];
+            state.articles.splice(evt.newIndex, 0, moved);
+            renderArticles();
+          },
+        });
+      }
+      $("articles-save-order").addEventListener("click", async () => {
+        try {
+          const batch = writeBatch(db);
+          state.articles.forEach((a, i) => {
+            batch.update(doc(db, `content/articles/items/${a.id}`), { order: i });
+            a.order = i;
+          });
+          await batch.commit();
+          toast("Order saved.", "success");
+        } catch (err) {
+          toast("Save failed.", "error");
+        }
+      });
+
+      // Article editor modal
+      let editingArticleId = null;
+      let pickedCover = null;
+      let pendingCoverUrl = null;
+      let pendingCoverPath = null;
+      let articleQuill;
+
+      function ensureQuill() {
+        if (articleQuill) return articleQuill;
+        articleQuill = new Quill("#article-body-editor", {
+          theme: "snow",
+          modules: {
+            toolbar: [
+              [{ header: [2, 3, false] }],
+              ["bold", "italic", "underline"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              ["blockquote", "link"],
+              ["clean"],
+            ],
+          },
+          placeholder: "Write the full article body here…",
+        });
+        return articleQuill;
+      }
+
+      function openArticleEditor(id) {
+        ensureQuill();
+        editingArticleId = id;
+        pickedCover = null;
+        pendingCoverUrl = null;
+        pendingCoverPath = null;
+        $("article-cover-status").textContent = "";
+        $("article-cover-status").className = "upload-status";
+
+        if (id) {
+          const a = state.articles.find((x) => x.id === id);
+          $("article-modal-title").textContent = "Edit Article";
+          $("article-meta").value = a.meta || "";
+          $("article-title").value = a.title || "";
+          $("article-excerpt").value = a.excerpt || "";
+          articleQuill.root.innerHTML = a.body || "";
+          if (a.coverImageUrl) {
+            $("article-cover-preview").style.backgroundImage = `url("${a.coverImageUrl}")`;
+            $("article-cover-preview").textContent = "";
+          } else {
+            $("article-cover-preview").style.backgroundImage = "";
+            $("article-cover-preview").textContent = "No cover · default icon will show";
+          }
+          $("article-delete").classList.remove("hidden");
+        } else {
+          $("article-modal-title").textContent = "New Article";
+          $("article-meta").value = "";
+          $("article-title").value = "";
+          $("article-excerpt").value = "";
+          articleQuill.root.innerHTML = "";
+          $("article-cover-preview").style.backgroundImage = "";
+          $("article-cover-preview").textContent = "No cover · default icon will show";
+          $("article-delete").classList.add("hidden");
+        }
+        $("article-modal").classList.add("show");
+      }
+
+      function closeArticleEditor() {
+        $("article-modal").classList.remove("show");
+        editingArticleId = null;
+        pickedCover = null;
+      }
+
+      $("article-add").addEventListener("click", () => openArticleEditor(null));
+      $("article-modal-close").addEventListener("click", closeArticleEditor);
+      $("article-cancel").addEventListener("click", closeArticleEditor);
+      $("article-modal").addEventListener("click", (e) => {
+        if (e.target.id === "article-modal") closeArticleEditor();
+      });
+
+      $("article-cover-pick").addEventListener("click", () => $("article-cover-input").click());
+      $("article-cover-input").addEventListener("change", async (e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        if (!f.type.startsWith("image/")) {
+          toast("File must be an image.", "error");
+          return;
+        }
+        if (f.size > 8 * 1024 * 1024) {
+          toast("Image must be under 8 MB.", "error");
+          return;
+        }
+        pickedCover = f;
+        // Upload immediately so preview works
+        $("article-cover-status").textContent = "Uploading…";
+        $("article-cover-status").className = "upload-status";
+        try {
+          const filename = `cover-${Date.now()}-${f.name.replace(/[^a-zA-Z0-9.\-_]/g, "_")}`;
+          const path = `public/article-covers/${filename}`;
+          const ref = storageRef(storage, path);
+          await uploadBytes(ref, f, { contentType: f.type });
+          const url = await getDownloadURL(ref);
+          pendingCoverUrl = url;
+          pendingCoverPath = path;
+          $("article-cover-preview").style.backgroundImage = `url("${url}")`;
+          $("article-cover-preview").textContent = "";
+          $("article-cover-status").textContent = "Uploaded ✓";
+          $("article-cover-status").className = "upload-status success";
+        } catch (err) {
+          console.error(err);
+          $("article-cover-status").textContent = "Upload failed.";
+          $("article-cover-status").className = "upload-status error";
+        }
+      });
+      $("article-cover-clear").addEventListener("click", () => {
+        pickedCover = null;
+        pendingCoverUrl = null;
+        pendingCoverPath = null;
+        $("article-cover-preview").style.backgroundImage = "";
+        $("article-cover-preview").textContent = "No cover · default icon will show";
+        $("article-cover-status").textContent = "Cleared";
+        $("article-cover-status").className = "upload-status";
+      });
+
+      $("article-save").addEventListener("click", async () => {
+        ensureQuill();
+        const meta = $("article-meta").value.trim();
+        const title = $("article-title").value.trim();
+        const excerpt = $("article-excerpt").value.trim();
+        const body = articleQuill.root.innerHTML;
+        if (!title) {
+          toast("Title is required.", "error");
+          return;
+        }
+        const data = { meta, title, excerpt, body };
+        // Cover
+        if (pendingCoverUrl) {
+          data.coverImageUrl = pendingCoverUrl;
+          data.coverImagePath = pendingCoverPath;
+        } else if (pickedCover === null && pendingCoverUrl === null) {
+          // If user explicitly cleared, drop the cover.
+          if ($("article-cover-preview").textContent.startsWith("No cover")) {
+            data.coverImageUrl = null;
+            data.coverImagePath = null;
+          }
+        }
+        try {
+          if (editingArticleId) {
+            await updateDoc(doc(db, `content/articles/items/${editingArticleId}`), data);
+            const a = state.articles.find((x) => x.id === editingArticleId);
+            Object.assign(a, data);
+          } else {
+            const ref = await addDoc(collection(db, "content/articles/items"), {
+              ...data,
+              order: state.articles.length,
+              createdAt: serverTimestamp(),
+            });
+            state.articles.push({ id: ref.id, ...data, order: state.articles.length });
+          }
+          renderArticles();
+          closeArticleEditor();
+          toast("Article saved.", "success");
+        } catch (err) {
+          console.error(err);
+          toast("Save failed. " + (err.message || ""), "error");
+        }
+      });
+
+      $("article-delete").addEventListener("click", async () => {
+        if (!editingArticleId) return;
+        if (!confirm("Delete this article? This cannot be undone.")) return;
+        try {
+          await deleteDoc(doc(db, `content/articles/items/${editingArticleId}`));
+          state.articles = state.articles.filter((a) => a.id !== editingArticleId);
+          renderArticles();
+          closeArticleEditor();
+          toast("Deleted.", "success");
+        } catch (err) {
+          toast("Delete failed.", "error");
+        }
+      });
+
+      // ---------- CTA ----------
+      async function loadCta() {
+        const snap = await getDoc(doc(db, "content/cta"));
+        const d = snap.exists() ? snap.data() : DEFAULTS.cta;
+        state.cta = d;
+        $("cta-eyebrow").value = d.eyebrow || "";
+        $("cta-title").value = d.title || "";
+        $("cta-body").value = d.body || "";
+        $("cta-primary-label").value = d.primaryLabel || "";
+        $("cta-primary-href").value = d.primaryHref || "";
+        $("cta-ghost-label").value = d.ghostLabel || "";
+        $("cta-ghost-href").value = d.ghostHref || "";
+      }
+      $("cta-save").addEventListener("click", async () => {
+        const data = {
+          eyebrow: $("cta-eyebrow").value.trim(),
+          title: $("cta-title").value.trim(),
+          body: $("cta-body").value.trim(),
+          primaryLabel: $("cta-primary-label").value.trim(),
+          primaryHref: $("cta-primary-href").value.trim(),
+          ghostLabel: $("cta-ghost-label").value.trim(),
+          ghostHref: $("cta-ghost-href").value.trim(),
+        };
+        try {
+          await setDoc(doc(db, "content/cta"), data, { merge: true });
+          state.cta = data;
+          toast("CTA saved.", "success");
+        } catch (err) {
+          toast("Save failed.", "error");
+        }
+      });
+
+      // ---------- LEADS ----------
+      async function loadLeads() {
+        const tbody = $("leads-tbody");
+        tbody.innerHTML = `<tr><td colspan="7" class="muted small" style="padding: var(--space-6) var(--space-4);">Loading…</td></tr>`;
+        try {
+          const q = query(collection(db, "leads"), orderBy("createdAt", "desc"));
+          const snap = await getDocs(q);
+          if (snap.empty) {
+            tbody.innerHTML = "";
+            $("leads-empty").classList.remove("hidden");
+            return;
+          }
+          $("leads-empty").classList.add("hidden");
+          tbody.innerHTML = "";
+          snap.forEach((d) => {
+            const lead = d.data();
+            const dt = lead.createdAt?.toDate ? lead.createdAt.toDate() : null;
+            const when = dt ? dt.toLocaleString() : "—";
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td style="padding-left: var(--space-6);"><span class="source-tag ${escapeHtml(lead.source || "contact")}">${escapeHtml((lead.source || "contact").replace("_", " "))}</span></td>
+              <td>${escapeHtml(lead.name || "—")}</td>
+              <td><a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></td>
+              <td>${escapeHtml(lead.service || "—")}</td>
+              <td style="max-width: 280px; word-break: break-word;">${escapeHtml(lead.message || "—")}</td>
+              <td class="muted small">${escapeHtml(when)}</td>
+              <td><button class="btn btn-ghost btn-sm" data-copy="${escapeHtml(lead.email)}">Copy email</button></td>
+            `;
+            tbody.appendChild(tr);
+          });
+          tbody.querySelectorAll("[data-copy]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              navigator.clipboard.writeText(btn.dataset.copy);
+              toast("Email copied.", "success");
+            });
+          });
+        } catch (err) {
+          console.error(err);
+          tbody.innerHTML = `<tr><td colspan="7" class="muted small" style="padding: var(--space-6) var(--space-4);">Couldn't load leads. ${escapeHtml(err.message || "")}</td></tr>`;
+        }
+      }
+      $("leads-refresh").addEventListener("click", loadLeads);
+
+      // ============================================================
+      //   DEFAULTS — used to seed the editor when Firestore is empty.
+      //   These match what financial-literacy.html already shows.
+      // ============================================================
+      const DEFAULTS = {
+        hero: {
+          tag: "The Koi Moon Library",
+          titlePart1: "Read The Market",
+          titleAccent: "Before You Trade It.",
+          desc: "Free financial literacy guides, trading fundamentals, and a downloadable field guide for new and intermediate traders. Learn the patterns, language, and risk management every trader is expected to know — taught in plain English, not jargon.",
+          primaryLabel: "Get The Free Field Guide",
+          primaryHref: "#magnet",
+          ghostLabel: "Browse The Fundamentals",
+          ghostHref: "#fundamentals",
+        },
+        magnet: {
+          eyebrow: "Free Download",
+          title: "The Trader's Field Guide.",
+          desc: "A 30-page primer covering the exact concepts every trader is expected to understand before risking real capital. No upsell, no fluff — just the foundation.",
+          formButtonLabel: "Send Me The Guide",
+          bullets: [
+            "Risk management rules that keep you in the game",
+            "How to read candlesticks and market structure",
+            "Position sizing math (with worked examples)",
+            "A trading journal template you can copy today",
+          ],
+          coverTag: "Koi Moon",
+          coverTitleHTML: "The Trader's<br/><em>Field Guide.</em>",
+          coverFoot: "30 pages · PDF",
+        },
+        cta: {
+          eyebrow: "Ready For The Next Step?",
+          title: "From Reading To Trading.",
+          body: "The library is the foundation. The 1-on-1 sessions are where the concepts turn into your trading playbook — built around your account, your risk tolerance, and your goals.",
+          primaryLabel: "Book A Session",
+          primaryHref: "index.html#services",
+          ghostLabel: "Join The Community",
+          ghostHref: "index.html#community",
+        },
+      };
+    </script>
+  </body>
+</html>
