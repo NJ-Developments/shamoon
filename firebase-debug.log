@@ -14,3 +14,111 @@
 [debug] [2026-04-25T19:58:38.363Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon:testIamPermissions [none]
 [debug] [2026-04-25T19:58:38.363Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon:testIamPermissions  x-goog-user-project=koi-moon
 [debug] [2026-04-25T19:58:38.363Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-25T19:58:38.634Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon:testIamPermissions 200
+[debug] [2026-04-25T19:58:38.634Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-04-25T19:58:38.634Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:38.634Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:38.635Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-04-25T19:58:38.635Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-04-25T19:58:38.926Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions 404
+[debug] [2026-04-25T19:58:38.926Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions {"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}}
+[debug] [2026-04-25T19:58:38.926Z] [functions] service account IAM check errored, deploy may fail: Request to https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://iam.googleapis.com/v1/projects/koi-moon/serviceAccounts/koi-moon@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account","status":404}
+[info] 
+[info] === Deploying to 'koi-moon'...
+[info] 
+[info] i  deploying functions 
+[debug] [2026-04-25T19:58:38.929Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:38.929Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:38.929Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon [none]
+[debug] [2026-04-25T19:58:39.027Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon 200
+[debug] [2026-04-25T19:58:39.027Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/koi-moon {"projectNumber":"494455274769","projectId":"koi-moon","lifecycleState":"ACTIVE","name":"koi-moon","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-03-20T05:53:02.305Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2026-04-25T19:58:39.028Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.028Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.029Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.029Z] Checked if tokens are valid: true, expires at: 1777150115954
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2026-04-25T19:58:39.030Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.031Z] Checked if tokens are valid: true, expires at: 1777150115954
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-04-25T19:58:39.031Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.031Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.031Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com [none]
+[debug] [2026-04-25T19:58:39.031Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.033Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/runtimeconfig.googleapis.com [none]
+[debug] [2026-04-25T19:58:39.033Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/runtimeconfig.googleapis.com  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.034Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com [none]
+[debug] [2026-04-25T19:58:39.034Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.035Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com [none]
+[debug] [2026-04-25T19:58:39.036Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.421Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com 200
+[debug] [2026-04-25T19:58:39.421Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com [omitted]
+[warn] !  functions: missing required API cloudbuild.googleapis.com. Enabling now... 
+[debug] [2026-04-25T19:58:39.421Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.422Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.422Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com:enable [none]
+[debug] [2026-04-25T19:58:39.422Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com:enable  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.427Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com 200
+[debug] [2026-04-25T19:58:39.427Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com [omitted]
+[warn] !  functions: missing required API cloudfunctions.googleapis.com. Enabling now... 
+[debug] [2026-04-25T19:58:39.427Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.427Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.427Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2026-04-25T19:58:39.427Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com:enable  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.434Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com 200
+[debug] [2026-04-25T19:58:39.434Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com [omitted]
+[warn] !  artifactregistry: missing required API artifactregistry.googleapis.com. Enabling now... 
+[debug] [2026-04-25T19:58:39.434Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.434Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:39.434Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com:enable [none]
+[debug] [2026-04-25T19:58:39.434Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com:enable  x-goog-user-project=koi-moon
+[debug] [2026-04-25T19:58:39.436Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/runtimeconfig.googleapis.com 200
+[debug] [2026-04-25T19:58:39.436Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/koi-moon/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2026-04-25T19:58:39.948Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2026-04-25T19:58:39.949Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudfunctions.googleapis.com:enable [omitted]
+[debug] [2026-04-25T19:58:40.069Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com:enable 200
+[debug] [2026-04-25T19:58:40.069Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/artifactregistry.googleapis.com:enable [omitted]
+[debug] [2026-04-25T19:58:40.082Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com:enable 200
+[debug] [2026-04-25T19:58:40.082Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/koi-moon/services/cloudbuild.googleapis.com:enable [omitted]
+[debug] [2026-04-25T19:58:50.091Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:50.091Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:50.091Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/koi-moon/adminSdkConfig [none]
+[debug] [2026-04-25T19:58:50.523Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/koi-moon/adminSdkConfig 200
+[debug] [2026-04-25T19:58:50.523Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/koi-moon/adminSdkConfig {"projectId":"koi-moon","storageBucket":"koi-moon.firebasestorage.app"}
+[debug] [2026-04-25T19:58:50.523Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:50.523Z] Checked if tokens are valid: true, expires at: 1777150115954
+[debug] [2026-04-25T19:58:50.523Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/koi-moon/configs [none]
+[debug] [2026-04-25T19:58:50.774Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/koi-moon/configs 200
+[debug] [2026-04-25T19:58:50.774Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/koi-moon/configs {}
+[debug] [2026-04-25T19:58:50.776Z] Validating nodejs source
+[warn] !  functions: Runtime Node.js 20 will be deprecated on 2026-04-30 and will be decommissioned on 2026-10-30, after which you will not be able to deploy without upgrading. Consider upgrading now to avoid disruption. See https://cloud.google.com/functions/docs/runtime-support for full details on the lifecycle policy 
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-25T19:58:51.740Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for KoiMoonTrades",
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "private": true
+}
+[debug] [2026-04-25T19:58:51.740Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2026-04-25T19:58:51.741Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-25T19:58:51.755Z] Found firebase-functions binary at 'C:\Users\acpsp\OneDrive\Desktop\Koi Trading\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8539
+
+[debug] [2026-04-25T19:58:52.639Z] Got response from /__/functions.yaml {"endpoints":{"submitForm":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":10,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["us-central1"],"secretEnvironmentVariables":[{"key":"RESEND_API_KEY"}],"labels":{},"callableTrigger":{},"entryPoint":"submitForm"},"claimAdminIfMatch":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":10,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["us-central1"],"secretEnvironmentVariables":[{"key":"ADMIN_EMAIL"}],"labels":{},"callableTrigger":{},"entryPoint":"claimAdminIfMatch"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"type":"secret","name":"RESEND_API_KEY"},{"type":"secret","name":"ADMIN_EMAIL"}]}
