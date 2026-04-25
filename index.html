@@ -6,8 +6,11 @@
     <title>KoiMoonTrades — Financial Literacy & Trading Education</title>
     <meta
       name="description"
-      content="Book 1-on-1 trading sessions, chart analysis, and join the private community with KoiMoonTrades. Master the charts. Ride the current."
+      content="No gurus. No guesswork. Book 1-on-1 trading sessions, real-time chart analysis, and join the private KoiMoonTrades community. Stop guessing. Start trading. Own the tide."
     />
+    <link rel="icon" type="image/png" href="/koimoonlogo.png" />
+    <link rel="shortcut icon" type="image/png" href="/koimoonlogo.png" />
+    <link rel="apple-touch-icon" href="/koimoonlogo.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -431,6 +434,15 @@
         border-bottom: 1px solid var(--color-border);
       }
 
+      .nav.scrolled .nav__logo-mark {
+        height: 42px;
+        transition: height var(--duration-base);
+      }
+
+      .nav__logo-mark {
+        transition: height var(--duration-base);
+      }
+
       .nav__inner {
         display: flex;
         align-items: center;
@@ -446,20 +458,19 @@
       }
 
       .nav__logo-mark {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(
-          135deg,
-          var(--color-accent-1),
-          var(--color-accent-2)
-        );
-        display: grid;
-        place-items: center;
-        font-family: var(--font-display);
-        font-size: var(--text-sm);
-        font-weight: 800;
-        color: var(--color-base);
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .nav__logo-mark img {
+        height: 100%;
+        width: auto;
+        max-width: none;
+        object-fit: contain;
+        display: block;
       }
 
       .nav__brand-text {
@@ -957,6 +968,40 @@
 
       .about__visual {
         position: relative;
+      }
+
+      .about__portrait {
+        position: relative;
+        width: 100%;
+        max-width: 460px;
+        aspect-ratio: 1;
+        margin-inline: auto;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(212, 160, 74, 0.25);
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(212, 160, 74, 0.08) inset;
+      }
+
+      .about__portrait::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 55%,
+          rgba(4, 8, 16, 0.55) 100%
+        );
+        pointer-events: none;
+      }
+
+      .about__portrait img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 20%;
+        display: block;
       }
 
       /* CSS-only koi illustration */
@@ -1880,7 +1925,9 @@
     <nav class="nav" aria-label="Main navigation">
       <div class="container nav__inner">
         <a href="#" class="nav__brand" aria-label="KoiMoonTrades Home">
-          <div class="nav__logo-mark" aria-hidden="true">KM</div>
+          <div class="nav__logo-mark" aria-hidden="true">
+            <img src="koimoonlogo.png" alt="" />
+          </div>
           <div class="nav__brand-text">Koi<span>Moon</span>Trades</div>
         </a>
 
@@ -1908,12 +1955,12 @@
          =========================== -->
       <section class="hero" aria-label="Welcome to KoiMoonTrades">
         <div class="hero__content stagger-in">
-          <div class="hero__tag">Financial Literacy & Trading</div>
+          <div class="hero__tag">No Gurus. No Guesswork.</div>
 
           <h1 class="hero__title">
-            <span class="line">Master</span>
-            <span class="line accent">The Charts.</span>
-            <span class="line outline">Ride The Current.</span>
+            <span class="line">Stop Guessing.</span>
+            <span class="line accent">Start Trading.</span>
+            <span class="line outline">Own The Tide.</span>
           </h1>
 
           <p class="hero__desc">
@@ -2324,16 +2371,11 @@
           </div>
 
           <div class="about__visual reveal">
-            <div class="koi-illustration">
-              <div class="koi-illustration__circle">
-                <div class="koi-illustration__text">鯉</div>
-              </div>
-              <div
-                class="koi-illustration__line koi-illustration__line--h"
-              ></div>
-              <div
-                class="koi-illustration__line koi-illustration__line--v"
-              ></div>
+            <div class="about__portrait">
+              <img
+                src="ShamoonHeadshot.jpg"
+                alt="Shamoon, founder of KoiMoonTrades"
+              />
             </div>
           </div>
         </div>
@@ -2578,10 +2620,10 @@
               platform where it all happens.
             </p>
             <div class="blofin__note">
-              <strong>Transparency note:</strong> When you sign up through this
-              link, BloFin provides a referral fee to KoiMoonTrades. This helps
-              support free content and community resources. The fee comes from
-              BloFin — it costs you nothing extra.
+              <strong>Transparency note:</strong> Signing up through this link
+              routes your trading fees back to you as rebates — the referral
+              benefits the user, not KoiMoonTrades. You keep more of what you
+              trade, at no extra cost.
             </div>
             <a
               href="https://partner.blofin.com/d/Koimoontrades"
@@ -2928,8 +2970,8 @@
           <div>
             <div class="footer__brand-text">Koi<span>Moon</span>Trades</div>
             <p class="footer__brand-desc">
-              Master the charts. Ride the current. Financial literacy through
-              personalized trading education.
+              No gurus. No guesswork. Personalized trading education for traders
+              who'd rather own the tide than chase it.
             </p>
           </div>
 
