@@ -950,7 +950,7 @@
       <!-- ===========================
            HERO
            =========================== -->
-      <section class="lit-hero">
+      <section class="lit-hero" id="hero-section">
         <div class="container lit-hero__inner">
           <div class="lit-hero__tag" id="hero-tag">The Koi Moon Library</div>
           <h1 class="lit-hero__title">
@@ -1036,9 +1036,9 @@
       <section class="section" id="fundamentals">
         <div class="container">
           <div class="reveal">
-            <div class="section-label">The Fundamentals</div>
-            <h2 class="section-title">Six Concepts.<br/>Every Trader Should Know.</h2>
-            <p class="section-subtitle">
+            <div class="section-label" id="fund-eyebrow">The Fundamentals</div>
+            <h2 class="section-title" id="fund-heading">Six Concepts.<br/>Every Trader Should Know.</h2>
+            <p class="section-subtitle" id="fund-subtitle">
               The non-negotiables. Skip these and the rest of trading is just
               gambling with extra steps.
             </p>
@@ -1103,9 +1103,9 @@
       <section class="section" id="blog">
         <div class="container">
           <div class="reveal">
-            <div class="section-label">Articles &amp; Breakdowns</div>
-            <h2 class="section-title">Field Notes.<br/>From The Charts.</h2>
-            <p class="section-subtitle">
+            <div class="section-label" id="art-eyebrow">Articles &amp; Breakdowns</div>
+            <h2 class="section-title" id="art-heading">Field Notes.<br/>From The Charts.</h2>
+            <p class="section-subtitle" id="art-subtitle">
               Honest, opinionated essays on trading psychology, market structure,
               and the parts of trading nobody puts on the highlight reel.
             </p>
@@ -1214,7 +1214,7 @@
       <!-- ===========================
            CTA BANNER
            =========================== -->
-      <section class="section">
+      <section class="section" id="cta-section">
         <div class="container">
           <div class="cta-banner reveal">
             <div class="section-label" id="cta-eyebrow" style="margin-bottom:var(--space-4);">Ready For The Next Step?</div>
@@ -1258,7 +1258,7 @@
         <div class="footer__top">
           <div>
             <div class="footer__brand-text">Koi<span>Moon</span>Trades</div>
-            <p class="footer__brand-desc">
+            <p class="footer__brand-desc" id="footer-brand-desc">
               No gurus. No guesswork. Personalized trading education for traders
               who'd rather own the tide than chase it.
             </p>
@@ -1290,6 +1290,11 @@
             Trading involves risk. Past performance does not guarantee future
             results. This is not financial advice.
           </span>
+          <a
+            href="admin.html"
+            style="font-size: var(--text-xs); color: var(--color-text-muted); opacity: 0.6;"
+            >Admin</a
+          >
         </div>
       </div>
     </footer>
@@ -1468,9 +1473,15 @@
       let firebaseReady = false;
 
       try {
-        const cfgRes = await fetch("/__/firebase/init.json");
-        if (cfgRes.ok) {
-          const firebaseConfig = await cfgRes.json();
+        const firebaseConfig = {
+          apiKey: "AIzaSyCR9kbCwvRMRGFmWuROX_a3_bn2ydg7Fug",
+          authDomain: "koi-moon.firebaseapp.com",
+          projectId: "koi-moon",
+          storageBucket: "koi-moon.firebasestorage.app",
+          messagingSenderId: "494455274769",
+          appId: "1:494455274769:web:koi-moon",
+        };
+        {
           const { initializeApp } = await import(
             "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"
           );
@@ -1489,20 +1500,42 @@
 
           // Hydrate from Firestore. Failures are silent — static fallback stays.
           try {
-            const [heroSnap, magnetSnap, ctaSnap, fundSnap, artSnap] = await Promise.all([
+            const [
+              heroSnap,
+              magnetSnap,
+              ctaSnap,
+              pageSnap,
+              fundDocSnap,
+              artDocSnap,
+              fundItems,
+              artItems,
+            ] = await Promise.all([
               getDoc(doc(db, "content/hero")),
               getDoc(doc(db, "content/leadMagnet")),
               getDoc(doc(db, "content/cta")),
+              getDoc(doc(db, "content/page")),
+              getDoc(doc(db, "content/fundamentals")),
+              getDoc(doc(db, "content/articles")),
               getDocs(query(collection(db, "content/fundamentals/items"), orderBy("order", "asc"))),
               getDocs(query(collection(db, "content/articles/items"), orderBy("order", "asc"))),
             ]);
+            if (pageSnap.exists()) hydratePage(pageSnap.data());
             if (heroSnap.exists()) hydrateHero(heroSnap.data());
             if (magnetSnap.exists()) hydrateMagnet(magnetSnap.data());
             if (ctaSnap.exists()) hydrateCta(ctaSnap.data());
-            if (!fundSnap.empty) hydrateFundamentals(fundSnap.docs.map((d) => d.data()));
-            if (!artSnap.empty) {
-              hydrateArticles(artSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
+            if (fundDocSnap.exists()) hydrateFundamentalsHeader(fundDocSnap.data());
+            if (artDocSnap.exists()) hydrateArticlesHeader(artDocSnap.data());
+            if (!fundItems.empty) hydrateFundamentals(fundItems.docs.map((d) => d.data()));
+            if (!artItems.empty) {
+              hydrateArticles(artItems.docs.map((d) => ({ id: d.id, ...d.data() })));
             }
+            applyVisibility({
+              hero: heroSnap.exists() ? heroSnap.data().visible : undefined,
+              magnet: magnetSnap.exists() ? magnetSnap.data().visible : undefined,
+              fundamentals: fundDocSnap.exists() ? fundDocSnap.data().visible : undefined,
+              articles: artDocSnap.exists() ? artDocSnap.data().visible : undefined,
+              cta: ctaSnap.exists() ? ctaSnap.data().visible : undefined,
+            });
             observeReveals();
           } catch (err) {
             console.warn("Content hydration failed; using static defaults.", err);
@@ -1536,6 +1569,59 @@
         attr("#hero-primary", "href", d.primaryHref);
         txt("#hero-ghost", d.ghostLabel);
         attr("#hero-ghost", "href", d.ghostHref);
+      }
+
+      function hydratePage(d) {
+        if (d.title) document.title = d.title;
+        if (d.description) {
+          const meta = document.querySelector('meta[name="description"]');
+          if (meta) meta.setAttribute("content", d.description);
+        }
+        txt("#footer-brand-desc", d.footerBrandDesc);
+      }
+
+      function hydrateFundamentalsHeader(d) {
+        txt("#fund-eyebrow", d.headingEyebrow);
+        if (d.headingTitle) {
+          // Allow simple <br/> in the title
+          const safe = String(d.headingTitle)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/&lt;br\s*\/?&gt;/gi, "<br/>");
+          html("#fund-heading", safe);
+        }
+        txt("#fund-subtitle", d.headingSubtitle);
+      }
+
+      function hydrateArticlesHeader(d) {
+        txt("#art-eyebrow", d.headingEyebrow);
+        if (d.headingTitle) {
+          const safe = String(d.headingTitle)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/&lt;br\s*\/?&gt;/gi, "<br/>");
+          html("#art-heading", safe);
+        }
+        txt("#art-subtitle", d.headingSubtitle);
+      }
+
+      function applyVisibility(flags) {
+        const map = {
+          hero: "#hero-section",
+          magnet: "#magnet",
+          fundamentals: "#fundamentals",
+          articles: "#blog",
+          cta: "#cta-section",
+        };
+        for (const [key, sel] of Object.entries(map)) {
+          // undefined means "no setting" → leave as-is (visible by default).
+          if (flags[key] === false) {
+            const el = document.querySelector(sel);
+            if (el) el.style.display = "none";
+          }
+        }
       }
 
       function hydrateMagnet(d) {

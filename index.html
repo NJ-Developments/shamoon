@@ -3065,6 +3065,16 @@
               Trading involves risk. Past performance does not guarantee future
               results. This is not financial advice.
             </span>
+            <a
+              href="admin.html"
+              style="
+                font-size: var(--text-xs);
+                color: var(--color-text-muted);
+                margin-left: var(--space-4);
+                opacity: 0.6;
+              "
+              >Admin</a
+            >
           </div>
         </div>
       </div>
@@ -3337,19 +3347,23 @@
     <script type="module">
       let submitForm = null;
       try {
-        const cfgRes = await fetch("/__/firebase/init.json");
-        if (cfgRes.ok) {
-          const firebaseConfig = await cfgRes.json();
-          const { initializeApp } = await import(
-            "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"
-          );
-          const { getFunctions, httpsCallable } = await import(
-            "https://www.gstatic.com/firebasejs/10.13.0/firebase-functions.js"
-          );
-          const app = initializeApp(firebaseConfig);
-          const functions = getFunctions(app, "us-central1");
-          submitForm = httpsCallable(functions, "submitForm");
-        }
+        const firebaseConfig = {
+          apiKey: "AIzaSyCR9kbCwvRMRGFmWuROX_a3_bn2ydg7Fug",
+          authDomain: "koi-moon.firebaseapp.com",
+          projectId: "koi-moon",
+          storageBucket: "koi-moon.firebasestorage.app",
+          messagingSenderId: "494455274769",
+          appId: "1:494455274769:web:koi-moon",
+        };
+        const { initializeApp } = await import(
+          "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"
+        );
+        const { getFunctions, httpsCallable } = await import(
+          "https://www.gstatic.com/firebasejs/10.13.0/firebase-functions.js"
+        );
+        const app = initializeApp(firebaseConfig);
+        const functions = getFunctions(app, "us-central1");
+        submitForm = httpsCallable(functions, "submitForm");
       } catch (e) {
         console.warn("Firebase init failed for contact form:", e);
       }

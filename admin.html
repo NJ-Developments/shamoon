@@ -183,9 +183,13 @@
       /* === Dashboard layout === */
       .app {
         display: grid;
-        grid-template-columns: 240px 1fr;
+        grid-template-columns: 240px minmax(0, 1fr) 480px;
         min-height: 100vh;
       }
+      .app.preview-collapsed {
+        grid-template-columns: 240px 1fr 0;
+      }
+      .app.preview-collapsed .preview { display: none; }
       .sidebar {
         background: var(--color-surface);
         border-right: 1px solid var(--color-border);
@@ -248,8 +252,122 @@
       .sidebar-user { color: var(--color-text-muted); padding: var(--space-2) var(--space-3); word-break: break-all; }
 
       .main {
-        padding: var(--space-8) var(--space-12);
-        max-width: 1080px;
+        padding: var(--space-8) var(--space-8);
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* === Live preview pane === */
+      .preview {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        background: #0a1020;
+        border-left: 1px solid var(--color-border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .preview-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-3) var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+        gap: var(--space-2);
+      }
+      .preview-head__title {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      .preview-head__title::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--color-accent-4);
+        box-shadow: 0 0 8px var(--color-accent-4);
+      }
+      .preview-head__btns {
+        display: flex;
+        gap: var(--space-2);
+      }
+      .preview-icon-btn {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+        padding: 6px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: all var(--duration);
+      }
+      .preview-icon-btn:hover {
+        color: var(--color-accent-1);
+        border-color: var(--color-accent-1);
+      }
+      .preview-frame-wrap {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: var(--color-base);
+      }
+      .preview-frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .preview-loading {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(4, 8, 16, 0.6);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--duration);
+      }
+      .preview-loading.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .preview-foot {
+        padding: var(--space-3) var(--space-4);
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--color-text-muted);
+        gap: var(--space-2);
+      }
+      .preview-toggle-mobile {
+        display: none;
+        position: fixed;
+        bottom: var(--space-4);
+        right: var(--space-4);
+        z-index: 500;
+        background: var(--color-accent-1);
+        color: var(--color-base);
+        border: none;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        cursor: pointer;
       }
 
       .page-head {
@@ -536,7 +654,227 @@
       .muted { color: var(--color-text-muted); }
       .small { font-size: 12px; }
 
-      /* Mobile sidebar */
+      /* === Toggle switch === */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+      .switch input { opacity: 0; width: 0; height: 0; }
+      .switch .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: #2a3a4a;
+        transition: var(--duration);
+        border-radius: 999px;
+      }
+      .switch .slider::before {
+        content: "";
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        top: 3px;
+        background: var(--color-text);
+        transition: var(--duration);
+        border-radius: 50%;
+      }
+      .switch input:checked + .slider {
+        background: var(--color-accent-1);
+      }
+      .switch input:checked + .slider::before {
+        transform: translateX(18px);
+        background: var(--color-base);
+      }
+
+      .visibility-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        background: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        margin-bottom: var(--space-4);
+      }
+      .visibility-row__label {
+        flex: 1;
+      }
+      .visibility-row__title {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .visibility-row__hint {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+
+      /* === Status pill === */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+      }
+      .pill::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .pill.live { color: var(--color-accent-4); border-color: rgba(48, 209, 88, 0.4); }
+      .pill.hidden-pill { color: var(--color-text-muted); }
+      .pill.unsaved { color: var(--color-accent-1); border-color: rgba(212, 160, 74, 0.4); }
+
+      /* === Save button success state === */
+      .btn.saved {
+        background: var(--color-accent-4) !important;
+        color: var(--color-base) !important;
+      }
+
+      /* === Section divider (used inside cards) === */
+      .divider {
+        border: 0;
+        border-top: 1px solid var(--color-border);
+        margin: var(--space-6) 0;
+      }
+      .subhead {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-3);
+      }
+
+      /* === Quick links bar === */
+      .quick-links {
+        display: flex;
+        gap: var(--space-2);
+        flex-wrap: wrap;
+        margin-top: var(--space-3);
+      }
+      .quick-link {
+        font-size: 12px;
+        color: var(--color-accent-1);
+        padding: 6px 10px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .quick-link:hover { border-color: var(--color-accent-1); }
+
+      /* === PDF drop-zone === */
+      .pdf-zone {
+        background: linear-gradient(155deg, var(--color-surface-elevated) 0%, var(--color-base) 100%);
+        border: 2px dashed var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: var(--space-6);
+        transition: border-color var(--duration);
+        margin-bottom: var(--space-4);
+      }
+      .pdf-zone.has-pdf {
+        border-style: solid;
+        border-color: rgba(212, 160, 74, 0.4);
+      }
+      .pdf-zone.dragging {
+        border-color: var(--color-accent-1);
+        background: rgba(212, 160, 74, 0.06);
+      }
+      .pdf-zone__icon {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius);
+        display: grid;
+        place-items: center;
+        background: rgba(212, 160, 74, 0.1);
+        color: var(--color-accent-1);
+        flex-shrink: 0;
+      }
+      .pdf-zone__icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .pdf-zone__body {
+        min-width: 0;
+      }
+      .pdf-zone__heading {
+        font-family: var(--font-display);
+        font-size: 22px;
+        letter-spacing: 0.01em;
+        color: var(--color-text);
+        margin-bottom: 4px;
+      }
+      .pdf-zone__sub {
+        font-size: 13px;
+        color: var(--color-text-muted);
+        word-break: break-all;
+      }
+      .pdf-zone__sub a {
+        color: var(--color-accent-1);
+      }
+      .pdf-zone__actions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        flex-shrink: 0;
+      }
+      @media (max-width: 600px) {
+        .pdf-zone { grid-template-columns: 1fr; text-align: center; }
+        .pdf-zone__icon { margin: 0 auto; }
+        .pdf-zone__actions { flex-direction: row; justify-content: center; }
+      }
+      .pdf-progress {
+        margin-top: var(--space-3);
+        height: 4px;
+        background: var(--color-border);
+        border-radius: 999px;
+        overflow: hidden;
+        display: none;
+      }
+      .pdf-progress.active { display: block; }
+      .pdf-progress__bar {
+        height: 100%;
+        background: var(--color-accent-1);
+        width: 0;
+        transition: width var(--duration);
+      }
+
+      /* Mobile sidebar + preview */
+      @media (max-width: 1280px) {
+        .app { grid-template-columns: 240px 1fr; }
+        .preview {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 420px;
+          z-index: 600;
+          transform: translateX(100%);
+          transition: transform var(--duration);
+          box-shadow: -8px 0 24px rgba(0,0,0,0.4);
+        }
+        .preview.show { transform: translateX(0); }
+        .preview-toggle-mobile { display: inline-block; }
+      }
       @media (max-width: 880px) {
         .app { grid-template-columns: 1fr; }
         .sidebar {
@@ -550,6 +888,7 @@
         .sidebar-foot { width: 100%; }
         .nav-item { width: auto; padding: 8px 12px; }
         .main { padding: var(--space-4); }
+        .preview { width: 100%; }
       }
     </style>
   </head>
@@ -614,10 +953,17 @@
         </div>
 
         <nav id="sidebar-nav" style="display:flex;flex-direction:column;gap:2px;">
+          <div class="subhead" style="padding: var(--space-2) var(--space-3); margin-bottom: 0;">Setup</div>
           <button class="nav-item active" data-page="settings">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             Settings
           </button>
+          <button class="nav-item" data-page="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Page &amp; Footer
+          </button>
+
+          <div class="subhead" style="padding: var(--space-3) var(--space-3) var(--space-1); margin-bottom: 0;">Sections</div>
           <button class="nav-item" data-page="hero">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Hero
@@ -638,6 +984,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             CTA Banner
           </button>
+
+          <div class="subhead" style="padding: var(--space-3) var(--space-3) var(--space-1); margin-bottom: 0;">Inbound</div>
           <button class="nav-item" data-page="leads">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             Leads
@@ -694,15 +1042,77 @@
           </div>
         </section>
 
+        <!-- ============== PAGE & FOOTER ============== -->
+        <section class="page hidden" id="page-page">
+          <div class="page-head">
+            <div>
+              <h1>Page &amp; Footer</h1>
+              <p>Browser tab title, search-engine description, and the brand line in the footer.</p>
+            </div>
+            <a class="quick-link" href="financial-literacy.html" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              View Live
+            </a>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Browser Tab &amp; SEO</div>
+                <div class="card-sub">What shows in browser tabs and Google search results.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="page-title">Page Title</label>
+              <input type="text" id="page-title" class="input" placeholder="Financial Literacy — KoiMoonTrades" />
+              <div class="field-help">Shown in the browser tab and as the headline in Google. Aim for ~50–60 chars.</div>
+            </div>
+            <div class="field">
+              <label for="page-desc">Meta Description</label>
+              <textarea id="page-desc" class="textarea" rows="3" placeholder="Free financial literacy guides..."></textarea>
+              <div class="field-help">The blurb under the title in Google search results. Aim for ~150–160 chars.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Footer Brand Line</div>
+                <div class="card-sub">The short paragraph under "KoiMoonTrades" in the footer.</div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="page-footer-desc">Footer Brand Description</label>
+              <textarea id="page-footer-desc" class="textarea" rows="3" placeholder="No gurus. No guesswork…"></textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="page-save">Save Page</button>
+        </section>
+
         <!-- ============== HERO ============== -->
         <section class="page hidden" id="page-hero">
           <div class="page-head">
             <div>
-              <h1>Hero Section</h1>
+              <h1>Hero Section <span class="pill" id="hero-pill">Live</span></h1>
               <p>The top of the financial literacy page — tagline, headline, and the two buttons.</p>
             </div>
+            <a class="quick-link" href="financial-literacy.html#hero-section" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              View Live
+            </a>
           </div>
           <div class="card">
+            <div class="visibility-row">
+              <label class="switch">
+                <input type="checkbox" id="hero-visible" checked />
+                <span class="slider"></span>
+              </label>
+              <div class="visibility-row__label">
+                <div class="visibility-row__title">Show this section on the public page</div>
+                <div class="visibility-row__hint">Toggle off to hide the hero entirely from visitors.</div>
+              </div>
+            </div>
             <div class="grid-2">
               <div class="field">
                 <label for="hero-tag">Eyebrow Tag</label>
@@ -750,25 +1160,59 @@
         <section class="page hidden" id="page-lead-magnet">
           <div class="page-head">
             <div>
-              <h1>Lead Magnet</h1>
+              <h1>Lead Magnet <span class="pill" id="magnet-pill">Live</span></h1>
               <p>The free guide opt-in. Upload the PDF here — visitors who submit the form get a download link auto-emailed.</p>
+            </div>
+            <a class="quick-link" href="financial-literacy.html#magnet" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              View Live
+            </a>
+          </div>
+
+          <div class="card">
+            <div class="visibility-row">
+              <label class="switch">
+                <input type="checkbox" id="magnet-visible" checked />
+                <span class="slider"></span>
+              </label>
+              <div class="visibility-row__label">
+                <div class="visibility-row__title">Show the lead magnet on the public page</div>
+                <div class="visibility-row__hint">Toggle off if you want to pull it down without losing the content.</div>
+              </div>
             </div>
           </div>
 
           <div class="card">
             <div class="card-head">
               <div>
-                <div class="card-title">PDF File</div>
-                <div class="card-sub">Up to 25 MB. PDF only.</div>
+                <div class="card-title">The PDF</div>
+                <div class="card-sub">This is what gets emailed to anyone who signs up. Drop it in or click to choose a file.</div>
               </div>
             </div>
-            <div class="upload-row">
-              <input type="file" id="pdf-input" accept="application/pdf" />
-              <button class="btn btn-ghost" id="pdf-pick">Choose PDF</button>
-              <button class="btn btn-primary" id="pdf-upload" disabled>Upload</button>
-              <span id="pdf-status" class="upload-status"></span>
+            <div class="pdf-zone" id="pdf-zone">
+              <div class="pdf-zone__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="9" y1="15" x2="15" y2="15"/>
+                  <line x1="9" y1="11" x2="15" y2="11"/>
+                </svg>
+              </div>
+              <div class="pdf-zone__body">
+                <div class="pdf-zone__heading" id="pdf-zone-heading">Drop your PDF here</div>
+                <div class="pdf-zone__sub" id="pdf-zone-sub">or click "Choose PDF" — up to 25 MB.</div>
+                <div class="pdf-progress" id="pdf-progress">
+                  <div class="pdf-progress__bar" id="pdf-progress-bar"></div>
+                </div>
+              </div>
+              <div class="pdf-zone__actions">
+                <input type="file" id="pdf-input" accept="application/pdf" />
+                <button class="btn btn-ghost btn-sm" id="pdf-pick">Choose PDF</button>
+                <button class="btn btn-primary btn-sm" id="pdf-upload" disabled>Upload</button>
+                <a class="btn btn-ghost btn-sm hidden" id="pdf-view" href="#" target="_blank">Open Current</a>
+              </div>
             </div>
-            <div id="pdf-current" style="margin-top: var(--space-3);"></div>
+            <span id="pdf-status" class="upload-status"></span>
           </div>
 
           <div class="card">
@@ -830,17 +1274,59 @@
         <section class="page hidden" id="page-fundamentals">
           <div class="page-head">
             <div>
-              <h1>Fundamentals</h1>
+              <h1>Fundamentals <span class="pill" id="fund-pill">Live</span></h1>
               <p>The numbered concept cards. Drag to reorder.</p>
             </div>
             <div class="page-actions">
+              <a class="quick-link" href="financial-literacy.html#fundamentals" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                View Live
+              </a>
               <button class="btn btn-primary" id="fund-add">+ Add Fundamental</button>
             </div>
           </div>
+
           <div class="card">
+            <div class="visibility-row">
+              <label class="switch">
+                <input type="checkbox" id="fund-visible" checked />
+                <span class="slider"></span>
+              </label>
+              <div class="visibility-row__label">
+                <div class="visibility-row__title">Show fundamentals section on the public page</div>
+                <div class="visibility-row__hint">Toggle off to hide the entire fundamentals section.</div>
+              </div>
+            </div>
+
+            <div class="subhead">Section Heading</div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="fund-eyebrow-input">Eyebrow Tag</label>
+                <input type="text" id="fund-eyebrow-input" class="input" placeholder="The Fundamentals" />
+              </div>
+              <div class="field">
+                <label for="fund-subtitle-input">Subtitle</label>
+                <input type="text" id="fund-subtitle-input" class="input" placeholder="The non-negotiables..." />
+              </div>
+            </div>
+            <div class="field">
+              <label for="fund-heading-input">Title</label>
+              <input type="text" id="fund-heading-input" class="input" placeholder="Six Concepts.<br/>Every Trader Should Know." />
+              <div class="field-help">Use <code>&lt;br/&gt;</code> for a line break.</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="fund-header-save">Save Heading &amp; Visibility</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Cards</div>
+                <div class="card-sub">Drag the handle on the left to reorder. Click any card to edit it.</div>
+              </div>
+            </div>
             <div id="fundamentals-list" class="item-list"></div>
             <div id="fundamentals-empty" class="empty hidden">
-              No fundamentals yet. Click "Add Fundamental" to start.
+              No fundamentals yet. Click "Add Fundamental" above to create one.
             </div>
             <div style="display: flex; justify-content: flex-end; margin-top: var(--space-4);">
               <button class="btn btn-primary" id="fund-save">Save Order</button>
@@ -852,17 +1338,59 @@
         <section class="page hidden" id="page-articles">
           <div class="page-head">
             <div>
-              <h1>Articles</h1>
+              <h1>Articles <span class="pill" id="art-pill">Live</span></h1>
               <p>Field notes that show up on the financial literacy page. Drag to reorder.</p>
             </div>
             <div class="page-actions">
+              <a class="quick-link" href="financial-literacy.html#blog" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                View Live
+              </a>
               <button class="btn btn-primary" id="article-add">+ New Article</button>
             </div>
           </div>
+
           <div class="card">
+            <div class="visibility-row">
+              <label class="switch">
+                <input type="checkbox" id="art-visible" checked />
+                <span class="slider"></span>
+              </label>
+              <div class="visibility-row__label">
+                <div class="visibility-row__title">Show the articles section on the public page</div>
+                <div class="visibility-row__hint">Toggle off to hide the entire articles section.</div>
+              </div>
+            </div>
+
+            <div class="subhead">Section Heading</div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="art-eyebrow-input">Eyebrow Tag</label>
+                <input type="text" id="art-eyebrow-input" class="input" placeholder="Articles & Breakdowns" />
+              </div>
+              <div class="field">
+                <label for="art-subtitle-input">Subtitle</label>
+                <input type="text" id="art-subtitle-input" class="input" placeholder="Honest, opinionated essays..." />
+              </div>
+            </div>
+            <div class="field">
+              <label for="art-heading-input">Title</label>
+              <input type="text" id="art-heading-input" class="input" placeholder="Field Notes.<br/>From The Charts." />
+              <div class="field-help">Use <code>&lt;br/&gt;</code> for a line break.</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="art-header-save">Save Heading &amp; Visibility</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Articles</div>
+                <div class="card-sub">Drag the handle to reorder. Click any article to edit it.</div>
+              </div>
+            </div>
             <div id="articles-list" class="item-list"></div>
             <div id="articles-empty" class="empty hidden">
-              No articles yet. Click "New Article" to start.
+              No articles yet. Click "New Article" above to write one.
             </div>
             <div style="display: flex; justify-content: flex-end; margin-top: var(--space-4);">
               <button class="btn btn-primary" id="articles-save-order">Save Order</button>
@@ -874,11 +1402,25 @@
         <section class="page hidden" id="page-cta">
           <div class="page-head">
             <div>
-              <h1>CTA Banner</h1>
+              <h1>CTA Banner <span class="pill" id="cta-pill">Live</span></h1>
               <p>The call-to-action panel at the bottom of the financial literacy page.</p>
             </div>
+            <a class="quick-link" href="financial-literacy.html#cta-section" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              View Live
+            </a>
           </div>
           <div class="card">
+            <div class="visibility-row">
+              <label class="switch">
+                <input type="checkbox" id="cta-visible" checked />
+                <span class="slider"></span>
+              </label>
+              <div class="visibility-row__label">
+                <div class="visibility-row__title">Show the CTA banner on the public page</div>
+                <div class="visibility-row__hint">Toggle off to hide the bottom call-to-action section.</div>
+              </div>
+            </div>
             <div class="field">
               <label for="cta-eyebrow">Eyebrow Tag</label>
               <input type="text" id="cta-eyebrow" class="input" placeholder="Ready For The Next Step?" />
@@ -945,7 +1487,39 @@
           </div>
         </section>
       </main>
+
+      <!-- ===========================
+           LIVE PREVIEW PANE
+           =========================== -->
+      <aside class="preview" id="preview">
+        <div class="preview-head">
+          <div class="preview-head__title">Live Preview</div>
+          <div class="preview-head__btns">
+            <button class="preview-icon-btn" id="preview-reload" title="Refresh preview">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg>
+            </button>
+            <button class="preview-icon-btn" id="preview-open" title="Open in new tab">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </button>
+            <button class="preview-icon-btn" id="preview-close" title="Close preview">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="preview-frame-wrap">
+          <iframe class="preview-frame" id="preview-frame" src="financial-literacy.html?preview=1" title="Live preview"></iframe>
+          <div class="preview-loading" id="preview-loading">
+            <div class="spinner" style="color: var(--color-accent-1); width: 22px; height: 22px;"></div>
+          </div>
+        </div>
+        <div class="preview-foot">
+          <span>Reloads after every save.</span>
+          <span id="preview-section">Hero</span>
+        </div>
+      </aside>
     </div>
+
+    <button class="preview-toggle-mobile" id="preview-toggle-mobile">Show Preview</button>
 
     <!-- ===========================
          ARTICLE EDITOR MODAL
@@ -1001,6 +1575,43 @@
       </div>
     </div>
 
+    <!-- ===========================
+         FUNDAMENTAL EDITOR MODAL
+         =========================== -->
+    <div class="modal-bg" id="fund-modal">
+      <div class="modal" style="max-width: 520px;">
+        <button class="modal-close" id="fund-modal-close" aria-label="Close">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="modal-title" id="fund-modal-title">New Fundamental</div>
+        <div class="modal-sub">Each card has a number label, title, and a one-paragraph description.</div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fund-num">Number Label</label>
+            <input type="text" id="fund-num" class="input" placeholder="01" maxlength="6" />
+            <div class="field-help">e.g. <code>01</code>, <code>02</code>, etc.</div>
+          </div>
+          <div class="field">
+            <label for="fund-title-input">Title</label>
+            <input type="text" id="fund-title-input" class="input" placeholder="Risk Per Trade" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="fund-desc-input">Description</label>
+          <textarea id="fund-desc-input" class="textarea" rows="4" placeholder="Why professionals risk 1–2% per position…"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-6); gap: var(--space-3); flex-wrap: wrap;">
+          <button class="btn btn-danger" id="fund-modal-delete">Delete</button>
+          <div style="display:flex;gap:var(--space-2);">
+            <button class="btn btn-ghost" id="fund-modal-cancel">Cancel</button>
+            <button class="btn btn-primary" id="fund-modal-save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast -->
     <div id="toast" class="toast"></div>
 
@@ -1029,24 +1640,16 @@
         getFunctions, httpsCallable,
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-functions.js";
 
-      // Hosting auto-init: use the reserved /__/firebase/init.json so the
-      // config follows whatever project the site is deployed to.
-      let firebaseConfig;
-      try {
-        const r = await fetch("/__/firebase/init.json");
-        if (!r.ok) throw new Error("init.json not available");
-        firebaseConfig = await r.json();
-      } catch (e) {
-        // Local fallback / non-Hosting environment.
-        firebaseConfig = window.firebaseConfig || null;
-        if (!firebaseConfig) {
-          alert(
-            "Firebase config not found. Either deploy to Firebase Hosting " +
-            "or set window.firebaseConfig before this script runs."
-          );
-          throw e;
-        }
-      }
+      // Firebase web config — public by design (security is enforced by
+      // Firestore/Storage rules, not by hiding these values).
+      const firebaseConfig = {
+        apiKey: "AIzaSyCR9kbCwvRMRGFmWuROX_a3_bn2ydg7Fug",
+        authDomain: "koi-moon.firebaseapp.com",
+        projectId: "koi-moon",
+        storageBucket: "koi-moon.firebasestorage.app",
+        messagingSenderId: "494455274769",
+        appId: "1:494455274769:web:koi-moon",
+      };
 
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
@@ -1177,6 +1780,7 @@
         document.querySelectorAll(".page").forEach((p) => p.classList.add("hidden"));
         $("page-" + btn.dataset.page).classList.remove("hidden");
         if (btn.dataset.page === "leads") loadLeads();
+        setPreviewSection(btn.dataset.page);
       });
 
       // ============================================================
@@ -1184,12 +1788,99 @@
       // ============================================================
       const state = {
         settings: {},
+        page: {},
         hero: {},
         magnet: { bullets: [] },
+        fundHeader: {},
+        artHeader: {},
         fundamentals: [],
         articles: [],
         cta: {},
       };
+
+      // Pill helpers
+      function setPill(id, visible) {
+        const pill = $(id);
+        if (!pill) return;
+        if (visible === false) {
+          pill.textContent = "Hidden";
+          pill.className = "pill hidden-pill";
+        } else {
+          pill.textContent = "Live";
+          pill.className = "pill live";
+        }
+      }
+      function flashSaved(btn) {
+        if (!btn) return;
+        const original = btn.textContent;
+        btn.classList.add("saved");
+        btn.textContent = "Saved ✓";
+        setTimeout(() => {
+          btn.classList.remove("saved");
+          btn.textContent = original;
+        }, 1500);
+        reloadPreview();
+      }
+
+      // ============================================================
+      //   LIVE PREVIEW PANE
+      // ============================================================
+      const previewFrame = $("preview-frame");
+      const previewLoading = $("preview-loading");
+      const previewLabel = $("preview-section");
+      let previewAnchor = "";
+
+      function reloadPreview() {
+        if (!previewFrame) return;
+        previewLoading.classList.add("show");
+        const url = "financial-literacy.html?preview=" + Date.now() + (previewAnchor ? "#" + previewAnchor : "");
+        previewFrame.src = url;
+      }
+      previewFrame?.addEventListener("load", () => {
+        previewLoading.classList.remove("show");
+      });
+      $("preview-reload")?.addEventListener("click", reloadPreview);
+      $("preview-open")?.addEventListener("click", () => {
+        window.open("financial-literacy.html" + (previewAnchor ? "#" + previewAnchor : ""), "_blank");
+      });
+      $("preview-close")?.addEventListener("click", () => {
+        document.getElementById("preview").classList.remove("show");
+      });
+      $("preview-toggle-mobile")?.addEventListener("click", () => {
+        document.getElementById("preview").classList.add("show");
+      });
+
+      const SECTION_ANCHORS = {
+        settings: { anchor: "", label: "Site" },
+        page: { anchor: "", label: "Page" },
+        hero: { anchor: "hero-section", label: "Hero" },
+        "lead-magnet": { anchor: "magnet", label: "Lead Magnet" },
+        fundamentals: { anchor: "fundamentals", label: "Fundamentals" },
+        articles: { anchor: "blog", label: "Articles" },
+        cta: { anchor: "cta-section", label: "CTA Banner" },
+        leads: { anchor: "", label: "—" },
+      };
+
+      function setPreviewSection(pageKey) {
+        const meta = SECTION_ANCHORS[pageKey] || { anchor: "", label: "" };
+        previewAnchor = meta.anchor || "";
+        if (previewLabel) previewLabel.textContent = meta.label;
+        if (previewAnchor) {
+          // Scroll iframe to the section without full reload.
+          try {
+            const frameDoc = previewFrame.contentDocument || previewFrame.contentWindow?.document;
+            const target = frameDoc?.getElementById(previewAnchor);
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              return;
+            }
+          } catch (e) {
+            // Cross-origin (shouldn't happen on same origin) — fall through to reload.
+          }
+          // Fallback: change hash
+          previewFrame.src = "financial-literacy.html?preview=" + Date.now() + "#" + previewAnchor;
+        }
+      }
 
       // ============================================================
       //   LOAD ALL CONTENT
@@ -1197,13 +1888,152 @@
       async function loadAll() {
         await Promise.all([
           loadSettings(),
+          loadPage(),
           loadHero(),
           loadMagnet(),
           loadFundamentals(),
           loadArticles(),
           loadCta(),
         ]);
+        // First-run seed: populate Firestore with the same starter articles +
+        // fundamentals the public page shows by default, so the admin lists
+        // aren't blank and Shamoon can edit/delete them like any other.
+        if (!state.settings.seeded) {
+          await seedStarterContent();
+        }
       }
+
+      async function seedStarterContent() {
+        try {
+          const fundEmpty = state.fundamentals.length === 0;
+          const artEmpty = state.articles.length === 0;
+          if (fundEmpty) {
+            const batch = writeBatch(db);
+            DEFAULT_FUNDAMENTALS.forEach((f, i) => {
+              const ref = doc(collection(db, "content/fundamentals/items"));
+              batch.set(ref, { ...f, order: i, createdAt: serverTimestamp() });
+            });
+            await batch.commit();
+          }
+          if (artEmpty) {
+            const batch = writeBatch(db);
+            DEFAULT_ARTICLES.forEach((a, i) => {
+              const ref = doc(collection(db, "content/articles/items"));
+              batch.set(ref, { ...a, order: i, createdAt: serverTimestamp() });
+            });
+            await batch.commit();
+          }
+          await setDoc(doc(db, "settings/site"), { seeded: true }, { merge: true });
+          state.settings.seeded = true;
+          if (fundEmpty) await loadFundamentals();
+          if (artEmpty) await loadArticles();
+          if (fundEmpty || artEmpty) {
+            toast("Loaded starter content — edit or delete anything you want.", "success");
+            reloadPreview();
+          }
+        } catch (err) {
+          console.warn("Seed failed:", err);
+        }
+      }
+
+      const DEFAULT_FUNDAMENTALS = [
+        { num: "01", title: "Risk Per Trade",       desc: "Why professionals risk 1–2% per position and what happens to your account if you don't. Includes the math behind \"blow-up risk.\"" },
+        { num: "02", title: "Market Structure",     desc: "Higher highs, lower lows, and the simple framework that tells you whether the market is trending, ranging, or reversing." },
+        { num: "03", title: "Reading Candles",      desc: "Open, high, low, close — and the handful of candle patterns that actually carry signal vs. the dozens that don't." },
+        { num: "04", title: "Support & Resistance", desc: "How to draw levels that hold up under scrutiny, and how to tell a clean level from a line you wanted to see." },
+        { num: "05", title: "Position Sizing",      desc: "The formula that turns a stop-loss distance and an account size into the exact number of contracts or shares to trade." },
+        { num: "06", title: "Trade Journaling",     desc: "Why every trader who survives keeps a journal — and the four fields that matter more than all the rest combined." },
+      ];
+
+      const DEFAULT_ARTICLES = [
+        {
+          meta: "Psychology · 6 min read",
+          title: "Why 90% Of Traders Quit In Year One",
+          excerpt: "It isn't bad strategy. It's position sizing, undefined risk, and revenge-trading after the first drawdown. Here's the cycle and how to break it.",
+          body: `<p>The often-cited statistic is that around 80–90% of retail traders lose money in their first year. The honest truth is most of them don't lose because their strategy is bad. They lose because of three repeating mistakes — and any one of them is enough to end an account.</p>
+<h3>1. Position sizing built on hope</h3><p>The first sign of trouble is a trader who can't tell you, in dollars, how much they're risking on a given trade. They sized the position based on what they wanted the trade to make, not what they could afford to lose.</p>
+<h3>2. Undefined risk</h3><p>No stop-loss. No max daily loss. No rule for when to walk away. Trading without these is like driving without brakes — you can do it for a while, but the first surprise ends the journey.</p>
+<h3>3. Revenge trading</h3><p>Every trader has a worst loss. The ones who survive treat it as data. The ones who don't try to win it back in the next hour, with double the size and half the analysis.</p>
+<p><strong>The fix isn't motivation. It's process:</strong> a written plan, a journaled review, and a hard cap on daily loss. Boring, repeatable, and the only thing that actually compounds.</p>`,
+        },
+        {
+          meta: "Technicals · 8 min read",
+          title: "How To Actually Read A Candlestick",
+          excerpt: "Forget the 47-pattern flashcards. Three candle structures carry almost all the signal you'll ever need — and here's exactly what each one is telling you.",
+          body: `<p>You can spend a year memorizing candlestick patterns and still misread a chart. Here's the shortcut: most candle "patterns" are just three structures wearing different costumes.</p>
+<h3>1. Strong-body candles</h3><p>A long body with small wicks tells you one side won the time period decisively. The bigger the body relative to recent candles, the more meaningful the move.</p>
+<h3>2. Rejection candles</h3><p>A long wick with a small body means price went somewhere and got rejected. At a key level, this is one of the highest-quality signals in technical analysis. In the middle of nowhere, it's noise.</p>
+<h3>3. Indecision candles</h3><p>Doji and small-bodied candles say neither side committed. After a strong trend, this often precedes a pause or reversal. The candle alone doesn't tell you which — context does.</p>
+<p><strong>The rule:</strong> a candle is information about a battle. The size of the body and the length of the wicks tell you who won and how decisively. Everything else is pattern decoration.</p>`,
+        },
+        {
+          meta: "Risk · 5 min read",
+          title: "The 1% Rule Isn't Conservative — It's Math",
+          excerpt: "Why risking more than 2% per trade statistically dooms most retail accounts, and the simple expected-value calculation every trader should run before pressing buy.",
+          body: `<p>Risk 1% per trade and you can lose ten in a row and still have 90% of your account. Risk 10% per trade and ten losses leaves you under 35%. The math is brutal and asymmetric.</p>
+<h3>The drawdown problem</h3><p>A 50% drawdown requires a 100% gain to recover. A 75% drawdown requires a 300% gain. The deeper the hole, the harder the climb — and the easier it is to give up before you get back to even.</p>
+<h3>The expected-value framing</h3><p>Every trade has a win rate, an average win, and an average loss. If you don't know those three numbers for your strategy, you're not running a strategy — you're flipping a coin and hoping.</p>
+<h3>What 1% looks like in practice</h3><ul><li>$10,000 account → max $100 risk per trade</li><li>Stop-loss 50¢ from entry → max 200 shares</li><li>Doesn't matter how confident you feel — the size is the size</li></ul>
+<p>Conservative isn't slow. Conservative is staying in the chair long enough for skill to compound.</p>`,
+        },
+        {
+          meta: "Crypto · 7 min read",
+          title: "Leverage: A User Manual",
+          excerpt: "10x doesn't mean 10x profits — it means a 10% move liquidates you. Here's how to think about leverage as a tool instead of a weapon pointed at your own account.",
+          body: `<p>Leverage doesn't multiply profits. It multiplies position size — and the loss-per-pip that comes with it. Used badly, it's the fastest way to liquidate an account. Used well, it's a tool for capital efficiency.</p>
+<h3>What 10x actually means</h3><p>10x leverage on a $1,000 position controls $10,000 of exposure. A 10% move against you wipes the position. You didn't get 10x the returns — you compressed your time-to-liquidation by 10x.</p>
+<h3>The professional approach</h3><p>Most professional traders use leverage as a margin-efficiency tool, not a profit-multiplier. They size based on risk, not on the maximum the platform allows.</p>
+<h3>A simple framework</h3><ul><li>Decide dollar risk first (1–2% of account)</li><li>Calculate position size from your stop-loss distance</li><li>Use the minimum leverage required to take that position</li><li>Treat the rest of available leverage as if it doesn't exist</li></ul>
+<p>The traders who survive crypto don't avoid leverage — they refuse to be controlled by it.</p>`,
+        },
+        {
+          meta: "Process · 4 min read",
+          title: "The Four Fields That Make A Journal Work",
+          excerpt: "Most trade journals are pretty and useless. The ones that actually change behavior track four specific things — and none of them is your P/L.",
+          body: `<p>Pretty journals don't change behavior. Functional journals do. Strip out the screenshots and the gradients and you'll find the same four fields in every working trader's log.</p>
+<h3>1. The setup</h3><p>What pattern, structure, or condition triggered the entry? Be specific enough that you could explain it to another trader in one sentence.</p>
+<h3>2. The plan</h3><p>Entry, stop, target, position size, and dollar risk. Written before the trade, not after. If you can't write it down clearly, you can't take the trade cleanly.</p>
+<h3>3. The execution</h3><p>Did you follow the plan? Yes / no / partially. This is where most traders learn that their problem isn't strategy — it's discipline.</p>
+<h3>4. The lesson</h3><p>One sentence. What did this trade teach you about the market, your strategy, or yourself? Reviewing 50 of these is more valuable than 50 hours of YouTube.</p>
+<p>Notice what's missing: P/L. Outcome is the byproduct. Process is the asset you're actually building.</p>`,
+        },
+        {
+          meta: "Technicals · 9 min read",
+          title: "Market Structure In Plain English",
+          excerpt: "Higher highs, lower lows, and the one diagram that explains trends, ranges, and reversals without a single fancy indicator.",
+          body: `<p>Strip away every indicator, every pattern, every Fibonacci tool — and you're left with one question: is the market making higher highs and higher lows, or lower highs and lower lows? That's market structure. Everything else is decoration.</p>
+<h3>Trend</h3><p>An uptrend is a sequence of higher highs and higher lows. A downtrend is the inverse. While the structure holds, the trend is intact. When it breaks, the trend is in question — not necessarily over, but worth watching.</p>
+<h3>Range</h3><p>When highs and lows stop progressing in either direction, you're in a range. Buying the bottom and selling the top is the obvious play — and obvious plays in ranges fail when the range eventually breaks.</p>
+<h3>Reversal</h3><p>A real reversal isn't a single candle — it's a structural shift. A higher low gives way to a lower low. A new low fails to make a new lower high. Structure changes character before price confirms it.</p>
+<h3>Why this beats indicators</h3><ul><li>It works on every timeframe and every market</li><li>It doesn't require any tool besides your eyes</li><li>It's the framework most institutional traders actually use</li></ul>
+<p>If you can read structure, you don't need much else. If you can't, no indicator will save you.</p>`,
+        },
+      ];
+
+      // ---------- PAGE / FOOTER ----------
+      async function loadPage() {
+        const snap = await getDoc(doc(db, "content/page"));
+        const d = snap.exists() ? snap.data() : DEFAULTS.page;
+        state.page = d;
+        $("page-title").value = d.title || "";
+        $("page-desc").value = d.description || "";
+        $("page-footer-desc").value = d.footerBrandDesc || "";
+      }
+      $("page-save").addEventListener("click", async (e) => {
+        const data = {
+          title: $("page-title").value.trim(),
+          description: $("page-desc").value.trim(),
+          footerBrandDesc: $("page-footer-desc").value.trim(),
+        };
+        try {
+          await setDoc(doc(db, "content/page"), data, { merge: true });
+          state.page = data;
+          flashSaved(e.target);
+          toast("Page saved.", "success");
+        } catch (err) {
+          toast("Save failed. " + (err.message || ""), "error");
+        }
+      });
 
       // ---------- SETTINGS ----------
       async function loadSettings() {
@@ -1212,7 +2042,7 @@
         $("set-recipient").value = state.settings.recipientEmail || "";
         $("set-from").value = state.settings.fromAddress || "";
       }
-      $("settings-save").addEventListener("click", async () => {
+      $("settings-save").addEventListener("click", async (e) => {
         const recipientEmail = $("set-recipient").value.trim();
         const fromAddress = $("set-from").value.trim();
         if (!recipientEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
@@ -1227,6 +2057,7 @@
           );
           state.settings.recipientEmail = recipientEmail;
           state.settings.fromAddress = fromAddress || null;
+          flashSaved(e.target);
           toast("Settings saved.", "success");
         } catch (err) {
           console.error(err);
@@ -1247,8 +2078,14 @@
         $("hero-primary-href").value = d.primaryHref || "";
         $("hero-ghost-label").value = d.ghostLabel || "";
         $("hero-ghost-href").value = d.ghostHref || "";
+        const visible = d.visible !== false;
+        $("hero-visible").checked = visible;
+        setPill("hero-pill", visible);
       }
-      $("hero-save").addEventListener("click", async () => {
+      $("hero-visible").addEventListener("change", (e) => {
+        setPill("hero-pill", e.target.checked);
+      });
+      $("hero-save").addEventListener("click", async (e) => {
         const data = {
           tag: $("hero-tag").value.trim(),
           titlePart1: $("hero-title-1").value.trim(),
@@ -1258,10 +2095,13 @@
           primaryHref: $("hero-primary-href").value.trim(),
           ghostLabel: $("hero-ghost-label").value.trim(),
           ghostHref: $("hero-ghost-href").value.trim(),
+          visible: $("hero-visible").checked,
         };
         try {
           await setDoc(doc(db, "content/hero"), data, { merge: true });
           state.hero = data;
+          setPill("hero-pill", data.visible);
+          flashSaved(e.target);
           toast("Hero saved.", "success");
         } catch (err) {
           toast("Save failed. " + (err.message || ""), "error");
@@ -1280,9 +2120,15 @@
         $("mag-cover-tag").value = d.coverTag || "";
         $("mag-cover-title").value = d.coverTitleHTML || "";
         $("mag-cover-foot").value = d.coverFoot || "";
+        const visible = d.visible !== false;
+        $("magnet-visible").checked = visible;
+        setPill("magnet-pill", visible);
         renderBullets();
         renderPdfCurrent();
       }
+      $("magnet-visible").addEventListener("change", (e) => {
+        setPill("magnet-pill", e.target.checked);
+      });
       function renderBullets() {
         const wrap = $("bullets");
         wrap.innerHTML = "";
@@ -1330,7 +2176,7 @@
         renderBullets();
       });
 
-      $("magnet-save").addEventListener("click", async () => {
+      $("magnet-save").addEventListener("click", async (e) => {
         const data = {
           eyebrow: $("mag-eyebrow").value.trim(),
           title: $("mag-title").value.trim(),
@@ -1340,10 +2186,13 @@
           coverTag: $("mag-cover-tag").value.trim(),
           coverTitleHTML: $("mag-cover-title").value.trim(),
           coverFoot: $("mag-cover-foot").value.trim(),
+          visible: $("magnet-visible").checked,
         };
         try {
           await setDoc(doc(db, "content/leadMagnet"), data, { merge: true });
           state.magnet = { ...state.magnet, ...data };
+          setPill("magnet-pill", data.visible);
+          flashSaved(e.target);
           toast("Lead magnet saved.", "success");
         } catch (err) {
           toast("Save failed. " + (err.message || ""), "error");
@@ -1352,9 +2201,9 @@
 
       // ---------- LEAD MAGNET — PDF UPLOAD ----------
       let pickedPdf = null;
-      $("pdf-pick").addEventListener("click", () => $("pdf-input").click());
-      $("pdf-input").addEventListener("change", (e) => {
-        const f = e.target.files?.[0];
+      const pdfZone = $("pdf-zone");
+
+      function setPdfPicked(f) {
         if (!f) return;
         if (f.type !== "application/pdf") {
           toast("File must be a PDF.", "error");
@@ -1365,59 +2214,132 @@
           return;
         }
         pickedPdf = f;
-        $("pdf-status").textContent = `Ready: ${f.name} (${(f.size / 1024 / 1024).toFixed(2)} MB)`;
-        $("pdf-status").className = "upload-status";
+        $("pdf-zone-heading").textContent = "Ready to upload";
+        $("pdf-zone-sub").textContent = `${f.name} · ${(f.size / 1024 / 1024).toFixed(2)} MB`;
         $("pdf-upload").disabled = false;
+      }
+
+      $("pdf-pick").addEventListener("click", () => $("pdf-input").click());
+      $("pdf-input").addEventListener("change", (e) => setPdfPicked(e.target.files?.[0]));
+
+      // Drag and drop
+      ["dragenter", "dragover"].forEach((evt) =>
+        pdfZone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          pdfZone.classList.add("dragging");
+        })
+      );
+      ["dragleave", "drop"].forEach((evt) =>
+        pdfZone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          pdfZone.classList.remove("dragging");
+        })
+      );
+      pdfZone.addEventListener("drop", (e) => {
+        const f = e.dataTransfer?.files?.[0];
+        if (f) setPdfPicked(f);
       });
+
       $("pdf-upload").addEventListener("click", async () => {
         if (!pickedPdf) return;
         const btn = $("pdf-upload");
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Uploading…';
-        $("pdf-status").textContent = "Uploading…";
-        $("pdf-status").className = "upload-status";
+        btn.innerHTML = '<span class="spinner"></span>';
+        $("pdf-progress").classList.add("active");
+        $("pdf-progress-bar").style.width = "20%";
         try {
           const path = "lead-magnet/field-guide.pdf";
           const ref = storageRef(storage, path);
           await uploadBytes(ref, pickedPdf, { contentType: "application/pdf" });
+          $("pdf-progress-bar").style.width = "80%";
           const url = await getDownloadURL(ref);
-          await setDoc(doc(db, "settings/site"), { pdfUrl: url, pdfFilename: pickedPdf.name }, { merge: true });
+          await setDoc(
+            doc(db, "settings/site"),
+            { pdfUrl: url, pdfFilename: pickedPdf.name, pdfUpdatedAt: new Date().toISOString() },
+            { merge: true }
+          );
           state.settings.pdfUrl = url;
           state.settings.pdfFilename = pickedPdf.name;
-          $("pdf-status").textContent = "Uploaded ✓";
-          $("pdf-status").className = "upload-status success";
+          state.settings.pdfUpdatedAt = new Date().toISOString();
+          $("pdf-progress-bar").style.width = "100%";
+          setTimeout(() => {
+            $("pdf-progress").classList.remove("active");
+            $("pdf-progress-bar").style.width = "0";
+          }, 600);
           renderPdfCurrent();
           toast("PDF uploaded.", "success");
+          reloadPreview();
           pickedPdf = null;
         } catch (err) {
           console.error(err);
-          $("pdf-status").textContent = "Upload failed: " + (err.message || "");
-          $("pdf-status").className = "upload-status error";
-          toast("Upload failed.", "error");
+          $("pdf-progress").classList.remove("active");
+          toast("Upload failed: " + (err.message || ""), "error");
         } finally {
           btn.disabled = !pickedPdf;
           btn.textContent = "Upload";
         }
       });
+
       function renderPdfCurrent() {
-        const wrap = $("pdf-current");
+        const heading = $("pdf-zone-heading");
+        const sub = $("pdf-zone-sub");
+        const view = $("pdf-view");
         if (state.settings.pdfUrl) {
-          wrap.innerHTML = `
-            <div class="small muted">Current PDF: <span style="color: var(--color-text);">${escapeHtml(state.settings.pdfFilename || "field-guide.pdf")}</span></div>
-            <a class="pdf-link" href="${escapeHtml(state.settings.pdfUrl)}" target="_blank" rel="noopener">${escapeHtml(state.settings.pdfUrl)}</a>
-          `;
+          pdfZone.classList.add("has-pdf");
+          heading.textContent = state.settings.pdfFilename || "field-guide.pdf";
+          const when = state.settings.pdfUpdatedAt
+            ? new Date(state.settings.pdfUpdatedAt).toLocaleString()
+            : "Uploaded";
+          sub.innerHTML = `Currently sent to subscribers · <span style="color: var(--color-accent-4);">Live</span> · Updated ${escapeHtml(when)}`;
+          view.classList.remove("hidden");
+          view.href = state.settings.pdfUrl;
         } else {
-          wrap.innerHTML = `<div class="small muted">No PDF uploaded yet. Form submissions will still be saved, but the auto-reply email won't include a download link until you upload one.</div>`;
+          pdfZone.classList.remove("has-pdf");
+          heading.textContent = "Drop your PDF here";
+          sub.textContent = 'or click "Choose PDF" — up to 25 MB.';
+          view.classList.add("hidden");
         }
       }
 
       // ---------- FUNDAMENTALS ----------
       async function loadFundamentals() {
-        const q = query(collection(db, "content/fundamentals/items"), orderBy("order", "asc"));
-        const snap = await getDocs(q);
-        state.fundamentals = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const [headerSnap, itemsSnap] = await Promise.all([
+          getDoc(doc(db, "content/fundamentals")),
+          getDocs(query(collection(db, "content/fundamentals/items"), orderBy("order", "asc"))),
+        ]);
+        const h = headerSnap.exists() ? headerSnap.data() : DEFAULTS.fundHeader;
+        state.fundHeader = h;
+        $("fund-eyebrow-input").value = h.headingEyebrow || "";
+        $("fund-heading-input").value = h.headingTitle || "";
+        $("fund-subtitle-input").value = h.headingSubtitle || "";
+        const visible = h.visible !== false;
+        $("fund-visible").checked = visible;
+        setPill("fund-pill", visible);
+        state.fundamentals = itemsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
         renderFundamentals();
       }
+      $("fund-visible").addEventListener("change", (e) => {
+        setPill("fund-pill", e.target.checked);
+      });
+      $("fund-header-save").addEventListener("click", async (e) => {
+        const data = {
+          headingEyebrow: $("fund-eyebrow-input").value.trim(),
+          headingTitle: $("fund-heading-input").value.trim(),
+          headingSubtitle: $("fund-subtitle-input").value.trim(),
+          visible: $("fund-visible").checked,
+        };
+        try {
+          await setDoc(doc(db, "content/fundamentals"), data, { merge: true });
+          state.fundHeader = data;
+          setPill("fund-pill", data.visible);
+          flashSaved(e.target);
+          toast("Fundamentals heading saved.", "success");
+        } catch (err) {
+          toast("Save failed.", "error");
+        }
+      });
       function renderFundamentals() {
         const wrap = $("fundamentals-list");
         wrap.innerHTML = "";
@@ -1463,43 +2385,82 @@
           },
         });
       }
-      $("fund-add").addEventListener("click", async () => {
-        const num = String(state.fundamentals.length + 1).padStart(2, "0");
-        const title = prompt("Title for this fundamental?");
-        if (!title) return;
-        const description = prompt("Short description?") || "";
+      // Fundamental modal — replaces the old prompt() flow
+      let editingFundId = null;
+      function openFundModal(id) {
+        editingFundId = id;
+        if (id) {
+          const f = state.fundamentals.find((x) => x.id === id);
+          $("fund-modal-title").textContent = "Edit Fundamental";
+          $("fund-num").value = f.num || "";
+          $("fund-title-input").value = f.title || "";
+          $("fund-desc-input").value = f.desc || "";
+          $("fund-modal-delete").classList.remove("hidden");
+        } else {
+          $("fund-modal-title").textContent = "New Fundamental";
+          $("fund-num").value = String(state.fundamentals.length + 1).padStart(2, "0");
+          $("fund-title-input").value = "";
+          $("fund-desc-input").value = "";
+          $("fund-modal-delete").classList.add("hidden");
+        }
+        $("fund-modal").classList.add("show");
+        setTimeout(() => $("fund-title-input").focus(), 50);
+      }
+      function closeFundModal() {
+        $("fund-modal").classList.remove("show");
+        editingFundId = null;
+      }
+      $("fund-add").addEventListener("click", () => openFundModal(null));
+      $("fund-modal-close").addEventListener("click", closeFundModal);
+      $("fund-modal-cancel").addEventListener("click", closeFundModal);
+      $("fund-modal").addEventListener("click", (e) => {
+        if (e.target.id === "fund-modal") closeFundModal();
+      });
+
+      async function editFundamental(id) { openFundModal(id); }
+
+      $("fund-modal-save").addEventListener("click", async () => {
+        const num = $("fund-num").value.trim();
+        const title = $("fund-title-input").value.trim();
+        const description = $("fund-desc-input").value.trim();
+        if (!title) {
+          toast("Title is required.", "error");
+          return;
+        }
         try {
-          const d = await addDoc(collection(db, "content/fundamentals/items"), {
-            num, title, desc: description,
-            order: state.fundamentals.length,
-            createdAt: serverTimestamp(),
-          });
-          state.fundamentals.push({ id: d.id, num, title, desc: description, order: state.fundamentals.length });
+          if (editingFundId) {
+            await updateDoc(doc(db, `content/fundamentals/items/${editingFundId}`), {
+              num, title, desc: description,
+            });
+            const f = state.fundamentals.find((x) => x.id === editingFundId);
+            Object.assign(f, { num, title, desc: description });
+            toast("Fundamental updated.", "success");
+          } else {
+            const d = await addDoc(collection(db, "content/fundamentals/items"), {
+              num, title, desc: description,
+              order: state.fundamentals.length,
+              createdAt: serverTimestamp(),
+            });
+            state.fundamentals.push({
+              id: d.id, num, title, desc: description, order: state.fundamentals.length,
+            });
+            toast("Fundamental added.", "success");
+          }
           renderFundamentals();
-          toast("Fundamental added.", "success");
+          closeFundModal();
         } catch (err) {
-          toast("Add failed.", "error");
+          toast("Save failed. " + (err.message || ""), "error");
         }
       });
-      async function editFundamental(id) {
-        const f = state.fundamentals.find((x) => x.id === id);
-        if (!f) return;
-        const num = prompt("Number label (e.g. 01):", f.num) ?? f.num;
-        const title = prompt("Title:", f.title) ?? f.title;
-        const description = prompt("Description:", f.desc) ?? f.desc;
-        try {
-          await updateDoc(doc(db, `content/fundamentals/items/${id}`), {
-            num, title, desc: description,
-          });
-          Object.assign(f, { num, title, desc: description });
-          renderFundamentals();
-          toast("Updated.", "success");
-        } catch (err) {
-          toast("Update failed.", "error");
-        }
-      }
-      async function deleteFundamental(id) {
+
+      $("fund-modal-delete").addEventListener("click", async () => {
+        if (!editingFundId) return;
         if (!confirm("Delete this fundamental?")) return;
+        await deleteFundamental(editingFundId);
+        closeFundModal();
+      });
+
+      async function deleteFundamental(id) {
         try {
           await deleteDoc(doc(db, `content/fundamentals/items/${id}`));
           state.fundamentals = state.fundamentals.filter((x) => x.id !== id);
@@ -1509,7 +2470,7 @@
           toast("Delete failed.", "error");
         }
       }
-      $("fund-save").addEventListener("click", async () => {
+      $("fund-save").addEventListener("click", async (e) => {
         try {
           const batch = writeBatch(db);
           state.fundamentals.forEach((f, i) => {
@@ -1517,6 +2478,7 @@
             f.order = i;
           });
           await batch.commit();
+          flashSaved(e.target);
           toast("Order saved.", "success");
         } catch (err) {
           toast("Save failed.", "error");
@@ -1525,11 +2487,41 @@
 
       // ---------- ARTICLES ----------
       async function loadArticles() {
-        const q = query(collection(db, "content/articles/items"), orderBy("order", "asc"));
-        const snap = await getDocs(q);
-        state.articles = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const [headerSnap, itemsSnap] = await Promise.all([
+          getDoc(doc(db, "content/articles")),
+          getDocs(query(collection(db, "content/articles/items"), orderBy("order", "asc"))),
+        ]);
+        const h = headerSnap.exists() ? headerSnap.data() : DEFAULTS.artHeader;
+        state.artHeader = h;
+        $("art-eyebrow-input").value = h.headingEyebrow || "";
+        $("art-heading-input").value = h.headingTitle || "";
+        $("art-subtitle-input").value = h.headingSubtitle || "";
+        const visible = h.visible !== false;
+        $("art-visible").checked = visible;
+        setPill("art-pill", visible);
+        state.articles = itemsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
         renderArticles();
       }
+      $("art-visible").addEventListener("change", (e) => {
+        setPill("art-pill", e.target.checked);
+      });
+      $("art-header-save").addEventListener("click", async (e) => {
+        const data = {
+          headingEyebrow: $("art-eyebrow-input").value.trim(),
+          headingTitle: $("art-heading-input").value.trim(),
+          headingSubtitle: $("art-subtitle-input").value.trim(),
+          visible: $("art-visible").checked,
+        };
+        try {
+          await setDoc(doc(db, "content/articles"), data, { merge: true });
+          state.artHeader = data;
+          setPill("art-pill", data.visible);
+          flashSaved(e.target);
+          toast("Articles heading saved.", "success");
+        } catch (err) {
+          toast("Save failed.", "error");
+        }
+      });
       function renderArticles() {
         const wrap = $("articles-list");
         wrap.innerHTML = "";
@@ -1571,7 +2563,7 @@
           },
         });
       }
-      $("articles-save-order").addEventListener("click", async () => {
+      $("articles-save-order").addEventListener("click", async (e) => {
         try {
           const batch = writeBatch(db);
           state.articles.forEach((a, i) => {
@@ -1579,6 +2571,7 @@
             a.order = i;
           });
           await batch.commit();
+          flashSaved(e.target);
           toast("Order saved.", "success");
         } catch (err) {
           toast("Save failed.", "error");
@@ -1658,6 +2651,13 @@
       $("article-cancel").addEventListener("click", closeArticleEditor);
       $("article-modal").addEventListener("click", (e) => {
         if (e.target.id === "article-modal") closeArticleEditor();
+      });
+
+      // Esc closes any open modal
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        if ($("article-modal").classList.contains("show")) closeArticleEditor();
+        if ($("fund-modal").classList.contains("show")) closeFundModal();
       });
 
       $("article-cover-pick").addEventListener("click", () => $("article-cover-input").click());
@@ -1774,8 +2774,14 @@
         $("cta-primary-href").value = d.primaryHref || "";
         $("cta-ghost-label").value = d.ghostLabel || "";
         $("cta-ghost-href").value = d.ghostHref || "";
+        const visible = d.visible !== false;
+        $("cta-visible").checked = visible;
+        setPill("cta-pill", visible);
       }
-      $("cta-save").addEventListener("click", async () => {
+      $("cta-visible").addEventListener("change", (e) => {
+        setPill("cta-pill", e.target.checked);
+      });
+      $("cta-save").addEventListener("click", async (e) => {
         const data = {
           eyebrow: $("cta-eyebrow").value.trim(),
           title: $("cta-title").value.trim(),
@@ -1784,10 +2790,13 @@
           primaryHref: $("cta-primary-href").value.trim(),
           ghostLabel: $("cta-ghost-label").value.trim(),
           ghostHref: $("cta-ghost-href").value.trim(),
+          visible: $("cta-visible").checked,
         };
         try {
           await setDoc(doc(db, "content/cta"), data, { merge: true });
           state.cta = data;
+          setPill("cta-pill", data.visible);
+          flashSaved(e.target);
           toast("CTA saved.", "success");
         } catch (err) {
           toast("Save failed.", "error");
@@ -1842,6 +2851,27 @@
       //   These match what financial-literacy.html already shows.
       // ============================================================
       const DEFAULTS = {
+        page: {
+          title: "Financial Literacy — KoiMoonTrades",
+          description:
+            "The Koi Moon library: free financial literacy guides, trading fundamentals, and a downloadable Trader's Field Guide. Learn the way the market moves before you risk a dollar.",
+          footerBrandDesc:
+            "No gurus. No guesswork. Personalized trading education for traders who'd rather own the tide than chase it.",
+        },
+        fundHeader: {
+          headingEyebrow: "The Fundamentals",
+          headingTitle: "Six Concepts.<br/>Every Trader Should Know.",
+          headingSubtitle:
+            "The non-negotiables. Skip these and the rest of trading is just gambling with extra steps.",
+          visible: true,
+        },
+        artHeader: {
+          headingEyebrow: "Articles & Breakdowns",
+          headingTitle: "Field Notes.<br/>From The Charts.",
+          headingSubtitle:
+            "Honest, opinionated essays on trading psychology, market structure, and the parts of trading nobody puts on the highlight reel.",
+          visible: true,
+        },
         hero: {
           tag: "The Koi Moon Library",
           titlePart1: "Read The Market",
